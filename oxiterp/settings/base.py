@@ -157,9 +157,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.badminton.gov.tr'
+EMAIL_HOST = 'mail.tgf.gov.tr'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'no-reply@badminton.gov.tr'
+EMAIL_HOST_USER = 'no-reply@tgf.gov.tr'
 EMAIL_HOST_PASSWORD = 'Kobil2013*'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False

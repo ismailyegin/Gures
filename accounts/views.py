@@ -12,6 +12,9 @@ from accounts.models import Forgot
 from sbs import urls
 from sbs.Forms.ClubForm import ClubForm
 from sbs.Forms.CommunicationForm import CommunicationForm
+from sbs.Forms.IbanCoachForm import IbanCoachForm
+from sbs.Forms.IbanFormJudge import IbanFormJudge
+from sbs.Forms.MaterialForm import MaterialForm
 from sbs.Forms.PersonForm import PersonForm
 from sbs.Forms.PreRegidtrationForm import PreRegistrationForm
 from sbs.Forms.ReferenceCoachForm import RefereeCoachForm
@@ -20,18 +23,15 @@ from sbs.Forms.SportClubUserForm import SportClubUserForm
 from sbs.Forms.UserForm import UserForm
 from sbs.models import SportsClub, \
     SportClubUser, CategoryItem, Coach
+from sbs.models.Communication import Communication
+from sbs.models.Competition import Competition
 from sbs.models.Judge import Judge
+from sbs.models.Material import Material
 from sbs.models.Person import Person
 from sbs.models.PreRegistration import PreRegistration
 from sbs.models.ReferenceCoach import ReferenceCoach
 from sbs.models.ReferenceReferee import ReferenceReferee
 from sbs.services import general_methods
-from sbs.models.Communication import Communication
-from sbs.Forms.IbanCoachForm import IbanCoachForm
-from sbs.models.Material import Material
-from sbs.Forms.MaterialForm import MaterialForm
-from sbs.Forms.IbanFormJudge import IbanFormJudge
-from sbs.models.Competition import Competition
 
 
 def index(request):
@@ -54,9 +54,7 @@ def login(request):
             # print(general_methods.get_client_ip(request))
 
             active = general_methods.controlGroup(request)
-
             log = general_methods.logwrite(request, request.user, " Giris yapti")
-
 
             # eger user.groups birden fazla ise klup üyesine gönder yoksa devam et
 
@@ -156,7 +154,6 @@ def pre_registration(request):
                           {'preRegistrationform': PreRegistrationform})
 
         # -------------------------------------
-
 
         if PreRegistrationform.is_valid():
             PreRegistrationform.save()
@@ -294,7 +291,7 @@ def forgot(request):
             user = User.objects.get(username=mail)
             user.is_active = True
             user.save()
-            print(user)
+
             fdk = Forgot(user=user, status=False)
             fdk.save()
 
@@ -507,7 +504,6 @@ def referenceReferee(request):
         #     return render(request, 'registration/Referee.html',
         #                   {'preRegistrationform': referee})
 
-
         if referee.is_valid():
             if request.POST.get('kademe_definition'):
                 hakem = referee.save(commit=False)
@@ -618,9 +614,9 @@ def lastlogin(request):
                                  'Tc kimlik numarasi ile isim  soyisim dogum yılı  bilgileri uyuşmamaktadır. ')
                 return render(request, 'registration/lastlogin.html')
             else:
-                if SportClubUser.objects.filter(person__tc=tc):
-                    print('klup yöneticisi')
-                elif Coach.objects.filter(person__tc=tc):
+                # if SportClubUser.objects.filter(person__tc=tc):
+                #     print('klup yöneticisi')
+                if Coach.objects.filter(person__tc=tc):
                     return redirect('accounts:update-coach', tc, Coach.objects.filter(person__tc=tc)[0].pk)
 
 
@@ -632,7 +628,6 @@ def lastlogin(request):
                     return redirect('accounts:login')
         else:
             messages.warning(request, 'Sistem de kaydınız bulunmamaktadır.')
-
 
     return render(request, 'registration/lastlogin.html')
 
@@ -679,7 +674,7 @@ def updatecoach(request, tc, pk):
                                    'person_form': person_form, 'grades_form': grade_form, 'coach': coach.pk,
                                    'personCoach': person, 'visa_form': visa_form, 'iban_form': iban_form,
                                    'groups': groups,
-                                   'metarial_form': metarial_form, 'competitions': competitions})
+                                   'metarial_form': metarial_form, })
 
             tc = request.POST.get('tc')
             if tc != coach.person.tc:
@@ -693,7 +688,7 @@ def updatecoach(request, tc, pk):
                                    'person_form': person_form, 'grades_form': grade_form, 'coach': coach.pk,
                                    'personCoach': person, 'visa_form': visa_form, 'iban_form': iban_form,
                                    'groups': groups,
-                                   'metarial_form': metarial_form, 'competitions': competitions
+                                   'metarial_form': metarial_form,
                                    })
 
             name = request.POST.get('first_name')
@@ -710,7 +705,7 @@ def updatecoach(request, tc, pk):
                                'person_form': person_form, 'grades_form': grade_form, 'coach': coach.pk,
                                'personCoach': person, 'visa_form': visa_form, 'iban_form': iban_form,
                                'groups': groups,
-                               'metarial_form': metarial_form, 'competitions': competitions
+                               'metarial_form': metarial_form,
                                })
             if user_form.is_valid() and person_form.is_valid() and communication_form.is_valid() and iban_form.is_valid() and metarial_form.is_valid():
                 user.username = user_form.cleaned_data['email']
@@ -792,7 +787,10 @@ def updatejudge(request, tc, pk):
     communication_form = CommunicationForm(request.POST or None, instance=communication)
 
     metarial_form = MaterialForm(request.POST or None, instance=metarial)
-    competitions = Competition.objects.filter(judges=judge).distinct()
+    if Competition.objects.filter(judges=judge).distinct():
+        competitions = Competition.objects.filter(judges=judge).distinct()
+    else:
+        competitions = Competition.objects.none()
 
     iban_form = IbanFormJudge(request.POST or None, instance=judge)
 
@@ -884,8 +882,6 @@ def updatejudge(request, tc, pk):
             return redirect('accounts:login')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz')
-
-
 
     return render(request, 'registration/JudgeUpdate.html',
                   {'user_form': user_form, 'communication_form': communication_form,

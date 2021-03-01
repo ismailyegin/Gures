@@ -72,9 +72,9 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- Google Font -->
     <link rel="stylesheet"
@@ -149,7 +149,7 @@
                 <div class="row">
 
                     <div class="col-lg-6">
-                        <div class="box box-primary">
+                        <div class="box box-solid box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Kulup Yönetici Bilgileri </h3>
                             </div>
@@ -227,7 +227,7 @@
 
                     </div>
                     <div class="col-lg-6">
-                        <div class="box box-primary">
+                        <div class="box box-solid box-success">
                             <div class="box-header with-border">
                                 <h3 class="box-title"> Kulup Yöneticisi İletişim Bilgileri</h3>
                             </div>
@@ -281,7 +281,7 @@
                 <div class="row">
 
                     <div class="col-lg-6">
-                        <div class="box box-primary">
+                        <div class="box box-solid box-warning">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Kulup Bilgileri</h3>
                             </div>
@@ -316,71 +316,10 @@
 
 
                         </div>
-                        <div class="form-group">
-                            <div class="box box-info collapsed-box">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Aynı zaman da kulüp Antrenörü müsünüz?</h3>
 
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <!-- /.box-tools -->
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="row">
-
-
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <label> {{ preRegistrationform.isCoach.label }}</label>
-                                                {{ preRegistrationform.isCoach }}
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <label> {{ preRegistrationform.kademe_startDate.label }}</label>
-                                                {{ preRegistrationform.kademe_startDate }}
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <label> {{ preRegistrationform.kademe_definition.label }}</label>
-                                                {{ preRegistrationform.kademe_definition }}
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <label> {{ preRegistrationform.iban.label }}</label>
-                                                {{ preRegistrationform.iban }}
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <label> {{ preRegistrationform.kademe_belge.label }}</label>
-                                                {{ preRegistrationform.kademe_belge }}
-
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="box box-primary">
+                        <div class="box box-solid box-danger">
                             <div class="box-header with-border">
                                 <h3 class="box-title"> Kulup İletişim Bilgileri</h3>
                             </div>
@@ -414,37 +353,34 @@
                                             {{ preRegistrationform.clubpostalCode }}
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label> {{ preRegistrationform.clubaddress.label }}</label>
                                             {{ preRegistrationform.clubaddress }}
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
 
 
-                                            </div>
-                                        </div>
-{#                                        <div class="col-lg-6">#}
-{#                                            <div class="form-group">#}
-{#                                                <label> {{ preRegistrationform.petition.label }}</label>#}
-{#                                                {{ preRegistrationform.petition }} <br>#}
-{##}
-{#                                                <a class="btn btn-default" data-toggle="modal"#}
-{#                                                   href="/media/YetkiBelgesi.docx" download=""><i#}
-{#                                                        class="fa fa-download"> Örnek Yetki Belgesi İndir </i></a>#}
-{##}
-{##}
-{#                                            </div>#}
-{#                                        </div>#}
-                                    </div>
-                                    <div class="box-footer">
-                                        <button class="btn btn-primary btn-lg pull-right" type="submit">Onaya gönder</button>
-                                    </div>
+                                </div>
+
+
+                                {#                                        <div class="col-lg-6">#}
+                                {#                                            <div class="form-group">#}
+                                {#                                                <label> {{ preRegistrationform.petition.label }}</label>#}
+                                {#                                                {{ preRegistrationform.petition }} <br>#}
+                                {##}
+                                {#                                                <a class="btn btn-default" data-toggle="modal"#}
+                                {#                                                   href="/media/YetkiBelgesi.docx" download=""><i#}
+                                {#                                                        class="fa fa-download"> Örnek Yetki Belgesi İndir </i></a>#}
+                                {##}
+                                {##}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+
+                                <div class="box-footer">
+                                    <button class="btn btn-danger pull-right" type="submit">Onaya gönder
+                                    </button>
                                 </div>
 
 

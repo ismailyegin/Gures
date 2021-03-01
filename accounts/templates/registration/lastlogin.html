@@ -8,6 +8,8 @@
     <meta name="keywords" content="TBF BİLGİ SİSTEMİ"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
@@ -29,13 +31,13 @@
 
 
     {#    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">#}
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'datatable/css/table.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/button.css' %}">
 
     {#    seçim test#}
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-    <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'datatable/css/select.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/editor.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/rowGroup.css' %}">
 
 
     {#    buton tasarimi icin#}
@@ -57,7 +59,7 @@
 
     <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
 
-    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    {#    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">#}
 
     <link rel="stylesheet" href="{% static 'fieldChooser/css/jquery.lwMultiSelect.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}">
@@ -73,6 +75,7 @@
     <script src="{% static 'loader/loader.js' %}"></script>
 
     <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
+
 
 
     <style>
@@ -132,8 +135,9 @@
             <div class="form-group has-feedback">
 
 
-                <input type="text" name="tarih" placeholder="Dogum Tarihi:" class="form-control" id="datepicker"
-                       autocomplete="off" onkeydown="return false" required="required">
+                <input type="text" name="tarih" placeholder="Dogum Tarihi:" class="form-control datemask"
+                       id="datepicker"
+                       required="required">
 
 
             </div>
@@ -158,6 +162,14 @@
 </div>
 
 
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+
+<script src="{% static 'bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+
+<script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
+
 <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
 
 <script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
@@ -172,7 +184,38 @@
 <script src="{% static 'bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.tr.min.js' %}"></script>
 
 
+<script src="{% static 'bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js' %}"></script>
+
 <script src="{% static 'plugins/timepicker/bootstrap-timepicker.min.js' %}"></script>
+
+<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+
+<script src="{% static 'bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+<script src="{% static 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+<script src="{% static 'bower_components/chart.js/Chart.js' %}"></script>
+{#<script src="{% static 'dist/js/pages/dashboard2.js' %}"></script>#}
+<!-- SlimScroll -->
+<script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'dist/js/demo.js' %}"></script>
+
+<script src="{% static 'dist/js/jquery.tagsinput.js' %}"></script>
+
+
+<script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
+
+
+<script src="{% static 'dist/js/carousel.js' %}"></script>
+
+
+<script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 
 
 <script>
@@ -198,6 +241,11 @@
 
 
     $(function () {
+
+
+        $('.datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
+        //Money Euro
+        {#$('[data-mask]').inputmask()#}
 
 
         //Date picker
