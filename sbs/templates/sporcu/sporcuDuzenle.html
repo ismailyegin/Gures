@@ -837,11 +837,21 @@
                             <div class="box-header with-border">
                                 <div class="btn-group">
 
-
+                                    {% if aktif == "Admin" %}
                                     <a href="{% url "sbs:sporcu-belge-ekle"  athlete.pk %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Yeni belge Ekle
                                     </a>
+
+
+
+                                        {#                                        <button#}
+                                        {#                                                type="button" class="btn btn-warning" onclick="pdf()"><i#}
+                                        {#                                                class="fa fa-edit"></i> Özgeçmis Al#}
+                                        {#                                        </button>#}
+
+
+                                    {% endif %}
 
                                 </div>
                             </div>
@@ -1047,10 +1057,7 @@
     </section>
 
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
-
-
+    <script src="{% static 'pdf/jspdf.js' %}"></script>
 
     <script>
 
@@ -1065,26 +1072,91 @@
             }
         }
 
-        $(function () {
+        function pdf() {
 
 
             var doc = new jsPDF();
-
-            doc.text(10, 10, 'Hello everybody');
-            doc.text(10, 20, 'My name is');
-            doc.text(10, 40, 'Contact me at');
-            doc.text(10, 30, 'I have just created a simple pdf using jspdf');
-            doc.setFont("times");
-            doc.setFontType("italic");
-            doc.text(50, 40,"Selam");
             doc.setFontType("bold");
-            doc.setTextColor(255, 0, 0); //set font color to red
-            doc.text(60, 20, 'zaam '); //append first name in pdf
-            doc.text(100, 20, 'asdasda'); //append last name in pdf
-            doc.addPage(); // add new page in pdf
-            doc.setTextColor(165, 0, 0);
-            doc.text(10, 20, 'extra page to write');
+            doc.text(60, 20, 'Türkiye Badminton Federasyonu ');
+            {#var valid_extensions = /(\.jpg|\.jpeg|\.gif|\.png|\.PNG|\.GIF|\.JPEG|\.JPG)$/i;#}
+            {#var img = new Image();#}
+            {#img.src = "/media/{{ athlete.person.profileImage }}"#}
+
+
+
+            {#if (valid_extensions.test("/media/{{ athlete.person.profileImage }}")) {#}
+            {#    jpeg = /.(jpg|jpeg)$/i#}
+            {#    png = /.(png|PNG)$/i#}
+            {#    if (jpeg.test("/media/{{ athlete.person.profileImage }}")) {#}
+            {#resim eklenecek#}
+            {#alert('jpg');#}
+            {#        doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);#}
+            {#    } else if (png.test("/media/{{ athlete.person.profileImage }}")) {#}
+            {##}
+            {##}
+            {#    } else {#}
+            {#        img.src = '/static/images/user.png';#}
+            {#        doc.addImage(img, 'png', 10, 78, 12, 15);#}
+            {#    }#}
+            {# } else {#}
+            {#    img.src = '/static/images/user.png';#}
+            {#    pdf.addImage(img, 'png', 10, 78, 12, 15);#}
+            {# }#}
+
+            {#doc.setFontType("italic");#}
+
+            var img = new Image();
+            img.src = "/media/{{ athlete.person.profileImage }}";
+            img.src = 'C:/Users/Fatih Berktug/Desktop/jsPDF-master/examples/images/Octocat.';
+
+            {#alert(typeof img)#}
+
+
+            doc.setFontSize(11);
+            doc.text(10, 90, 'T.C.');
+            doc.text(50, 90, '{{athlete.person.tc}}');
+
+            doc.text(10, 95, 'Adi ve Soyadi:');
+            doc.text(50, 95, '{{ athlete.user.get_full_name }}:');
+
+            doc.text(10, 100, 'Dogum Tarihi');
+            doc.text(50, 100, '{{athlete.person.birthDate}}');
+
+            doc.text(10, 105, 'Kulüp');
+            doc.text(50, 105, '{{athlete.licenses.last.sportsClub}}');
+            var specialElementHandlers = {
+                'competition': function (element, renderer) {
+                    return true;
+                }
+            };
+
+
+            doc.fromHTML($('#competition').html(), 10, 150, {
+                'width': 500,
+                'elementHandlers': specialElementHandlers
+            });
+
+
             doc.save('{{athlete.user.get_full_name}}.pdf');
+
+
+            {#doc.text(10, 20, 'My name is');#}
+            {#doc.text(10, 40, 'Contact me at');#}
+            {#doc.text(10, 30, 'I have just created a simple pdf using jspdf');#}
+            {#doc.setFont("times");#}
+
+            {#doc.text(50, 40,"Selam");#}
+
+            {#doc.setTextColor(255, 0, 0); //set font color to red#}
+            {#doc.text(60, 20, 'zaam '); //append first name in pdf#}
+            {#doc.text(100, 20, 'asdasda'); //append last name in pdf#}
+            {#doc.addPage(); // add new page in pdf#}
+
+            {#doc.text(10, 20, 'extra page to write');#}
+        }
+
+        $(function () {
+            {#pdf();#}
 
             {% for group in groups %}
                 $('#group-{{ group.pk }}').click(function () {

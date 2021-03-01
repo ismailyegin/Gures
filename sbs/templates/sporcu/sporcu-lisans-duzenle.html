@@ -64,13 +64,34 @@
             <div class="row">
 
                 <div class="col-lg-3">
-                    <div class="box box-primary">
+                    <div class="box box-solid box-info">
                         <div class="box-header with-border">
                             <h3 class="box-title">Bilgiler</h3>
                         </div>
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label> {{ license_form.lisansPhoto.label }}</label>
+                                        {% load static %}
+                                        <img src="{% static 'images/photo.png' %}" id="preview2"
+                                             class="img-responsive img-rounded "
+                                             style="height: 125px;width: 100px;">
+                                        <p>
+                                            <input accept="image/*" type="file" class="form-group"
+                                                   name="lisansPhoto" required="" id="id_lisansPhoto"
+                                                   onchange="previewImage2()">
+
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> {{ license_form.licenseNo.label }}</label>
+                                        {{ license_form.licenseNo }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> {{ license_form.branch.label }}</label>
+                                        {{ license_form.branch }}
+                                    </div>
                                     <div class="form-group">
                                         <label> {{ license_form.startDate.label }}</label>
                                         {{ license_form.startDate }}
@@ -83,15 +104,6 @@
 
 
                                     <div class="form-group">
-                                        <label> {{ license_form.licenseNo.label }}</label>
-                                        {{ license_form.licenseNo }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ license_form.branch.label }}</label>
-                                        {{ license_form.branch }}
-                                    </div>
-
-                                    <div class="form-group">
                                         <label> {{ license_form.cityHeadShip.label }}</label>
                                         {{ license_form.cityHeadShip }}
                                     </div>
@@ -100,19 +112,23 @@
                                         <label> {{ license_form.sportsClub.label }}</label>
                                         {{ license_form.sportsClub }}
                                     </div>
-
                                     <div class="form-group">
-                                        <label> {{ license_form.lisansPhoto.label }}</label>
-                                        {{ license_form.lisansPhoto }}
+                                        <label> {{ license_form.coach.label }}</label>
+                                        {{ license_form.coach }}
                                     </div>
+                                    <div class="form-group">
+                                        <label> {{ license_form.coach2.label }}</label>
+                                        {{ license_form.coach2 }}
+                                    </div>
+
 
                                 </div>
 
 
                             </div>
                         </div>
-                        <div class="box-footer">
-                            <button class="btn btn-primary" type="submit">Kaydet</button>
+                        <div class="box-footer ">
+                            <button class="btn btn-primary pull-right" type="submit">Kaydet</button>
                         </div>
 
 
@@ -125,6 +141,18 @@
 
 
     </section>
+    <script>
+        function previewImage2() {
+            var file = document.getElementById("id_lisansPhoto").files;
+            if (file.length > 0) {
+                var fileReader = new FileReader();
+                fileReader.onload = function (event) {
+                    document.getElementById("preview2").setAttribute("src", event.target.result);
+                }
+                fileReader.readAsDataURL(file[0]);
+            }
+        }
+    </script>
 
 {% endblock %}
 

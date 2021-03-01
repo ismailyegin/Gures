@@ -11,6 +11,7 @@ from sbs.models.Logs import Logs
 from sbs.models.PreRegistration import PreRegistration
 from sbs.models.ReferenceCoach import ReferenceCoach
 from sbs.models.ReferenceReferee import ReferenceReferee
+from sbs.models.Aevrak import Aevrak
 
 
 def get_client_ip(request):
@@ -309,3 +310,11 @@ def import_csv():
             sportClubUser.save()
 
             print(row)
+
+
+def degerAl():
+    list = []
+    for item in Aevrak._meta.get_fields():
+        test = (item.name, item.name)
+        list.append(test)
+    return list

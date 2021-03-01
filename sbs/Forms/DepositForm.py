@@ -32,8 +32,8 @@ class DepositForm(ModelForm):
             'product': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                            'style': 'width: 100%; ', 'required': 'required'}),
             'date': forms.DateInput(
-                attrs={'class': 'form-control  pull-right', 'id': 'datepicker', 'autocomplete': 'off',
-                       'onkeydown': 'return false', 'required': 'required'}),
+                attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker', 'autocomplete': 'off',
+                       'required': 'required'}),
 
             'description': forms.TextInput(attrs={'class': 'form-control', "style": "text-transform:uppercase"}),
 

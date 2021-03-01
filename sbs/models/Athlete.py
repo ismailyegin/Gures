@@ -23,8 +23,6 @@ class Athlete(models.Model):
     def __str__(self):
         return '%s %s' % (self.user.first_name, self.user.last_name)
 
-    # search_fields = ('person', 'user', 'licenses',)
-
     # class Meta:
     #     ordering = ['pk']
     #     default_permissions = ()

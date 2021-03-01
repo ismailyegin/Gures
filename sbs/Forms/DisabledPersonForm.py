@@ -31,8 +31,8 @@ class DisabledPersonForm(ModelForm):
                 attrs={'class': 'form-control ', 'value': '', 'readonly': 'readonly'}),
 
             'birthDate': forms.DateInput(
-                attrs={'class': 'form-control  pull-right', 'id': 'datepicker', 'autocomplete': 'off',
-                       'onkeydown': 'return false', 'readonly': 'readonly'}),
+                attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker', 'autocomplete': 'off',
+                       'readonly': 'readonly'}),
 
             'bloodType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                              'style': 'width: 100%; ', 'disabled': 'disabled'}),

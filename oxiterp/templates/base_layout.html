@@ -29,13 +29,13 @@
 
 
     {#    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">#}
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'datatable/css/table.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/button.css' %}">
 
     {#    seçim test#}
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-    <link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'datatable/css/select.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/editor.css' %}">
+    <link rel="stylesheet" href="{% static 'datatable/css/rowGroup.css' %}">
 
 
     {#    buton tasarimi icin#}
@@ -57,7 +57,7 @@
 
     <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
 
-    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    {#    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">#}
 
     <link rel="stylesheet" href="{% static 'fieldChooser/css/jquery.lwMultiSelect.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}">
@@ -877,26 +877,7 @@
 
 <script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
-{#datatables pdf fatih #}
-{#<script src="https://code.jquery.com/jquery-3.3.1.js"></script>#}
-{#<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>#}
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
 
-{#SEÇİM TEST #}
-<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
-<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
-{#buton tasarimi icin eklendi #}
-{#<script src="https://cdn.datatables.net/1.10.20/js/dataTables.foundation.min.js"></script>#}
-{#<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.foundation.min.js"></script>#}
 
 <script src="{% static 'bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
 <script src="{% static 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
@@ -922,6 +903,47 @@
 
 
 <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
+{#Kontrolleri yapılacak  statik hale gelecek#}
+{#<script src="{% static 'datatable/js/responsive.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/buttons.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/flas.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/zip.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/makepdf.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/font.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/buttonhtml.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/print.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/colVis.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/rowGroup.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/select.js' %}"></script>#}
+{#<script src="{% static 'datatable/js/editor.js' %}"></script>#}
+
+
+{#datatables pdf fatih #}
+{#<script src="https://code.jquery.com/jquery-3.3.1.js"></script>#}
+{#<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>#}
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
+
+{#SEÇİM TEST #}
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+{#buton tasarimi icin eklendi #}
+{#<script src="https://cdn.datatables.net/1.10.20/js/dataTables.foundation.min.js"></script>#}
+{#<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.foundation.min.js"></script>#}
+
+
+
+
+
+
 
 
 <script>
@@ -948,6 +970,8 @@
         $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
         //Datemask2 mm/dd/yyyy
         $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'})
+
+        $('.datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
         //Money Euro
         $('[data-mask]').inputmask()
 

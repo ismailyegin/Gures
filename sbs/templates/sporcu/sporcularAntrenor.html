@@ -146,19 +146,28 @@
                             <div class="box-body">
                                 {% csrf_token %}
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ user_form.first_name.label }}</label>
                                         {{ user_form.first_name }}
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ user_form.last_name.label }}</label>
                                         {{ user_form.last_name }}
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label> T.C.</label>
+                                        <input type="text" name="tc" class="form-control " placeholder="T.C."
+                                               onkeypress="validate(event)"
+                                               onkeyup="if(this.value.length >11){this.value=this.value.substr(0, 11);}"
+                                               placeholder="" maxlength="11" id="id_tc">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ user_form.email.label }}</label>
                                         {{ user_form.email }}

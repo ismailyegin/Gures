@@ -22,18 +22,18 @@ class LicenseFormAntrenor(ModelForm):
             'startDate', 'branch', 'sportsClub', 'licenseNo', 'cityHeadShip', 'expireDate', 'lisansPhoto')
 
         labels = {'startDate': 'Başlangıç Tarihi', 'branch': 'Branş',
-                  'licenseNo': 'Lisans No', 'cityHeadShip': 'Verildiği İl', 'expireDate': 'Geçer. Süresi',
+                  'licenseNo': 'Lisans No', 'cityHeadShip': 'Verildiği İl', 'expireDate': ' Bitiş Tarihi',
                   'lisansPhoto': 'Lisans Foto'}
 
         widgets = {
 
             'startDate': forms.DateInput(
-                attrs={'class': 'form-control  pull-right', 'id': 'datepicker2', 'autocomplete': 'on',
-                       'onkeydown': 'return true'}),
+                attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker2', 'autocomplete': 'on',
+                       }),
 
             'expireDate': forms.DateInput(
-                attrs={'class': 'form-control  pull-right', 'id': 'datepicker4', 'autocomplete': 'on',
-                       'onkeydown': 'return true'}),
+                attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker4', 'autocomplete': 'on',
+                       }),
 
             'branch': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                           'style': 'width: 100%; '}),

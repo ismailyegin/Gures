@@ -7,7 +7,7 @@ class UserSearchForm(ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'is_active',)
-        labels = {'first_name': 'Ad', 'last_name': 'Soyad'}
+        labels = {'first_name': 'İsim', 'last_name': 'Soyisim'}
         widgets = {
             'first_name': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': ' Ad', 'value': '',

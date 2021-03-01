@@ -86,8 +86,8 @@ class PersonForm(ModelForm):
                 attrs={'class': 'form-control ', 'value': '', "style": "text-transform:uppercase"}),
 
             'birthDate': forms.DateInput(
-                attrs={'class': 'form-control  pull-right', 'id': 'datepicker', 'autocomplete': 'off',
-                       'onkeydown': 'return false', 'required': 'required'}),
+                attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker', 'autocomplete': 'off',
+                       'required': 'required'}),
 
             'bloodType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                              'style': 'width: 100%;'}),

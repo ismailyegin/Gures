@@ -270,7 +270,7 @@
                 <div class="box-body">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Sporcular</h3>
+                            <h3 class="box-title">Kullanıcılar</h3>
                         </div>
                         <div class="box-body">
                             <table id="kullanicilar" class="table table-bordered table-hover">
@@ -279,6 +279,7 @@
                                     <th>#</th>
                                     <th>Ad Soyad</th>
                                     <th>E-Mail</th>
+                                    <th>Grup</th>
                                     <th>Aktiflik Durumu</th>
                                     <th>Güncelle</th>
                                 </tr>
@@ -290,6 +291,16 @@
                                             <td>{{ forloop.counter }} </td>
                                             <td>{{ user.first_name }} {{ user.last_name }} </td>
                                             <td>{{ user.email }} </td>
+
+                                            <td>
+
+                                                {% for group  in user.groups.all %}
+
+                                                    {{ group.name }}<br>
+
+                                                {% endfor %}
+
+                                            </td>
                                             {% if user.is_active %}
                                                 <td>Aktif</td>
                                             {% else %}

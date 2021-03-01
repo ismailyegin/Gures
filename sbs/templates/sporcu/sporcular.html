@@ -160,6 +160,15 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
+                                        <label> T.C.</label>
+                                        <input type="text" name="tc" class="form-control " placeholder="T.C."
+                                               onkeypress="validate(event)"
+                                               onkeyup="if(this.value.length >11){this.value=this.value.substr(0, 11);}"
+                                               placeholder="" maxlength="11" id="id_tc">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
                                         <label> {{ user_form.email.label }}</label>
                                         {{ user_form.email }}
                                     </div>
@@ -366,9 +375,7 @@
 
                     {
                         extend: 'excelHtml5',
-                        title: 'Sporcular',
                         text: '<i class="fa fa-file-excel-o"></i>',
-                        messageTop: 'Halter Bilgi Sistemi ',
                         {#footer: true,#}
                         exportOptions: {
                             {#     yer degisimi de yapilabilir.#}

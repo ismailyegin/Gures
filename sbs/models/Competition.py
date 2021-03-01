@@ -23,13 +23,16 @@ class Competition(models.Model):
     INTERUNIVERSITY = 0
     INTERSCHOOL = 1
     PERSONAL = 2
+
     # GRANDPRİX = 3
 
 
     COMPTYPE = (
         (INTERUNIVERSITY, 'Üniversiteler Arası'),
         (INTERSCHOOL, 'Okullar Arası'),
+
         (PERSONAL, 'Ferdi'),
+
         # (GRANDPRİX, 'Grand Prix')
     )
 
@@ -52,6 +55,7 @@ class Competition(models.Model):
                                   null=True)  # Field name made lowercase.
     eskimi = models.BooleanField(default=True)
     explanation = models.CharField(max_length=20, blank=True, null=True)
+    compGeneralType = models.IntegerField(db_column='compGeneralType', blank=True, null=True, choices=COMPGENERALTYPE)
 
     categoryies = models.ManyToManyField(Category)
     judges = models.ManyToManyField(Judge)

@@ -1,4 +1,5 @@
 import enum
+from sbs.models.Aevrak import Aevrak
 
 from enum import IntEnum
 

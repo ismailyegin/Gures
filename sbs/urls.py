@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from sbs.Views import DashboardViews, AthleteViews, RefereeViews, ClubViews, CoachViews, DirectoryViews, UserViews, \
     CompetitionViews, AdminViews, HelpViews, PageViews, PreRegistration, ActivityView, ReferenceView, QuestionViews, \
-    LogViews, ProductView, Aktarma, ClaimView
+    LogViews, ProductView, Aktarma, ClaimView, PenalView, ArsivView
 
 app_name = 'sbs'
 
@@ -112,9 +112,9 @@ urlpatterns = [
     url(r'sporcu/sporcu-profil-guncelle/$', AthleteViews.updateAthleteProfile,
         name='sporcu-profil-guncelle'),
 
-    url(r'sporcu/sporcuBelgeKaldır/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', AthleteViews.athlete_document_delete,
+    url(r'sporcu/sporcuBelgeKaldir/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', AthleteViews.athlete_document_delete,
         name='sporcu-belge-kaldir'),
-    url(r'sporcu/sporcuCezaKaldır/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', AthleteViews.athlete_penal_delete,
+    url(r'sporcu/sporcuCezaKaldir/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', AthleteViews.athlete_penal_delete,
         name='sporcu-ceza-kaldir'),
 
     # Hakemler
@@ -148,17 +148,17 @@ urlpatterns = [
     url(r'hakem/Kademe-Duzenle/sil/(?P<grade_pk>\d+)/(?P<referee_pk>\d+)$', RefereeViews.kademe_delete,
         name='Kademe-sil-hakem'),
     # /vize
-    url(r'hakem/hakem-vize-ekle/(?P<pk>\d+)$', RefereeViews.vısa_ekle, name='hakem-vize-ekle'),
+    url(r'hakem/hakem-vize-ekle/(?P<pk>\d+)$', RefereeViews.visa_ekle, name='hakem-vize-ekle'),
     url(r'hakem/Vize-Duzenle/onayla/(?P<grade_pk>\d+)/(?P<referee_pk>\d+)$', RefereeViews.visa_onay,
         name='hakem-vize-onayla'),
     url(r'hakem/Vize-Duzenle/reddet/(?P<grade_pk>\d+)/(?P<referee_pk>\d+)$', RefereeViews.visa_reddet,
         name='hakem-vize-reddet'),
     url(r'hakem/Vize-Duzenle/guncelle/(?P<grade_pk>\d+)/(?P<referee_pk>\d+)$', RefereeViews.vize_update,
-        name='hakem-vize-güncelle'),
+        name='hakem-vize-guncelle'),
     url(r'hakem/Vize-Duzenle/sil/(?P<grade_pk>\d+)/(?P<referee_pk>\d+)$', RefereeViews.vize_delete,
         name='hakem-vize-sil'),
     url(r'hakem/hakemBelgeEkle/(?P<pk>\d+)$', RefereeViews.hakem_belge_ekle, name='hakem-belge-ekle'),
-    url(r'hakem/hakemBelgeKaldır/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', RefereeViews.judje_document_delete,
+    url(r'hakem/hakemBelgeKaldir/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', RefereeViews.judje_document_delete,
         name='hakem-belge-kaldir'),
     url(r'hakem/hakemCezaEkle/(?P<pk>\d+)$', RefereeViews.judge_ceza_ekle, name='hakem-ceza-ekle'),
 
@@ -241,7 +241,7 @@ urlpatterns = [
 
     url(r'antrenor/antrenorDuzenle/(?P<pk>\d+)$', CoachViews.coachUpdate,
         name='update-coach'),
-    url(r'antrenor/antrenorDuzenle-Kayıt/(?P<pk>\d+)$', CoachViews.coachreferenceUpdate,
+    url(r'antrenor/antrenorDuzenle-Kayit/(?P<pk>\d+)$', CoachViews.coachreferenceUpdate,
         name='update-coach-reference'),
     url(r'antrenor/antrenorSec/(?P<pk>\d+)$', ClubViews.choose_coach,
         name='choose-coach'),
@@ -266,10 +266,10 @@ urlpatterns = [
     url(r'antrenor/Kademe-Duzenle/onayla/(?P<grade_pk>\d+)/(?P<coach_pk>\d+)$', CoachViews.kademe_onay,
         name='kademe-onayla'),
     url(r'antrenor/Kademe-Reddet/(?P<grade_pk>\d+)/(?P<coach_pk>\d+)$', CoachViews.kademe_reddet, name='kademe-reddet'),
-    url(r'antrenor/Kademe-Duzenle/güncelle/(?P<grade_pk>\d+)/(?P<coach_pk>\d+)$', CoachViews.kademe_update,
-        name='kademe-güncelle'),
+    url(r'antrenor/Kademe-Duzenle/guncelle/(?P<grade_pk>\d+)/(?P<coach_pk>\d+)$', CoachViews.kademe_update,
+        name='kademe-guncelle'),
     url(r'antrenor/Vize-Duzenle/guncelle/(?P<grade_pk>\d+)/(?P<coach_pk>\d+)$', CoachViews.vize_update,
-        name='vize-güncelle'),
+        name='vize-guncelle'),
     url(r'antrenor/Kademe-Duzenle/sil/(?P<grade_pk>\d+)/(?P<coach_pk>\d+)$', CoachViews.kademe_delete,
         name='Kademe-sil'),
     url(r'antrenor/Kademe-listesi/', CoachViews.kademe_list, name='kademe-listesi'),
@@ -287,13 +287,21 @@ urlpatterns = [
     # visa seminar
     # Antrenör
     url(r'antrenor/visa-Seminar$', CoachViews.return_visaSeminar, name='visa-seminar'),
-    url(r'antrenor/visa-Seminar-ekle$', CoachViews.visaSeminar_ekle, name='visa-seminar-ekle'),
+    url(r'antrenor/visa-Seminar/basvuruListesi$', CoachViews.return_visaSeminar_Basvuru, name='visa-seminar-basvuru'),
+    url(r'antrenor/visa-Seminar-ekle/$', CoachViews.visaSeminar_ekle, name='visa-seminar-ekle'),
     url(r'antrenor/visa-Seminar-duzenle/(?P<pk>\d+)$', CoachViews.visaSeminar_duzenle, name='seminar-duzenle'),
     url(r'antrenor/visa-Seminar-Onayla/(?P<pk>\d+)$', CoachViews.visaSeminar_onayla, name='seminar-onayla'),
     url(r'antrenor/visa-Seminar/Seminer-sil(?P<pk>\d+)$', CoachViews.visaSeminar_sil, name='seminar-sil'),
     url(r'antrenor/visa-Seminar/antroner-sec/(?P<pk>\d+)$', CoachViews.choose_coach, name='vize-semineri-antroner-sec'),
     url(r'antrenor/visa-Seminar/antroner-sil/(?P<pk>\d+)/(?P<competition>\d+)$', CoachViews.visaSeminar_Delete_Coach,
         name='visaSeminar-antrenör-sil'),
+
+    url(r'antrenor/visa-Seminar/antroner-basvuru-onayla/(?P<pk>\d+)/(?P<competition>\d+)$',
+        CoachViews.visaSeminar_Onayla_Coach_application,
+        name='visaSeminar-antrenorbasvuru-onayla'),
+    url(r'antrenor/visa-Seminar/antroner-basvuru-reddet/(?P<pk>\d+)/(?P<competition>\d+)$',
+        CoachViews.visaSeminar_Delete_Coach_application,
+        name='visaSeminar-antrenorbasvuru-reddet'),
 
     url(r'antrenor/antrenorCezaEkle/(?P<pk>\d+)$', CoachViews.coach_penal_add, name='antrenor-ceza-ekle'),
     url(r'antrenor/antrenorCezaKaldır/(?P<athlete_pk>\d+)/(?P<document_pk>\d+)$', CoachViews.coach_penal_delete,
@@ -314,6 +322,11 @@ urlpatterns = [
     url(r'hakem/basvuru/onayla/(?P<pk>\d+)$', RefereeViews.referenceStatus, name='reference-refere-status'),
     url(r'hakem/basvuru/reddet/(?P<pk>\d+)$', RefereeViews.referenceStatus_reddet,
         name='reference-refere-status-reddet'),
+
+    # Hakem
+    url(r'hakem/visa-Seminar/Basvuru$', RefereeViews.return_visaSeminar_application, name='hakem-seminar-basvuru'),
+    url(r'hakem/visa-Seminar/basvuruListesi$', RefereeViews.return_visaSeminar_Basvuru,
+        name='hakem-visa-seminar-basvuru'),
 
     url(r'hakem/Kademe-listesi/', RefereeViews.kademe_list, name='hakem-kademe-listesi'),
     url(r'hakem/kademe-Liste-Onayla/(?P<referee_pk>\d+)$', RefereeViews.kademe_onayla,
@@ -385,6 +398,9 @@ urlpatterns = [
     url(r'musabaka/musabaka-sporcu-sec/(?P<pk>\d+)$', CompetitionViews.musabaka_sporcu_sec, name='musabaka-sporcu-sec'),
     url(r'musabaka/sporcu-sec/(?P<pk>\d+)/(?P<competition>\d+)$', CompetitionViews.choose_athlete,
         name='catagori-sporcu-sec-ajax'),
+    url(r'musabaka/antrenorler-sec/$', CompetitionViews.antrenor_ajax, name='catagori-antrenor-sec-ajax'),
+    url(r'musabaka/antrenorler-sporcu-sec/$', CompetitionViews.antrenor_sporcu_ajax,
+        name='catagori-antrenor-sporcu-sec-ajax'),
 
     url(r'musabaka/sporcu-sec/update(?P<pk>\d+)/(?P<competition>\d+)$', CompetitionViews.choose_athlete_update,
         name='catagori-sporcu-update-ajax'),
@@ -416,7 +432,7 @@ urlpatterns = [
     url(r'soru/ekle', QuestionViews.soru_ekle, name='soru-ekle'),
     url(r'soru/sil/(?P<pk>\d+)$', QuestionViews.categoryItemDelete,
         name='soru-delete'),
-    url(r'soru/güncelle/(?P<pk>\d+)$', QuestionViews.soru_update,
+    url(r'soru/guncelle/(?P<pk>\d+)$', QuestionViews.soru_update,
         name='soru-guncelle'),
 
     #   logkayıtlari
@@ -480,4 +496,34 @@ urlpatterns = [
     url(r'aktarma/emanet', Aktarma.Emanet, name='control-emanet'),
     url(r'aktarma/com', Aktarma.communicationAktar, name='control-aktarmatest'),
     url(r'aktarma/hakem', Aktarma.judgeAktar, name='control-aktarhakemvize'),
+
+    #     ceza görüntüleme modulleri
+
+    url(r'ceza/ceza-listesi/', PenalView.return_penal_athlete, name='ceza-listesi'),
+
+    #     arsiv modulü
+    url(r'arsiv/arsiv-gorsel/', ArsivView.return_arsiv, name='arsiv-listesi'),
+
+    url(r'arsiv/arsiv-konumEkle/', ArsivView.arsiv_location_add, name='arsiv-konumEkle'),
+    url(r'arsiv/arsiv-konumGuncelle/(?P<pk>\d+)$', ArsivView.arsiv_location_update, name='arsiv-konumUpdate'),
+
+    url(r'arsiv/arsiv-BirimEkle/', ArsivView.arsiv_birim_add, name='arsiv-birimEkle'),
+    url(r'arsiv/arsiv-BirimGuncelle/(?P<pk>\d+)$', ArsivView.arsiv_birim_update, name='arsiv-birimUpdate'),
+    url(r'arsiv/arsiv-Birim/(?P<pk>\d+)$', ArsivView.categoryItemDelete, name='Birim-delete'),
+    url(r'arsiv/arsiv-Birim/ParametreEkle/(?P<pk>\d+)$', ArsivView.arsiv_birimParametre, name='Birim-parametreAdd'),
+    url(r'arsiv/arsiv-Birim/ParametreGuncelle/(?P<pk>\d+)$', ArsivView.arsiv_birimParametreUpdate,
+        name='Birim-parametreGuncelle'),
+    url(r'arsiv/arsiv-Birim/ParametreSil/(?P<pk>\d+)$', ArsivView.parametredelete, name='Birim-parametre-delete'),
+    url(r'arsiv/arsiv-Birim/BirimListesi/$', ArsivView.arsiv_birimListesi, name='Birim-listesi'),
+
+    url(r'arsiv/arsiv-Klasor/klasorler/$', ArsivView.arsiv_klasorler, name='klasor-listesi'),
+    url(r'arsiv/arsiv-Klasor/klasorEkle/$', ArsivView.arsiv_klasorEkle, name='klasor-ekle'),
+    url(r'arsiv/arsiv-Klasor/klasorGuncelle/(?P<pk>\d+)$', ArsivView.arsiv_klasorUpdate,
+        name='klasor-guncelle'),
+
+    url(r'arsiv/arsiv-Dosya/dosyaEkle/(?P<pk>\d+)$', ArsivView.arsiv_dosyaEkle, name='dosya-ekle'),
+    url(r'arsiv/arsiv-Dosya/dosyaGuncelle/(?P<pk>\d+)$', ArsivView.arsiv_dosyaUpdate,
+        name='dosya-guncelle'),
+
+    url(r'arsiv/arsiv-evrak/evrakEkle/$', ArsivView.arsiv_evrakEkle, name='evrak-ekle'),
 ]

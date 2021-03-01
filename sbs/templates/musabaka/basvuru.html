@@ -247,9 +247,9 @@
                         <span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">Ek Bilgileri Giriniz</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="kategoriadd">
                     <label for="inputState">Kategori</label>
-                    <select id="category" class="form-control">
+                    <select id="category" onchange="Kategori()" class="form-control">
                         <option selected>Seçiniz...</option>
                         {% for weight in weights %}
                             <option value="{{ weight.pk }}">{{ weight.kategoriadi }}</option>
@@ -377,7 +377,13 @@
                             {% for compathlete in athletes %}
                                 <tr>
                                     <td>{{ forloop.counter }} </td>
-                                    <td>{{ compathlete.athlete.user.first_name }} {{ compathlete.athlete.user.last_name }} </td>
+                                    <td>
+                                        {{ compathlete.athlete.user.first_name }} {{ compathlete.athlete.user.last_name }}
+                                        {% if compathlete.category.kategoriadi == 'Çift Erkekler' or compathlete.category.kategoriadi == 'Çift Bayanlar' or compathlete.category.kategoriadi == 'Karışık' %}
+                                            <br>{{ compathlete.athleteTwo.user.first_name }}
+                                            {{ compathlete.athleteTwo.user.last_name }}
+
+                                        {% endif %}</td>
                                     {#                                    <td>{{ compathlete.athlete.person.birthDate |date }} </td>#}
                                     {% if aktif == 'Admin' %}
                                         <td>{{ compathlete.athlete.licenses.last.sportsClub }}</td>
@@ -500,18 +506,14 @@
                         extend: 'print',
                         title: 'Sbs Bilgi Sistemi',
                         text: '<i class="fa  fa-print"></i>',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
-                        },
+
                         titleAttr: 'Yazdır'
                     },
                     {
                         extend: 'pdfHtml5',
                         download: 'open',
                         text: '<i class="fa fa-file-pdf-o"></i>',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6]
-                        },
+
                         titleAttr: 'Pfd Kaydet'
                     },
 
@@ -521,11 +523,6 @@
                         text: '<i class="fa fa-file-excel-o"></i>',
                         messageTop: 'Sbs Bilgi Sistemi ',
                         footer: true,
-                        exportOptions: {
-                            {#yer degisimi de yapilabilir.#}
-                            columns: [0, 1, 2, 3, 4, 5, 6]
-
-                        },
                         titleAttr: 'Excel Kaydet'
                     },
                     {
@@ -555,29 +552,64 @@
 
         function addPlayer(id, competitionId, kategori) {
 
-            $('#category option:selected').text();
+            $('#category option').removeAttr('selected').filter('[value=' + kategori + ']').attr('selected', true)
+            console.log(kategori)
+
+            if (kategori == 3 || kategori == 4 || kategori == 5) {
+
+                row = $("body").find("#antrenor");
+
+                if (row.length == 0) {
+
+                    $('#kategoriadd').append("<label class=' test '>Antrenör Seç</label><select id='antrenor' class='form-control test ' onchange='SporcuGetir()'><option value='0'>Antrenör Seçiniz </option></select>");
+                    $('#kategoriadd').append("<label class=' test '>Sporcu Seç</label><select id='sporcu' class='form-control test '><option value='0'>Sporcu Seçiniz </option></select>");
+
+                }
+                $.ajax({
+                    url: "{% url "sbs:catagori-antrenor-sec-ajax" %}",
+                    type: "POST",
+                    data: {
+                        'csrfmiddlewaretoken': "{{  csrf_token  }}",
+
+
+                        isActive: 'False',
+
+                    },
+
+                    success: function (result) {
+                        $("#antrenor option").each(function () {
+                            $(this).remove();
+                        });
+
+                        result.data.forEach(element => $('#antrenor').append("<option value=" + element.pk + ">" + element.name + "</option>"));
+                    }
+                });
+
+
+            }
 
 
             $("#reddetwhy").on("shown.bs.modal", function (e) {
+                if (e.handled !== true) { // This will prevent event triggering more then once
+                    e.handled = true;
+
+                    $("#btn-gonder").click(function () {
 
 
-                $("#btn-gonder").click(function () {
-
-
-                    console.log('buradan girdi', competitionId)
+                        {#console.log(competitionId)#}
                     $.ajax({
                             url: "{% url "sbs:catagori-sporcu-guncelle-ajax" pk=212121223232323232 competition=999999999999999 %}".replace(/212121223232323232/, id.toString()).replace(/999999999999999/, competitionId.toString()),
                         type: "POST",
                         data: {
                             'csrfmiddlewaretoken': "{{  csrf_token  }}",
-
+                            sporcu: $("#sporcu option:selected").val(),
                             category: $('#category').val(),
                             isActive: 'False'
                         },
                         success: function (result) {
 
                             html = 'Sporcu Başarıyla Güncellendi  .';
-                            debugger;
+                            {#debugger;#}
                             $(".successModal").html(html);
                             $('#modal-success').on("shown.bs.modal", function (e) {
                                 $(".btn-ok").click(function () {
@@ -600,7 +632,7 @@
 
 
                 });
-
+                }
 
             }).modal('show');
             $('#btn-closereddet').click(function () {
@@ -610,8 +642,76 @@
                 $('.modal').modal('hide');
 
             });
-
         };
+
+        function Kategori() {
+
+            if ($("#category option:selected").val() == 3 || $("#category option:selected").val() == 4 || $("#category option:selected").val() == 5) {
+
+                {#alert('benden selam olsun bolu beyine');#}
+                row = $("body").find("#antrenor")
+
+                if (row.length == 0) {
+
+                    $('#kategoriadd').append("<label class=' test '>Antrenör Seç</label><select id='antrenor' class='form-control test ' onchange='SporcuGetir()'><option value='0'>Antrenör Seçiniz </option></select>");
+                    $('#kategoriadd').append("<label class=' test '>Sporcu Seç</label><select id='sporcu' class='form-control test '><option value='0'>Sporcu Seçiniz </option></select>");
+
+
+                    $.ajax({
+                        url: "{% url "sbs:catagori-antrenor-sec-ajax" %}",
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
+
+
+                            isActive: 'False',
+
+                        },
+
+                        success: function (result) {
+                            $("#antrenor option").each(function () {
+                                $(this).remove();
+                            });
+
+                            result.data.forEach(element => $('#antrenor').append("<option value=" + element.pk + ">" + element.name + "</option>"));
+                        }
+                    });
+                }
+            } else {
+
+                $('.test').remove();
+
+
+            }
+
+        }
+
+        function SporcuGetir() {
+
+
+            $.ajax({
+                url: "{% url "sbs:catagori-antrenor-sporcu-sec-ajax" %}",
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+
+
+                    isActive: 'False',
+                    coach: $("#antrenor option:selected").val(),
+
+                },
+
+                success: function (result) {
+
+                    $("#sporcu option").each(function () {
+                        $(this).remove();
+                    });
+
+                    result.data.forEach(element => $('#sporcu').append("<option value=" + element.pk + ">" + element.name + "</option>"));
+                }
+            });
+        }
+
     </script>
 
 

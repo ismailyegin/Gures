@@ -58,23 +58,36 @@ def return_log(request):
     logs = Logs.objects.none()
     user_form = UserSearchForm()
     if request.method == 'POST':
+
         user_form = UserSearchForm(request.POST)
-        if user_form.is_valid():
-            firstName = user_form.cleaned_data.get('first_name')
-            lastName = user_form.cleaned_data.get('last_name')
-            email = user_form.cleaned_data.get('email')
+        firstName = request.POST.get('first_name')
+        lastName = request.POST.get('last_name')
+        email = request.POST.get('email')
+        playDate = request.POST.get('playDate')
+        finishDate = request.POST.get('finishDate')
 
-            if not (firstName or lastName or email):
-                logs = Logs.objects.all().order_by('-creationDate')
+        if playDate:
+            playDate = datetime.strptime(playDate, '%d/%m/%Y').date()
 
-            else:
-                query = Q()
-                if lastName:
-                    query &= Q(user__last_name__icontains=lastName)
-                if firstName:
-                    query &= Q(user__first_name__icontains=firstName)
-                if email:
-                    query &= Q(user__email__icontains=email)
+        if finishDate:
+            finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
 
-                logs = Logs.objects.filter(query).order_by('-creationDate')
+        if not (firstName or lastName or email or playDate or finishDate):
+            logs = Logs.objects.all().order_by('-creationDate')
+
+        else:
+            query = Q()
+            if lastName:
+                query &= Q(user__last_name__icontains=lastName)
+            if firstName:
+                query &= Q(user__first_name__icontains=firstName)
+            if email:
+                query &= Q(user__email__icontains=email)
+            if playDate:
+                query &= Q(creationDate__gte=playDate)
+            if finishDate:
+                query &= Q(creationDate__lt=finishDate)
+
+            logs = Logs.objects.filter(query).order_by('-creationDate')
+
     return render(request, 'Log/Logs.html', {'logs': logs, 'user_form': user_form})

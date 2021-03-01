@@ -83,9 +83,9 @@
                         <span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">Ek Bilgileri Giriniz</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="kategoriadd">
                     <label for="inputState">Kategori</label>
-                    <select id="weight" class="form-control">
+                    <select id="weight" onchange="Kategori()" class="form-control">
                         <option selected>Seçiniz...</option>
                         {% for weight in weights %}
                             <option value="{{ weight.pk }}">{{ weight.kategoriadi }}</option>
@@ -293,6 +293,80 @@
 
 
     <script>
+
+
+        function Kategori() {
+
+            console.log($("#weight option:selected").text());
+            console.log($("#weight option:selected").val());
+            if ($("#weight option:selected").val() == 3 || $("#weight option:selected").val() == 4 || $("#weight option:selected").val() == 5) {
+
+                row = $("body").find("#antrenor")
+
+                if (row.length == 0) {
+
+                    $('#kategoriadd').append("<label class=' test '>Antrenör Seç</label><select id='antrenor' class='form-control test ' onchange='SporcuGetir()'><option value='0'>Antrenör Seçiniz </option></select>");
+                    $('#kategoriadd').append("<label class=' test '>Sporcu Seç</label><select id='sporcu' class='form-control test '><option value='0'>Sporcu Seçiniz </option></select>");
+
+
+                    $.ajax({
+                        url: "{% url "sbs:catagori-antrenor-sec-ajax" %}",
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
+
+
+                            isActive: 'False',
+
+                        },
+
+                        success: function (result) {
+                            $("#antrenor option").each(function () {
+                                $(this).remove();
+                            });
+
+                            result.data.forEach(element => $('#antrenor').append("<option value=" + element.pk + ">" + element.name + "</option>"));
+                        }
+                    });
+                }
+            } else {
+
+                $('.test').remove();
+
+
+            }
+
+        }
+
+        function SporcuGetir() {
+
+
+            $.ajax({
+                url: "{% url "sbs:catagori-antrenor-sporcu-sec-ajax" %}",
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+
+
+                    isActive: 'False',
+                    coach: $("#antrenor option:selected").val(),
+
+                },
+
+                success: function (result) {
+
+                    $("#sporcu option").each(function () {
+                        $(this).remove();
+                    });
+
+                    result.data.forEach(element => $('#sporcu').append("<option value=" + element.pk + ">" + element.name + "</option>"));
+                }
+            });
+        }
+
+
+
+
         $(function () {
             //Enable iCheck plugin for checkboxes
             //iCheck for checkbox and radio inputs
@@ -394,18 +468,14 @@
                         extend: 'print',
                         title: 'Sporcular',
                         text: '<i class="fa  fa-print"></i>',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                        },
+
                         titleAttr: 'Yazdır'
                     },
                     {
                         extend: 'pdfHtml5',
                         download: 'open',
                         text: '<i class="fa fa-file-pdf-o"></i>',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                        },
+
                         titleAttr: 'Pdf Kaydet'
                     },
 
@@ -415,11 +485,7 @@
                         text: '<i class="fa fa-file-excel-o"></i>',
                         messageTop: 'Sbs Bilgi Sistemi ',
                         footer: true,
-                        exportOptions: {
-                            {#yer degisimi de yapilabilir.#}
-                            columns: [0, 2, 1, 3, 4, 5]
 
-                        },
                         titleAttr: 'Excel Kaydet'
                     },
                     {
@@ -446,18 +512,16 @@
 
             $("#reddetwhy").on("shown.bs.modal", function (e) {
 
-                $('#total').val('');
-                $('#silk').val('');
-                $('#kop').val('');
+
+                console.log();
                 $("#btn-gonder").click(function () {
 
-                    console.log('buradan girdi', competitionId)
+                    {#console.log('buradan girdi', competitionId);#}
 
                     if (e.handled !== true) {
                         e.handled = true;
 
                         if ($('#weight').val()) {
-                            // This will prevent event triggering more then once
 
                             $.ajax({
                                 url: "{% url "sbs:catagori-sporcu-sec-ajax" pk=212121223232323232 competition=999999999999999 %}".replace(/212121223232323232/, id.toString()).replace(/999999999999999/, competitionId.toString()),
@@ -466,19 +530,26 @@
                                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
 
                                     weight: $('#weight').val(),
-
+                                    sporcu: $("#sporcu option:selected").val(),
                                     isActive: 'False',
 
                                 },
 
                                 success: function (result) {
 
-                                    html = 'Sporcu Başarıyla Eklendi .';
+
+                                    console.log(result)
+
+                                    alert(result.msg);
+
+                                    html = result.msg;
                                         debugger;
                                         $(".successModal").html(html);
                                         window.location.replace("{% url "sbs:musabaka-sporcu-sec" pk %}");
                                 }
                             });
+
+
                         } else {
                             {#    model gelecek #}
 
@@ -500,6 +571,8 @@
             });
 
         }
+
+
     </script>
 
 

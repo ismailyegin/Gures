@@ -29,6 +29,7 @@ from sbs.Forms.UserSearchForm import UserSearchForm
 from sbs.Forms.SearchClupForm import SearchClupForm
 
 from sbs.Forms.MaterialForm import MaterialForm
+from sbs.Views.DashboardViews import return_coach_dashboard
 from sbs.models import Athlete, CategoryItem, Person, Communication, License, SportClubUser, SportsClub, City, Country, \
     Coach, CompAthlete, Competition
 from sbs.models.Material import Material
@@ -158,11 +159,10 @@ def return_add_athlete_antrenor(request):
                            })
 
         if user_form.is_valid() and person_form.is_valid() and license_form.is_valid() and communication_form.is_valid():
-            user = User()
+            user = user_form.save(commit=False)
             user.username = user_form.cleaned_data['email']
-            firstName = unicode_tr(user_form.cleaned_data['first_name']).upper()
-            lastName = unicode_tr(user_form.cleaned_data['last_name']).upper()
-
+            user.first_name = unicode_tr(user_form.cleaned_data['first_name']).upper()
+            user.last_name = unicode_tr(user_form.cleaned_data['last_name']).upper()
             user.email = user_form.cleaned_data['email']
             group = Group.objects.get(name='Sporcu')
             password = User.objects.make_random_password()
@@ -217,7 +217,6 @@ def return_add_athlete_antrenor(request):
                    'communication_form': communication_form
 
                    })
-
 
 @login_required
 def sporcu_birlestir(request):
@@ -340,7 +339,7 @@ def return_add_athlete(request):
             clubsPk.append(club.pk)
         license_form.fields['sportsClub'].queryset = SportsClub.objects.filter(id__in=clubsPk)
 
-    elif active == 'Yonetim' or active == 'Admin':
+    elif active == 'Yonetim' or active == 'Admin' or active == 'Antrenor':
         license_form.fields['sportsClub'].queryset = SportsClub.objects.all()
 
     # lisan ekleme son alani bu alanlar sadece form bileselerinin sisteme gidebilmesi icin post ile gelen veride gene ayni şekilde  karşılama ve kaydetme islemi yapilacak
@@ -468,9 +467,10 @@ def return_athletes_antrenor(request):
         if user_form.is_valid():
             firstName = unicode_tr(user_form.cleaned_data['first_name']).upper()
             lastName = unicode_tr(user_form.cleaned_data['last_name']).upper()
+            tcno = request.POST.get('tc')
 
             email = user_form.cleaned_data.get('email')
-            if not (firstName or lastName or email):
+            if not (firstName or lastName or email or tcno):
 
                 if user.groups.filter(name='Antrenor'):
                     coach = Coach.objects.get(user=user)
@@ -484,7 +484,7 @@ def return_athletes_antrenor(request):
 
                 elif active == 'Yonetim' or active == 'Admin':
                     athletes = Athlete.objects.all()
-            elif firstName or lastName or email or sportsclup or brans:
+            elif firstName or lastName or email or sportsclup or brans or tcno:
                 query = Q()
                 if firstName:
                     query &= Q(user__first_name__icontains=firstName)
@@ -492,7 +492,8 @@ def return_athletes_antrenor(request):
                     query &= Q(user__last_name__icontains=lastName)
                 if email:
                     query &= Q(user__email__icontains=email)
-
+                if tcno:
+                    query &= Q(person__tc__icontains=tcno)
                 if active == 'Antrenor':
                     coach = Coach.objects.get(user=user)
                     clup = SportsClub.objects.filter(coachs=coach)
@@ -529,8 +530,10 @@ def return_athletes(request):
         if user_form.is_valid():
             firstName = unicode_tr(user_form.cleaned_data['first_name']).upper()
             lastName = unicode_tr(user_form.cleaned_data.get('last_name')).upper()
+            tcno = request.POST.get('tc')
             email = user_form.cleaned_data.get('email')
-            if not (firstName or lastName or email or sportsclup or coach):
+
+            if not (firstName or lastName or email or sportsclup or coach or tcno):
 
                 if active == 'KlupUye':
                     sc_user = SportClubUser.objects.get(user=user)
@@ -541,7 +544,7 @@ def return_athletes(request):
                     athletes = Athlete.objects.filter(licenses__sportsClub__in=clubsPk).distinct()
                 elif active == 'Yonetim' or active == 'Admin':
                     athletes = Athlete.objects.all()
-            elif firstName or lastName or email or sportsclup or coach:
+            elif firstName or lastName or email or sportsclup or coach or tcno:
                 query = Q()
                 clubsPk = []
                 clubs = SportsClub.objects.filter(name=request.POST.get('sportsClub'))
@@ -550,6 +553,8 @@ def return_athletes(request):
 
                 if firstName:
                     query &= Q(user__first_name__icontains=firstName)
+                if tcno:
+                    query &= Q(person__tc__icontains=tcno)
                 if lastName:
                     query &= Q(user__last_name__icontains=lastName)
                 if email:
@@ -1524,6 +1529,7 @@ def sporcu_lisans_duzenle(request, license_pk, athlete_pk):
             clubsPk.append(club.pk)
         license_form.fields['sportsClub'].queryset = SportsClub.objects.filter(id__in=clubsPk)
 
+
     elif active == 'Yonetim' or active == 'Admin':
         license_form.fields['sportsClub'].queryset = SportsClub.objects.all()
 
@@ -1743,6 +1749,10 @@ def sporcu_lisans_listesi(request):
                 licenses = License.objects.filter(sportsClub_id__in=clubsPk).filter(query).distinct()
             elif active == 'Yonetim' or active == 'Admin':
                 licenses = License.objects.filter(query).distinct()
+            elif active == 'Antrenor':
+                sc_user = Coach.objects.get(user=user)
+                licenses = License.objects.filter(coach=sc_user).filter(query).distinct()
+
         else:
             if active == 'KlupUye':
 
@@ -1754,6 +1764,10 @@ def sporcu_lisans_listesi(request):
                 licenses = License.objects.filter(sportsClub_id__in=clubsPk).distinct()
             elif active == 'Yonetim' or active == 'Admin':
                 licenses = License.objects.all().distinct()
+            elif active == 'Antrenor':
+                sc_user = Coach.objects.get(user=user)
+                licenses = License.objects.filter(coach=sc_user).distinct()
+
 
     sportclup = SearchClupForm(request.POST, request.FILES or None)
     if active == 'KlupUye':

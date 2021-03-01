@@ -269,7 +269,7 @@
 
                         <div class="box-header with-border">
                             <div class="btn-group">
-                                {% if user.groups.all.0.name == 'Yonetim' or user.groups.all.0.name == 'Admin' %}
+                                {% if aktif == "Admin" or aktif == "Yonetim" %}
                                     <a href="{% url "sbs:destek-talep-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Destek Talep Ekle

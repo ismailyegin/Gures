@@ -16,10 +16,13 @@ class CategoryItem(models.Model):
     operationDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        if self.branch == None:
+
+        # öz yenilemeli bir fonksiyon yazılacak
+
+        if self.parent == None:
             return '%s' % (self.name)
         else:
-            return '%s' % (self.name + '-' + self.branch)
+            return '%s' % (str(str(self.parent.name) + "-" + str(self.name)))
 
     # class Meta:
     #     default_permissions = ()

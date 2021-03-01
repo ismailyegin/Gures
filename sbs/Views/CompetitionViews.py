@@ -27,14 +27,12 @@ from django.utils import timezone
 
 from sbs.models.CompetitionsAthlete import CompetitionsAthlete
 
-
-
-from pyexcel_xls import get_data as xls_get
-from pyexcel_xlsx import get_data as xlsx_get
+# from pyexcel_xls import get_data as xls_get
+# from pyexcel_xlsx import get_data as xlsx_get
 from django.utils.datastructures import MultiValueDictKeyError
 
-
-
+from django.core import serializers
+from django.http import HttpResponse
 
 
 @login_required
@@ -82,19 +80,17 @@ def aplication(request, pk):
                 for club in clubs:
                     clubsPk.append(club.pk)
 
-                comAthlete = CompAthlete.objects.filter(competition=pk,
-                                                        athlete__licenses__sportsClub__in=clubsPk).distinct()
-
-
+                comAthlete = CompetitionsAthlete.objects.filter(competition=pk,
+                                                                athlete__licenses__sportsClub__in=clubsPk).distinct()
         else:
             messages.warning(request, 'Lütfen Eksik olan Sporcu Bilgilerini tamamlayiniz.')
             return redirect('sbs:musabakalar')
     elif active == 'Yonetim' or active == 'Admin':
-        comAthlete = CompAthlete.objects.filter(competition=pk).distinct()
+        comAthlete = CompetitionsAthlete.objects.filter(competition=pk).distinct()
 
     elif active == 'Antrenor':
         coach = Coach.objects.get(user=user)
-        comAthlete = CompAthlete.objects.filter(competition=pk, athlete__licenses__coach=coach).distinct()
+        comAthlete = CompetitionsAthlete.objects.filter(competition=pk, athlete__licenses__coach=coach).distinct()
     return render(request, 'musabaka/basvuru.html',
                   {'athletes': comAthlete, 'competition': musabaka, 'weights': weights})
 
@@ -215,7 +211,7 @@ def musabaka_duzenle(request, pk):
 
     return render(request, 'musabaka/musabaka-duzenle.html',
                   {'competition_form': competition_form, 'competition': musabaka, 'athletes': athletes,
-                   'weights': weights, 'category': category})
+                   'category': category})
 
 
 @login_required
@@ -248,11 +244,9 @@ def musabaka_sporcu_ekle(request, athlete_pk, competition_pk):
         return redirect('accounts:login')
 
     if request.method == 'POST':
-        compAthlete = CompAthlete()
+        compAthlete = CompetitionsAthlete()
         compAthlete.athlete = Athlete.objects.get(pk=athlete_pk)
         compAthlete.competition = Competition.objects.get(pk=competition_pk)
-        compAthlete.sıklet = Weight.objects.get(pk=request.POST.get('weight'))
-        compAthlete.total = request.POST.get('total')
         compAthlete.save()
         messages.success(request, 'Sporcu Eklenmiştir')
 
@@ -461,14 +455,11 @@ def return_sporcu(request):
 
             total = Athlete.objects.filter(licenses__coach__user=user).exclude(pk__in=athletes).distinct().count()
 
-
-
-
     else:
         if search:
             modeldate = Athlete.objects.none()
 
-            compAthlete = CompAthlete.objects.filter(competition=competition)
+            compAthlete = CompetitionsAthlete.objects.filter(competition=competition)
             athletes = []
             modeldata = Athlete.objects.filter(
                 Q(user__last_name__icontains=search) | Q(user__first_name__icontains=search) | Q(
@@ -493,13 +484,13 @@ def return_sporcu(request):
 
 
             elif active == 'Antrenor':
-                modeldata = modeldata.filter(licenses__coach__user=user).exclude(pk__in=athletes).distinct()
+                modeldata = modeldata.filter(licenses__coach__user=user).distinct()
 
             total = modeldata.count()
 
 
         else:
-            compAthlete = CompAthlete.objects.filter(competition=competition)
+            compAthlete = CompetitionsAthlete.objects.filter(competition=competition)
             athletes = []
             for comp in compAthlete:
                 if comp.athlete:
@@ -521,10 +512,10 @@ def return_sporcu(request):
 
 
             elif active == 'Antrenor':
-                modeldata = Athlete.objects.filter(licenses__coach__user=user).exclude(pk__in=athletes).distinct()[
+                modeldata = Athlete.objects.filter(licenses__coach__user=user).distinct()[
                             start:start + length]
 
-                total = Athlete.objects.filter(licenses__coach__user=user).exclude(pk__in=athletes).distinct().count()
+                total = Athlete.objects.filter(licenses__coach__user=user).distinct().count()
 
     say = start + 1
     start = start + length
@@ -582,8 +573,10 @@ def update_athlete(request, pk, competition):
 
         try:
             user = User.objects.get(pk=login_user.pk)
-            compAthlete = CompAthlete.objects.get(pk=competition)
+            compAthlete = CompetitionsAthlete.objects.get(pk=competition)
             category = request.POST.get('category')
+            if request.POST.get('sporcu'):
+                compAthlete.athleteTwo = Athlete.objects.get(pk=request.POST.get('sporcu'))
             if category is not None:
                 compAthlete.category = Category.objects.get(pk=category)
             compAthlete.save()
@@ -636,15 +629,37 @@ def choose_athlete(request, pk, competition):
                 user = User.objects.get(pk=login_user.pk)
                 competition = Competition.objects.get(pk=competition)
                 athlete = Athlete.objects.get(pk=pk)
-                compAthlete = CompAthlete()
-                compAthlete.athlete = athlete
-                compAthlete.competition = competition
-                compAthlete.category = Category.objects.get(pk=request.POST.get('weight'))
-                compAthlete.save()
-                log = str(athlete.user.get_full_name()) + "  Musabaka sporcu eklendi "
-                log = general_methods.logwrite(request, request.user, log)
-                return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+                compAthlete = CompetitionsAthlete()
+                if CompetitionsAthlete.objects.filter(competition=competition).filter(athlete=athlete).count() <= 1:
+                    if CompetitionsAthlete.objects.filter(competition=competition).filter(athlete=athlete):
+                        competitionAthlete = CompetitionsAthlete.objects.get(athlete=athlete, competition=competition)
+                        katagori = competitionAthlete.category.pk
+                        if str(katagori) != request.POST.get('weight'):
+                            if request.POST.get('sporcu'):
+                                compAthlete.athleteTwo = Athlete.objects.get(pk=request.POST.get('sporcu'))
+                            compAthlete.athlete = athlete
+                            compAthlete.competition = competition
+                            compAthlete.category = Category.objects.get(pk=request.POST.get('weight'))
+                            compAthlete.save()
+                            log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu eklendi "
+                            log = general_methods.logwrite(request, request.user, log)
+                            return JsonResponse({'status': 'Success', 'msg': 'Sporcu Başarı ile kaydedilmiştir.'})
+                        else:
+                            return JsonResponse({'status': 'Fail', 'msg': 'Aynı kategoride kayıt vardır.'})
+                    else:
+                        if request.POST.get('sporcu'):
+                            compAthlete.athleteTwo = Athlete.objects.get(pk=request.POST.get('sporcu'))
+                        compAthlete.athlete = athlete
+                        compAthlete.competition = competition
+                        compAthlete.category = Category.objects.get(pk=request.POST.get('weight'))
+                        compAthlete.save()
+                        log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu eklendi "
+                        log = general_methods.logwrite(request, request.user, log)
+                        return JsonResponse({'status': 'Success', 'msg': 'Sporcu Başarı ile kaydedilmiştir.'})
 
+
+                else:
+                    return JsonResponse({'status': 'Fail', 'msg': 'Bir sporcu 3. defa eklenemez.'})
 
             else:
                 return JsonResponse({'status': 'Fail', 'msg': 'Eksik'})
@@ -689,7 +704,7 @@ def musabaka_sporcu_sil(request, pk):
         return redirect('accounts:login')
     if request.method == 'POST' and request.is_ajax():
         try:
-            athlete = CompAthlete.objects.get(pk=pk)
+            athlete = CompetitionsAthlete.objects.get(pk=pk)
 
             log = str(athlete.athlete.user.get_full_name()) + "  müsabakadan silindi "
             log = general_methods.logwrite(request, request.user, log)
@@ -711,7 +726,7 @@ def result_list(request, pk):
         return redirect('accounts:login')
     competition = Competition.objects.filter(pk=pk)
 
-    compAthlete = CompAthlete.objects.filter(competition=pk).order_by('degree')
+    compAthlete = CompetitionsAthlete.objects.filter(competition=pk).order_by('degree')
     compCategory = CompCategory.objects.filter(competition=pk).order_by('-name')
 
     return render(request, 'musabaka/musabaka-sonuclar.html',
@@ -828,37 +843,81 @@ def return_competition_ajax(request):
     return JsonResponse(response)
 
 
-
 @login_required
-def upload(request,pk):
-
-
+def upload(request, pk):
     if Competition.objects.filter(pk=pk):
         competition = Competition.objects.filter(pk=pk)[0]
     else:
         return redirect('sbs:musabakalar')
-    if request.method == "POST":
+    # if request.method == "POST":
+
+    # excel_file = request.FILES["file"]
+    # data = None
+    # if (str(excel_file).split('.')[-1] == "xls"):
+    #     data = xls_get(excel_file)
+    #
+    # elif (str(excel_file).split('.')[-1] == "xlsx"):
+    #     data = xlsx_get(excel_file)
+    # else:
+    #     messages.warning(request, 'Lütfen bir excel dosyasi seçiniz (.xls -.xlsx)')
+    #
+    # if data:
+    #     for item in data.items():
+    #         count = 0
+    #         for count in range(len(item[1])):
+    #             # bir row alınmıs oldu
+    #             print(item[1][count][0])
+    #         print(len(item[1]))
+
+    return render(request, 'musabaka/SonucAktar.html', {'competition': competition})
 
 
+@login_required
+def antrenor_ajax(request):
+    perm = general_methods.control_access_klup(request)
+    login_user = request.user
 
-        excel_file = request.FILES["file"]
-        data=None
-        if (str(excel_file).split('.')[-1] == "xls"):
-            data = xls_get(excel_file)
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
 
-        elif (str(excel_file).split('.')[-1] == "xlsx"):
-            data = xlsx_get(excel_file)
-        else:
-            messages.warning(request, 'Lütfen bir excel dosyasi seçiniz (.xls -.xlsx)')
-
-        if data:
-            for item in data.items():
-                count = 0
-                for count in range(len(item[1])):
-                    # bir row alınmıs oldu
-                    print(item[1][count][0])
-                print(len(item[1]))
-
-    return render(request,'musabaka/SonucAktar.html',{'competition':competition})
+        beka = []
+        for item in Coach.objects.all():
+            data = {
+                'pk': item.pk,
+                'name': item.user.get_full_name(),
+            }
+            beka.append(data)
+        return JsonResponse({'data': beka})
+        # return HttpResponse(serializers.serialize("json", Coach.objects.all()))
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
 
 
+@login_required
+def antrenor_sporcu_ajax(request):
+    perm = general_methods.control_access_klup(request)
+    login_user = request.user
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+
+    if request.method == 'POST' and request.is_ajax():
+        if request.POST.get('coach'):
+            coach = request.POST.get('coach')
+
+            beka = []
+            # antrenor verisi alınıp sistemde filtreleme yapılacak
+            for item in Athlete.objects.filter(licenses__coach=Coach.objects.filter(pk=coach)[0]):
+                data = {
+                    'pk': item.pk,
+                    'name': item.user.get_full_name(),
+                }
+                beka.append(data)
+            return JsonResponse({'data': beka})
+
+        # return HttpResponse(serializers.serialize("json", Coach.objects.all()))
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})

@@ -132,65 +132,57 @@
 
     <section class="content">
 
-        {#Fililtreleme alani #}
-        {#        <div class="row">#}
-        {#            <section class="col-lg-12 ">#}
-        {##}
-        {##}
-        {#                <div class="box-body">#}
-        {##}
-        {##}
-        {#                    <div class="box box-primary">#}
-        {#                        <div class="box-header with-border">#}
-        {#                            <h3 class="box-title">Ürün Filtrele</h3>#}
-        {#                        </div>#}
-        {#                        <form method="post" role="form">#}
-        {##}
-        {#                            <div class="box-body">#}
-        {#                                {% csrf_token %}#}
-        {#                                <div class="col-md-3">#}
-        {#                                    <div class="form-group">#}
-        {#                                        <label> {{ query.name.label }}</label>#}
-        {#                                        {{ query.name }}#}
-        {#                                    </div>#}
-        {#                                </div>#}
-        {#                                <div class="col-md-3">#}
-        {#                                    <div class="form-group">#}
-        {#                                        <label> {{ product.category.label }}</label>#}
-        {#                                        {{ product.category }}#}
-        {#                                    </div>#}
-        {#                                </div>#}
-        {#                                <div class="col-md-3">#}
-        {#                                    <div class="form-group">#}
-        {#                                        <label> {{ query.compGeneralType.label }}</label>#}
-        {#                                        {{ query.compGeneralType }}#}
-        {#                                    </div>#}
-        {#                                </div>#}
-        {#                                <div class="col-md-3">#}
-        {#                                    <div class="form-group">#}
-        {#                                        <label> {{ query.startDate.label }}</label>#}
-        {#                                        {{ query.startDate }}#}
-        {#                                    </div>#}
-        {#                                </div>#}
-        {##}
-        {##}
-        {#                            </div>#}
-        {##}
-        {#                            <!-- /.box-body -->#}
-        {##}
-        {#                            <div class="box-footer">#}
-        {#                                <button type="submit" class="btn btn-primary">Ara</button>#}
-        {#                            </div>#}
-        {#                        </form>#}
-        {##}
-        {##}
-        {#                    </div>#}
-        {#                    <!-- /.box -->#}
-        {##}
-        {##}
-        {#                </div>#}
-        {#            </section>#}
-        {#        </div>#}
+        <div class="row">
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Ürünleri Filtrele</h3>
+                        </div>
+                        <form method="post" role="form">
+
+                            <div class="box-body">
+                                {% csrf_token %}
+
+                                <div class="col-md-3">
+                                    <label>{{ search_form.name.label }}</label>
+                                    {{ search_form.name }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label>{{ search_form.category.label }}</label>
+                                    {{ search_form.category }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label>{{ search_form.suppeliers.label }}</label>
+                                    {{ search_form.suppeliers }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label>{{ search_form.description.label }}</label>
+                                    {{ search_form.description }}
+                                </div>
+
+
+                            </div>
+
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Ara</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+            </section>
+        </div>
         <div class="row">
 
             <section class="col-lg-12 ">
