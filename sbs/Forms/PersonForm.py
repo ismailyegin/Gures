@@ -10,7 +10,6 @@ class PersonForm(ModelForm):
                                      to_field_name='name',
                                      empty_label="Seçiniz",
                                      label="Uyruk*",
-                                     initial=Nationnality.objects.filter(name="T.C.")[0],
                                      required=True,
                                      widget=forms.Select(
                                          attrs={'class': 'form-control select2 select2-hidden-accessible',
