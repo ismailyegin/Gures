@@ -27,10 +27,10 @@ class EnumFields(enum.Enum):
         NATIONAL = 1
         INTERNATIONAL = 2
 
-    BADMİNTON = 'BADMİNTON'
+    GURES = 'GURES'
 
     BRANCH = (
-        (BADMİNTON, 'BADMİNTON'),
+        (GURES, 'Güreş'),
 
     )
 

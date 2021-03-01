@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from sbs.Views import DashboardViews, AthleteViews, RefereeViews, ClubViews, CoachViews, DirectoryViews, UserViews, \
     CompetitionViews, AdminViews, HelpViews, PageViews, PreRegistration, ActivityView, ReferenceView, QuestionViews, \
-    LogViews, ProductView, Aktarma, ClaimView, PenalView, ArsivView
+    LogViews, ProductView, ClaimView, PenalView, ArsivView
 
 app_name = 'sbs'
 
@@ -469,33 +469,6 @@ urlpatterns = [
     url(r'emanet/urunler-emanet', ProductView.return_products_deposit, name='urunler-emanet'),
     url(r'emanet/urun-sil-emanet/(?P<pk>\d+)$', ProductView.product_delete_deposit, name='urun-sil-emanet'),
     url(r'emanet/urun-duzenle-emanet/(?P<pk>\d+)$', ProductView.product_update_deposit, name='urun-duzenle-emanet'),
-
-    # aktarma
-    url(r'aktarma/kulup-aktar', Aktarma.kulup_aktar, name='kulup-aktar'),
-    url(r'aktarma/hakem-aktar', Aktarma.hakem_aktar, name='hakem-aktar'),
-    url(r'aktarma/antrenor-aktar', Aktarma.antrenor_aktar, name='antrenor-aktar'),
-    url(r'aktarma/sporcu-aktar', Aktarma.sporcu_aktar, name='sporcu-aktar'),
-    url(r'aktarma/lisans-aktar', Aktarma.lisans_aktar, name='lisans-aktar'),
-    url(r'control', Aktarma.control, name='control-aktar'),
-    url(r'aktarma/antrenor-kademe-aktar', Aktarma.kademe_aktar, name='kademe-aktar-antrenor'),
-    url(r'aktarma/user-aktar', Aktarma.username_aktar, name='user-aktar'),
-    url(r'aktarma/musabaka-aktar', Aktarma.musabaka_aktar, name='musabaka-aktar'),
-    url(r'aktarma/musabaka-sporcu-aktar', Aktarma.musabaka_sporcu_aktar, name='musabaka-aktar-sporcu'),
-    url(r'aktarma/musabaka-antrenor-aktar', Aktarma.musabaka_antrenor_aktar, name='musabaka-aktar-antrenor'),
-    url(r'aktarma/musabaka-hakem-aktar', Aktarma.musabaka_hakem_aktar, name='musabaka-aktar-hakem'),
-    url(r'aktarma/musabaka-kategori-aktar', Aktarma.musabaka_kademe_aktar, name='musabaka-aktar-kategori'),
-    url(r'control2', Aktarma.control2, name='control-aktar2'),
-    url(r'aktarma/malzeme-aktar', Aktarma.mazeme_aktar, name='malzeme-aktar'),
-    url(r'aktarma/iletisim-aktar', Aktarma.comminacations_aktar, name='iletisim-aktar'),
-    url(r'aktarma/sporcu', Aktarma.SporcuControl, name='control-aktar-sporcu'),
-    url(r'aktarma/antrenor', Aktarma.AntenorControl, name='control-aktar-antrenor'),
-    url(r'aktarma/TcnoControl', Aktarma.TcnoControl, name='control-aktar-TcnoControl'),
-    url(r'aktarma/kanspor', Aktarma.KangrubuSporcu, name='control-kan'),
-    url(r'aktarma/kanantrenor', Aktarma.KangrubuAntrenor, name='control-kan-antrenor'),
-    url(r'aktarma/kanhakem', Aktarma.KangrubuHakem, name='control-kan-hakem'),
-    url(r'aktarma/emanet', Aktarma.Emanet, name='control-emanet'),
-    url(r'aktarma/com', Aktarma.communicationAktar, name='control-aktarmatest'),
-    url(r'aktarma/hakem', Aktarma.judgeAktar, name='control-aktarhakemvize'),
 
     #     ceza görüntüleme modulleri
 

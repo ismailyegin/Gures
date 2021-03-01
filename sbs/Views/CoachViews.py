@@ -338,11 +338,11 @@ def return_add_coach(request):
             fdk.save()
 
             html_content = ''
-            subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-            html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+            subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+            html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
             html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-            html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-                fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+            html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+                fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
             msg = EmailMultiAlternatives(subject, '', from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
@@ -610,7 +610,7 @@ def referenceCoachStatus(request, pk):
             grade = Level(definition=referenceCoach.kademe_definition,
                           startDate=referenceCoach.kademe_startDate,
                           dekont=referenceCoach.kademe_belge,
-                          branch=EnumFields.BADMİNTON.value)
+                          branch=EnumFields.GURES.value)
             grade.levelType = EnumFields.LEVELTYPE.GRADE
             grade.status = Level.APPROVED
             grade.isActive = True
@@ -626,11 +626,11 @@ def referenceCoachStatus(request, pk):
             fdk.save()
 
             html_content = ''
-            subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-            html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+            subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+            html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
             html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-            html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-                fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+            html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+                fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
             msg = EmailMultiAlternatives(subject, '', from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
@@ -698,7 +698,7 @@ def referenappcoverCoach(request, pk):
                 grade = Level(definition=referenceCoach.kademe_definition,
                               startDate=referenceCoach.kademe_startDate,
                               dekont=referenceCoach.kademe_belge,
-                              branch=EnumFields.BADMİNTON.value)
+                              branch=EnumFields.GURES.value)
                 grade.levelType = EnumFields.LEVELTYPE.GRADE
                 grade.status = Level.APPROVED
                 grade.isActive = True
@@ -714,11 +714,11 @@ def referenappcoverCoach(request, pk):
                 fdk.save()
 
                 html_content = ''
-                subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-                html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+                subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+                html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
                 html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-                html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-                    fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+                html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+                    fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
                 msg = EmailMultiAlternatives(subject, '', from_email, [to])
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
@@ -1713,8 +1713,8 @@ def visaSeminar_Onayla_Coach_application(request, pk, competition):
             coachApplication.save()
 
             html_content = ''
-            subject, from_email, to = 'Badminton Bilgi Sistemi', 'no-reply@badminton.gov.tr', coachApplication.coach.user.email
-            html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+            subject, from_email, to = 'Güreş Bilgi Sistemi', 'no-reply@tgf.gov.tr', coachApplication.coach.user.email
+            html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
             html_content = '<p><strong>' + str(seminer.name) + '</strong> Başvurunuz onaylanmıştır.</p>'
 
             msg = EmailMultiAlternatives(subject, '', from_email, [to])
@@ -1748,8 +1748,8 @@ def visaSeminar_Delete_Coach_application(request, pk, competition):
         seminer = VisaSeminar.objects.get(pk=competition)
 
         html_content = ''
-        subject, from_email, to = 'Sbs Bilgi Sistemi', 'no-reply@badminton.gov.tr', coachApplication.coach.user.email
-        html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+        subject, from_email, to = 'Sbs Bilgi Sistemi', 'no-reply@tgf.gov.tr', coachApplication.coach.user.email
+        html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
         html_content = '<p><strong>' + str(seminer.name) + '</strong> Başvurunuz reddilmiştir.</p>'
 
         msg = EmailMultiAlternatives(subject, '', from_email, [to])

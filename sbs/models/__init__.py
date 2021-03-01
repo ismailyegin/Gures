@@ -30,5 +30,4 @@ from .CompAthlete import CompAthlete
 from .CompCategory import CompCategory
 from .GrupForReport import GrupForReport
 from .Weight import Weight
-from .FedsportalModels import AdminProfiles
 

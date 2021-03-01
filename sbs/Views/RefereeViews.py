@@ -144,11 +144,11 @@ def return_add_referee(request):
             fdk.save()
 
             html_content = ''
-            subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-            html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+            subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+            html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
             html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-            html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-                fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+            html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+                fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
             msg = EmailMultiAlternatives(subject, '', from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
@@ -379,7 +379,7 @@ def refenceapprovalReferee(request, pk):
 
                 grade = Level(definition=reference.kademe_definition,
                               startDate=reference.kademe_startDate,
-                              branch=EnumFields.BADMİNTON.value)
+                              branch=EnumFields.GURES.value)
                 grade.levelType = EnumFields.LEVELTYPE.GRADE
                 grade.status = Level.APPROVED
                 grade.isActive = True
@@ -398,11 +398,11 @@ def refenceapprovalReferee(request, pk):
                 # print(fdk)
 
                 html_content = ''
-                subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-                html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+                subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+                html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
                 html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-                html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-                    fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+                html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+                    fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
                 msg = EmailMultiAlternatives(subject, '', from_email, [to])
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
@@ -1123,8 +1123,8 @@ def referenceStatus_reddet(request, pk):
         reference.status = ReferenceReferee.DENIED
         reference.save()
         html_content = ''
-        subject, from_email, to = 'Bilgi Sistemi', 'no-reply@badminton.gov.tr', reference.email
-        html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+        subject, from_email, to = 'Bilgi Sistemi', 'no-reply@tgf.gov.tr', reference.email
+        html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
         html_content = html_content + '<p><strong>Başvurunuz reddedilmiştir.</strong></p>'
 
         msg = EmailMultiAlternatives(subject, '', from_email, [to])
@@ -1180,7 +1180,7 @@ def referenceStatus(request, pk):
 
         grade = Level(definition=reference.kademe_definition,
                       startDate=reference.kademe_startDate,
-                      branch=EnumFields.BADMİNTON.value)
+                      branch=EnumFields.GURES.value)
         grade.levelType = EnumFields.LEVELTYPE.GRADE
         grade.status = Level.APPROVED
         grade.isActive = True
@@ -1198,11 +1198,11 @@ def referenceStatus(request, pk):
         fdk.save()
 
         html_content = ''
-        subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-        html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+        subject, from_email, to = 'Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+        html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
         html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-            fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+            fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
         msg = EmailMultiAlternatives(subject, '', from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()

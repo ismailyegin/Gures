@@ -44,7 +44,7 @@ class License(models.Model):
 
     def save(self, force_insert=False, force_update=False):
         if self.branch:
-            self.branch = EnumFields.BADMİNTON.value
+            self.branch = EnumFields.GURES.value
         super(License, self).save(force_insert, force_update)
 
     # class Meta:

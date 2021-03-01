@@ -129,11 +129,11 @@ def send_information(request, pk):
         fdk.save()
 
         html_content = ''
-        subject, from_email, to = 'Badminton Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@badminton.gov.tr', user.email
-        html_content = '<h2>TÜRKİYE BADMİNTON FEDERASYONU BİLGİ SİSTEMİ</h2>'
+        subject, from_email, to = 'Spor  Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
+        html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
         html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
-        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.badminton.gov.tr/newpassword?query=' + str(
-            fdk.uuid) + '">http://sbs.badminton.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
+        html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://sbs.tgf.gov.tr/newpassword?query=' + str(
+            fdk.uuid) + '">http://sbs.tgf.gov.tr/sbs/profil-guncelle/?query=' + str(fdk.uuid) + '</p></a>'
         msg = EmailMultiAlternatives(subject, '', from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()

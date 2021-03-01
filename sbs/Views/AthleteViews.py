@@ -616,7 +616,7 @@ def updateathletes(request, pk):
     # for item in competitions:
     #     print(item.competition.name)
 
-    if user.email == 'badminton@hotmail.com':
+    if user.email == 'gures@tgf.com':
         user.email = ''
     user_form = UserForm(request.POST or None, instance=user)
     person_form = PersonForm(request.POST or None, request.FILES or None, instance=person)

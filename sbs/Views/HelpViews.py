@@ -22,7 +22,7 @@ def help(request):
         if konu and icerik:
             try:
                 konu = "[" + user.email + "] - " + konu
-                send_mail(konu, icerik, 'no-reply@badminton.gov.tr', ['fatih@kobiltek.com'])
+                send_mail(konu, icerik, 'no-reply@tgf.gov.tr', ['bilgisistemi@tgf.gov.tr'])
                 messages.success(request, 'Yardım ve Destek talebi basari ile gönderilmistir.')
             except BadHeaderError:
                 # print('Invalid header found.')
