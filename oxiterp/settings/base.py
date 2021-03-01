@@ -161,7 +161,7 @@ EMAIL_HOST = 'mail.tgf.gov.tr'
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'no-reply@tgf.gov.tr'
 EMAIL_HOST_PASSWORD = 'Kobil2013*'
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 STATIC_ROOT = ''
