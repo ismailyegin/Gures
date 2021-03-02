@@ -1053,7 +1053,7 @@
     </section>
 
 
-    <script src="{% static 'pdf/jspdf.js' %}"></script>
+    {#    <script src="{% static 'pdf/jspdf.js' %}"></script>#}
 
     <script>
 
@@ -1068,18 +1068,18 @@
             }
         }
 
-        function pdf() {
-
-
-            var doc = new jsPDF();
-            doc.setFontType("bold");
-            doc.text(60, 20, 'Türkiye Güreş Federasyonu ');
+        {#function pdf() {#}
+        {##}
+        {##}
+        {#    var doc = new jsPDF();#}
+        {#    doc.setFontType("bold");#}
+        {#    doc.text(60, 20, 'Türkiye Güreş Federasyonu ');#}
             {#var valid_extensions = /(\.jpg|\.jpeg|\.gif|\.png|\.PNG|\.GIF|\.JPEG|\.JPG)$/i;#}
             {#var img = new Image();#}
             {#img.src = "/media/{{ athlete.person.profileImage }}"#}
-
-
-
+        {##}
+        {##}
+        {##}
             {#if (valid_extensions.test("/media/{{ athlete.person.profileImage }}")) {#}
             {#    jpeg = /.(jpg|jpeg)$/i#}
             {#    png = /.(png|PNG)$/i#}
@@ -1098,58 +1098,58 @@
             {#    img.src = '/static/images/user.png';#}
             {#    pdf.addImage(img, 'png', 10, 78, 12, 15);#}
             {# }#}
-
+        {##}
             {#doc.setFontType("italic");#}
-
-            var img = new Image();
-            img.src = "/media/{{ athlete.person.profileImage }}";
-            img.src = 'C:/Users/Fatih Berktug/Desktop/jsPDF-master/examples/images/Octocat.';
-
+        {##}
+        {#    var img = new Image();#}
+        {#    img.src = "/media/{{ athlete.person.profileImage }}";#}
+        {#    img.src = 'C:/Users/Fatih Berktug/Desktop/jsPDF-master/examples/images/Octocat.';#}
+        {##}
             {#alert(typeof img)#}
-
-
-            doc.setFontSize(11);
-            doc.text(10, 90, 'T.C.');
-            doc.text(50, 90, '{{athlete.person.tc}}');
-
-            doc.text(10, 95, 'Adi ve Soyadi:');
-            doc.text(50, 95, '{{ athlete.user.get_full_name }}:');
-
-            doc.text(10, 100, 'Dogum Tarihi');
-            doc.text(50, 100, '{{athlete.person.birthDate}}');
-
-            doc.text(10, 105, 'Kulüp');
-            doc.text(50, 105, '{{athlete.licenses.last.sportsClub}}');
-            var specialElementHandlers = {
-                'competition': function (element, renderer) {
-                    return true;
-                }
-            };
-
-
-            doc.fromHTML($('#competition').html(), 10, 150, {
-                'width': 500,
-                'elementHandlers': specialElementHandlers
-            });
-
-
-            doc.save('{{athlete.user.get_full_name}}.pdf');
-
-
+        {##}
+        {##}
+        {#    doc.setFontSize(11);#}
+        {#    doc.text(10, 90, 'T.C.');#}
+        {#    doc.text(50, 90, '{{athlete.person.tc}}');#}
+        {##}
+        {#    doc.text(10, 95, 'Adi ve Soyadi:');#}
+        {#    doc.text(50, 95, '{{ athlete.user.get_full_name }}:');#}
+        {##}
+        {#    doc.text(10, 100, 'Dogum Tarihi');#}
+        {#    doc.text(50, 100, '{{athlete.person.birthDate}}');#}
+        {##}
+        {#    doc.text(10, 105, 'Kulüp');#}
+        {#    doc.text(50, 105, '{{athlete.licenses.last.sportsClub}}');#}
+        {#    var specialElementHandlers = {#}
+        {#        'competition': function (element, renderer) {#}
+        {#            return true;#}
+        {#        }#}
+        {#    };#}
+        {##}
+        {##}
+        {#    doc.fromHTML($('#competition').html(), 10, 150, {#}
+        {#        'width': 500,#}
+        {#        'elementHandlers': specialElementHandlers#}
+        {#    });#}
+        {##}
+        {##}
+        {#    doc.save('{{athlete.user.get_full_name}}.pdf');#}
+        {##}
+        {##}
             {#doc.text(10, 20, 'My name is');#}
             {#doc.text(10, 40, 'Contact me at');#}
             {#doc.text(10, 30, 'I have just created a simple pdf using jspdf');#}
             {#doc.setFont("times");#}
-
+        {##}
             {#doc.text(50, 40,"Selam");#}
-
+        {##}
             {#doc.setTextColor(255, 0, 0); //set font color to red#}
             {#doc.text(60, 20, 'zaam '); //append first name in pdf#}
             {#doc.text(100, 20, 'asdasda'); //append last name in pdf#}
             {#doc.addPage(); // add new page in pdf#}
-
+        {##}
             {#doc.text(10, 20, 'extra page to write');#}
-        }
+        {#}#}
 
         $(function () {
             {#pdf();#}
