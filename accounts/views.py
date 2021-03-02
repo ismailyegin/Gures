@@ -296,7 +296,7 @@ def forgot(request):
             fdk.save()
 
             html_content = ''
-            subject, from_email, to = 'TGF Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', mail
+            subject, from_email, to = 'TGF Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', user.email
             html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
             html_content = html_content + '<p><strong>Kullanıcı Adınız :' + str(fdk.user.username) + '</strong></p>'
             # html_content = html_content + '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/newpassword?query=' + str(
