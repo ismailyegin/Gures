@@ -263,7 +263,7 @@
 
                                         <td>
                                             <div class="btn-group">
-                                                {% if aktif == 'Admin' %}
+                                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <a href="{% url "sbs:vize-list-onay" grade_pk=belt.pk %}"
                                                        type="button" class="btn btn-success"><i
                                                             class="fa fa-edit"></i>Onayla

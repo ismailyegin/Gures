@@ -179,7 +179,7 @@
                                         {{ ClupsSearchForm.city }}
                                     </div>
                                 </div>
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label> {{ ClupsSearchForm.kisi.label }}</label>
@@ -224,7 +224,7 @@
 
                         <div class="box-header with-border">
                             <div class="btn-group">
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                     <a href="{% url "sbs:kulup-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Kulüp Ekle
@@ -246,7 +246,7 @@
                                     <th>Antrenör sayisi</th>
 
 
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <th>İnceleme/Silme</th>
                                     {% endif %}
 
@@ -269,7 +269,7 @@
 
 
 
-                                            {% if aktif == 'Admin' %}
+                                            {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                 <td>
                                                     <div class="btn-group">
 

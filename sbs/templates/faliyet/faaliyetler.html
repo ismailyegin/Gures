@@ -205,7 +205,7 @@
                         </div>
                         <div class="box-header with-border">
                             <div class="btn-group">
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                     <a href="{% url "sbs:faaliyet-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Yeni Faaliyet Ekle
@@ -273,7 +273,7 @@
                                                             class="fa fa-edit"></i>İncele
                                                     </a>
 
-                                                    {% if user.groups.all.0.name == 'Yonetim' or user.groups.all.0.name == 'Admin' %}
+                                                    {% if  aktif == 'Yonetim' or aktif == 'Admin' %}
 
                                                         <a class="btn btn-danger"
                                                            data-toggle="modal"

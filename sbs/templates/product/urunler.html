@@ -197,7 +197,7 @@
                         </div>
                         <div class="box-header with-border">
                             <div class="btn-group">
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                     <a href="{% url "sbs:urun-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Yeni Ürün Ekle
@@ -241,7 +241,7 @@
                                                             class="fa fa-edit"></i>İncele
                                                     </a>
 
-                                                    {% if aktif == 'Admin' %}
+                                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
 
                                                         <a class="btn btn-danger"
                                                            data-toggle="modal"

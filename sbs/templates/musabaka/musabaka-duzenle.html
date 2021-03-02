@@ -270,7 +270,7 @@
                             </div>
 
                             <div class="box-footer">
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
 
                                     <button class="btn btn-primary" type="submit">Güncelle</button>
                                 {% endif %}
@@ -307,13 +307,13 @@
                                     <th>Sporcu No</th>
                                     <th>Adı</th>
                                     <th>Soyadı</th>
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <th>Kulüp</th>
                                     {% endif %}
                                     <th>Kategori</th>
                                     <th>Kimlik No</th>
                                     <th>Cinsiyet</th>
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin'  or aktif == 'Yonetim' %}
                                         <th>Antrenör 1</th>
                                         <th>Antrenör 2</th>
                                     {% endif %}
@@ -333,7 +333,7 @@
                                             </td>
                                             <td>{{ compathlete.athlete.user.last_name }} </td>
 
-                                            {% if aktif == 'Admin' %}
+                                            {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                 <td>{{ compathlete.athlete.licenses.last.sportsClub }}</td>
                                             {% endif %}
                                             <td>{{ compathlete.category }} </td>
@@ -348,7 +348,7 @@
                                                 {% endif %}
                                             </td>
 
-                                            {% if aktif == 'Admin' %}
+                                            {% if aktif == 'Admin'  or aktif == 'Yonetim' %}
                                                 <td>{{ compathlete.athlete.licenses.last.coach }}</td>
                                                 <td>{{ compathlete.athlete.licenses.last.coach2 }}</td>
 

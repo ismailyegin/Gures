@@ -6,16 +6,6 @@ from sbs.models import Person
 
 
 class PersonForm(ModelForm):
-    uyrukid = forms.ModelChoiceField(queryset=Nationnality.objects.all(),
-                                     to_field_name='name',
-                                     empty_label="Seçiniz",
-                                     label="Uyruk*",
-                                     required=True,
-                                     widget=forms.Select(
-                                         attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                                'style': 'width: 100%; '}))
-
-
     class Meta:
         model = Person
 
@@ -30,7 +20,8 @@ class PersonForm(ModelForm):
             'meslek', 'kurum', 'is_unvani',
             'education', 'mezunokul',
             'nufus_ailesirano',
-            'nufus_sirano', 'nufus_ciltno')
+            'nufus_sirano', 'nufus_ciltno',
+        )
 
         labels = {'tc': 'T.C*.',
                   'gender': 'Cinsiyet*',
@@ -47,6 +38,7 @@ class PersonForm(ModelForm):
                   'meslek': 'Meslek',
                   'height': 'Boy',
                   'weight': 'Kilo',
+                  'uyrukid': 'Uyruk',
 
                   }
 
@@ -92,6 +84,8 @@ class PersonForm(ModelForm):
                                              'style': 'width: 100%;'}),
 
             'gender': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                          'style': 'width: 100%;', 'required': 'required'}),
+            'uyrukid': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                           'style': 'width: 100%;', 'required': 'required'}),
             'education': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                              'style': 'width: 100%;'}),

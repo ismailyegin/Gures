@@ -222,7 +222,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Kuşak Listesi</h3>
                     </div>
-                    {% if aktif == 'Admin' %}
+                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                         <a onclick="onay()" type="button" class="btn btn-success">
                             <i class="fa fa-edit"></i>
                             Hepsini Onayla
@@ -240,7 +240,7 @@
                             <tr>
                                 <th>#</th>
                                 <th> Ad</th>
-                                {% aktif == 'Admin' %}
+                                {% aktif == 'Admin' or aktif == 'Yonetim' %}
                                     <th>Kulüp</th>
                                 {% endif %}
                                 <th> Hak Kazanma Tarihi</th>
@@ -249,7 +249,7 @@
                                 <th> Onay Durumu</th>
                                 <th> Dekont</th>
                                 <th> Form</th>
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                     <th> İşlemler</th>
                                 {% endif %}
 
@@ -269,7 +269,7 @@
 
                                         </td>
 
-                                        {% if aktif == 'Admin' %}
+                                        {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                             <td>{{ belt.athlete_set.first.licenses.last.sportsClub }}</td>
                                         {% endif %}
                                         <td>{{ belt.startDate }}  </td>
@@ -293,7 +293,7 @@
 
 
 
-                                        {% if aktif == 'Admin' %}
+                                        {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                             <td>
                                                 <div class="btn-group">
 
@@ -445,7 +445,7 @@
 
     </script>
 
-{% if aktif == 'Admin' %}
+{% if aktif == 'Admin' or aktif == 'Yonetim' %}
         <script>
 
             function onay() {

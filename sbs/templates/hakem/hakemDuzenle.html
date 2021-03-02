@@ -613,7 +613,7 @@
                                         <td>
                                             <div class="btn-group">
 
-                                                {% if aktif == 'Admin' %}
+                                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <a href="{% url "sbs:kademe-onayla-hakem" grade_pk=grade.pk referee_pk=judge.pk %}"
                                                        type="button" class="btn btn-success"><i
                                                             class="fa fa-edit"></i>Onayla
@@ -716,7 +716,7 @@
                                         <td>
                                             <div class="btn-group">
 
-                                                {% if aktif == 'Admin' %}
+                                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <a href="{% url "sbs:hakem-vize-onayla" grade_pk=grade.pk referee_pk=judge.pk %}"
                                                        type="button" class="btn btn-success"><i
                                                             class="fa fa-edit"></i>Onayla
@@ -1039,7 +1039,7 @@
                     </div>
 
                 {#            grup bilgileri    #}
-                {% if aktif == "Admin" %}
+                    {% if aktif == "Admin"  or aktif == 'Yonetim' %}
                     <div class="col-lg-12">
 
                         <div class="box box-info collapsed-box">

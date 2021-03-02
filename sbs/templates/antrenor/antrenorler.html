@@ -217,7 +217,7 @@
                             <h3 class="box-title">Antrenörler</h3>
                         </div>
 
-                        {% if aktif == 'Admin' %}
+                        {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                             <div class="box-header with-border">
                                 <div class="btn-group">
                                     <a href="{% url "sbs:antrenor-ekle" %}"
@@ -237,7 +237,7 @@
                                     {#                                    <th>Branş</th>#}
                                     <th>Kademe</th>
                                     <th>Vize</th>
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <th>İncele/Sil</th>
                                     {% endif %}
 
@@ -291,7 +291,7 @@
 
                                             </td>
 
-                                            {% if aktif == 'Admin' %}
+                                            {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="{% url "sbs:update-coach" coach.pk %}"

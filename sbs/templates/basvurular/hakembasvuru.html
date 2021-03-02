@@ -162,7 +162,7 @@
                                     <th>E-Mail</th>
                                     <th>Onayla</th>
 
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin'  or aktif == 'Yonetim' %}
                                         <th>İncele/Sil</th>
                                     {% endif %}
 
@@ -191,6 +191,7 @@
                                             {#                                                {% endfor %}#}
                                             {##}
                                             {#                                            </td>#}
+                                            {% if aktif == 'Admin'  or aktif == 'Yonetim' %}
                                             <td>
                                                 <div class="btn-group">
 
@@ -222,8 +223,7 @@
                                                             class="fa fa-trash"></i> Reddet</a>
 
                                                 </div>
-                                            </td>
-
+                                            </td>{% endif %}
                                         </tr>
 
                                     {% endfor %}

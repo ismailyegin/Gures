@@ -362,7 +362,7 @@
                             <th>#</th>
                             <th>Ad Soyad</th>
                             {#                            <th>Doğum Tarihi</th>#}
-                            {% if aktif == 'Admin' %}
+                            {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                 <th>Kulüp</th>
                             {% endif %}
                             <th>Kategori</th>
@@ -385,7 +385,7 @@
 
                                         {% endif %}</td>
                                     {#                                    <td>{{ compathlete.athlete.person.birthDate |date }} </td>#}
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <td>{{ compathlete.athlete.licenses.last.sportsClub }}</td>
                                     {% endif %}
                                     <td>{{ compathlete.category }}</td>

@@ -162,7 +162,7 @@
                                     <th>E-Mail</th>
                                     <th>Onay Durumu</th>
 
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <th>İncele/Sil</th>
                                     {% endif %}
 
@@ -192,6 +192,7 @@
                                             {#                                                {% endfor %}#}
                                             {##}
                                             {#                                            </td>#}
+                                            {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                             <td>
                                                 <div class="btn-group">
                                                     {#                                                    {% if referee.status != "Onaylandı" %}#}
@@ -229,6 +230,7 @@
 
                                                 </div>
                                             </td>
+                                            {% endif %}
 
                                         </tr>
 

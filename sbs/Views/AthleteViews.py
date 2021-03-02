@@ -390,11 +390,10 @@ def return_add_athlete(request):
                            })
 
         if user_form.is_valid() and person_form.is_valid() and license_form.is_valid() and communication_form.is_valid():
-            user = User()
+            user = user_form.save(commit=False)
             user.username = user_form.cleaned_data['email']
-            user.firstName = unicode_tr(user_form.cleaned_data['first_name']).upper()
-            user.lastName = unicode_tr(user_form.cleaned_data['last_name']).upper()
-
+            user.first_name = unicode_tr(user_form.cleaned_data['first_name']).upper()
+            user.last_name = unicode_tr(user_form.cleaned_data['last_name']).upper()
             user.email = user_form.cleaned_data['email']
             group = Group.objects.get(name='Sporcu')
             password = User.objects.make_random_password()

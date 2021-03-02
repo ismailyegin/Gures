@@ -10,9 +10,8 @@ from sbs.models.Communication import Communication
 
 
 class Athlete(models.Model):
-
-    person = models.OneToOneField(Person, on_delete=models.CASCADE, db_column='person')
-    communication = models.OneToOneField(Communication, on_delete=models.CASCADE, db_column='communication')
+    person = models.OneToOneField(Person, on_delete=models.CASCADE)
+    communication = models.OneToOneField(Communication, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_column='user')
     licenses = models.ManyToManyField(License)
     creationDate = models.DateTimeField(auto_now_add=True)

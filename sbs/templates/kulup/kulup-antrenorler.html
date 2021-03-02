@@ -215,7 +215,7 @@
                                     <th>Ad Soyad</th>
 
                                     <th>E-Mail</th>
-                                    {% if aktif == 'Admin' %}
+                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <th>İşlemler</th>
                                     {% endif %}
                                 </tr>
@@ -229,7 +229,7 @@
 
 
                                             <td>{{ athlete.user.email }} </td>
-                                            {% if aktif == 'Admin' %}
+                                            {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="{% url "sbs:update-coach" athlete.pk %}"

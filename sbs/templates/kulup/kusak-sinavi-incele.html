@@ -147,7 +147,7 @@
 
 
                                             <td>
-                                                {% if aktif == 'Admin' %}
+                                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <div class="btn-group">
                                                         <a href="{% url "sbs:kusak-sinavi-onayla" exam.pk %}"
                                                            type="button" class="btn btn-success"><i

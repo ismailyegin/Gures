@@ -132,7 +132,7 @@
 
                             </div>
                             <div class="col-lg-12">
-                                {% if aktif == 'Admin' %}
+                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
 
                                     <div class="col-lg-10">
                                         <form action="{% url "sbs:sporcu-lisans-listesi-reddet-mobil" license_pk=license.pk  count=say %}"

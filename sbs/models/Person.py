@@ -93,7 +93,7 @@ class Person(models.Model):
 
     # badminton database add festportal
 
-    uyrukid = models.CharField(max_length=10, blank=True, null=True)
+    uyrukid = models.ForeignKey(Nationnality, on_delete=models.SET_NULL, null=True, blank=True)
     nufus_ailesirano = models.CharField(max_length=20, blank=True, null=True)
     nufus_sirano = models.CharField(max_length=20, blank=True, null=True)
     nufus_ciltno = models.CharField(max_length=20, blank=True, null=True)

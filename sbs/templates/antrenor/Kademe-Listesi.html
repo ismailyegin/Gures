@@ -211,7 +211,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Antrenör Kademe Listesi</h3>
                     </div>
-                    {% if aktif == 'Admin' %}
+                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                         <a onclick="onay()" type="button" class="btn btn-success">
                             <i class="fa fa-edit"></i>
                             Hepsini Onayla
@@ -270,7 +270,7 @@
 
                                         <td>
                                             <div class="btn-group">
-                                                {% if aktif == 'Admin' %}
+                                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <a href="{% url "sbs:kademe-list-onay" grade_pk=belt.pk %}"
                                                        type="button" class="btn btn-success"><i
                                                             class="fa fa-edit"></i>Onayla
@@ -426,7 +426,7 @@
         })
     </script>
 
-    {% if aktif == 'Admin' %}
+    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
         <script>
 
             function onay() {

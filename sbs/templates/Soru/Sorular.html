@@ -58,7 +58,7 @@
                         <center><h1>Sık Sorulan Sorular </h1></center>
 
                     </h3>
-                    {% if aktif == "Admin" %}
+                    {% if aktif == "Admin" or aktif == 'Yonetim' %}
                         <div class="btn-group pull-right">
                             <a href="{% url "sbs:soru-ekle" %}"
                                type="button" class="btn btn-success"><i
@@ -86,7 +86,7 @@
                                                 {{ forloop.counter }}-{{ question.question }}
                                             </a>
                                         </h4>
-                                        {% if aktif == "Admin" %}
+                                        {% if aktif == "Admin" or aktif == 'Yonetim' %}
                                             <div class="btn-group pull-right">
                                                 <a href="{% url "sbs:soru-guncelle" question.pk %}"
                                                    type="button" class="btn btn-warning"><i

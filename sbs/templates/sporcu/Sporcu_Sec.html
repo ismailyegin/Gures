@@ -368,7 +368,7 @@
                                                                 <div class="btn-group">
 
 
-                                                                    {% if aktif == 'Admin' %}
+                                                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                                         <a href="{% url "sbs:sporcu-lisans-onayla" license_pk=license.pk athlete_pk=athlete.pk %}"
                                                                            type="button" class="btn btn-success"><i
                                                                                 class="fa fa-edit"></i>Onayla
@@ -392,7 +392,7 @@
                                                                         </a>
 
                                                                     {% endif %}
-                                                                    {% if aktif == 'Admin' %}
+                                                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
 
                                                                         {% if user.groups.all.0.name == 'Antrenor' %}
 

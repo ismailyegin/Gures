@@ -533,7 +533,7 @@
                                             <td>{{ club.foundingDate }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    {% if aktif == 'Admin' %}
+                                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                         <a href="{% url "sbs:update-club" club.pk %}"
                                                            type="button" class="btn btn-warning"><i
                                                                 class="fa fa-edit"></i>Güncelle
@@ -565,7 +565,7 @@
 
                 </div>
                 {#            grup bilgileri    #}
-                {% if aktif == "Admin" %}
+                {% if aktif == "Admin" or aktif == 'Yonetim' %}
                     <div class="col-lg-7">
 
                         <div class="box box-info collapsed-box">

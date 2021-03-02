@@ -210,7 +210,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Lisans Listesi</h3>
                     </div>
-                    {% if aktif == 'Admin' %}
+                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                         <a onclick="onay()" type="button" class="btn btn-success">
                             <i class="fa fa-edit"></i>
                             Hepsini Onayla
@@ -266,7 +266,7 @@
                                             <div class="btn-group">
 
 
-                                                {% if aktif == 'Admin' %}
+                                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <a href="{% url "sbs:sporcu-lisans-listesi-onayla" license_pk=license.pk %}"
                                                        type="button" class="btn btn-success"><i
                                                             class="fa fa-edit"></i>Onayla
@@ -404,7 +404,7 @@
 
 
     </script>
-    {% if aktif == 'Admin' %}
+    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
         <script>
 
             function onay() {

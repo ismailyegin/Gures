@@ -660,7 +660,7 @@
                                                 <div class="btn-group">
 
 
-                                                    {% if aktif == 'Admin' %}
+                                                    {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                         <a href="{% url "sbs:sporcu-lisans-onayla" license_pk=license.pk athlete_pk=athlete.pk %}"
                                                            type="button" class="btn btn-success"><i
                                                                 class="fa fa-edit"></i>Onayla
@@ -837,7 +837,7 @@
                             <div class="box-header with-border">
                                 <div class="btn-group">
 
-                                    {% if aktif == "Admin" %}
+                                    {% if aktif == "Admin" or aktif == 'Yonetim' %}
                                     <a href="{% url "sbs:sporcu-belge-ekle"  athlete.pk %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Yeni belge Ekle
@@ -997,7 +997,7 @@
 
 
                 {#grup  bilgileri #}
-                {% if aktif == "Admin" %}
+                    {% if aktif == "Admin" or aktif == 'Yonetim' %}
                     <div class="col-lg-12">
 
                         <div class="box box-info collapsed-box">
@@ -1077,7 +1077,7 @@
 
             var doc = new jsPDF();
             doc.setFontType("bold");
-            doc.text(60, 20, 'Türkiye Badminton Federasyonu ');
+            doc.text(60, 20, 'Türkiye Güreş Federasyonu ');
             {#var valid_extensions = /(\.jpg|\.jpeg|\.gif|\.png|\.PNG|\.GIF|\.JPEG|\.JPG)$/i;#}
             {#var img = new Image();#}
             {#img.src = "/media/{{ athlete.person.profileImage }}"#}
