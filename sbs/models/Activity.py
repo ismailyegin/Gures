@@ -1,21 +1,9 @@
-import enum
+
 
 from django.db import models
-from sbs.models.EnumFields import EnumFields
+from sbs.models.ActivityType import ActivityType
 class Activity(models.Model):
-
-    DOMESTİC = 0
-    OVERSEAS = 1
-    EDUCATİON = 2
-    CAMP = 3
-
-    TYPE = (
-        (DOMESTİC, 'YURT İÇİ FAALİYETLERİ'),
-        (OVERSEAS, 'YURT DIŞI FAALİYETLERİ'),
-        (EDUCATİON, 'EGİTİM FAALİYETLERİ'),
-        (CAMP, 'KAMP FAALİYETLERİ'),
-    )
-    type = models.IntegerField(db_column='Type', blank=False, null=False, choices=TYPE)  # Field name made lowercase.
+    type = models.ForeignKey(ActivityType, on_delete=models.CASCADE, null=False, blank=False)
     creationDate = models.DateTimeField(db_column='creationDate', blank=True, null=True,
                                         auto_now_add=True)  # Field name made lowercase.
     operationDate = models.DateTimeField(db_column='operationDate', blank=True, null=True,
