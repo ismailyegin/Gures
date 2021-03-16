@@ -93,50 +93,6 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <div class="modal modal-dialog fade in deneme23" tabindex="-1" role="dialog" id="reddetwhy"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Ek Bilgileri Giriniz</h4>
-                </div>
-                <div class="modal-body">
-                    <label for="inputState">Siklet</label>
-                    <select id="weight" class="form-control">
-                        <option selected>Seçiniz...</option>
-                        {% for weight in weights %}
-                            <option value="{{ weight.pk }}">{{ weight.weight }}</option>
-                        {% endfor %}
-                    </select>
-
-
-                    <label for="kop">Koparma</label>
-                    <input type="number" name="kop" id="kop" class="form-control" required>
-
-
-                    <label for="silk">Silkme </label>
-                    <input type="number" name="silk" id="silk" class="form-control" required>
-
-
-                    <label for="total">Toplam Kaldırış</label>
-                    <input type="number" name="total" id="total" class="form-control" required>
-
-                </div>
-
-
-                <div class="modal-footer">
-                    <button type="button" class="btn  btn-default pull-left btn-ok" id="btn-gonder"
-                            data-dismiss="modal">Kaydet
-                    </button>
-                    <button type="button" class="btn  btn-default" id="btn-closereddet">Geri Dön</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
 
     <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
         <div class="modal-dialog">
@@ -244,7 +200,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Kategoriler</label>
+                                        <label>Yaş Gruplari</label>
                                         <select class="form-control select2" multiple="multiple " name="jobDesription"
                                                 id="multipleSelect"
                                                 data-placeholder="Kategorileri  Seçiniz">
@@ -262,6 +218,13 @@
                                         <label> {{ competition_form.registerFinishDate.label }}</label>
                                         {{ competition_form.registerFinishDate }}
                                     </div>
+
+                                    {% if competition.compType == 'Minder' %}
+                                        <div class="form-group">
+                                            <label> {{ competition_form.stil.label }}</label>
+                                            {{ competition_form.stil }}
+                                        </div>
+                                    {% endif %}
 
 
                                 </div>

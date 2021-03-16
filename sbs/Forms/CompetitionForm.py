@@ -10,7 +10,7 @@ class CompetitionForm(ModelForm):
 
         fields = (
             'name', 'startDate', 'finishDate', 'compType', 'eventPlace',
-            'registerStartDate', 'registerFinishDate', 'compGeneralType')
+            'registerStartDate', 'registerFinishDate', 'compGeneralType', 'stil')
 
         labels = {'name': 'İsim', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Bitiş Tarihi',
                   'eventPlace': 'Etkinlik Yeri',
@@ -18,6 +18,8 @@ class CompetitionForm(ModelForm):
                   'registerFinishDate': 'Ön Kayıt Bitiş Tarihi',
                   'compType': 'Türü',
                   'compGeneralType': 'Genel Türü',
+                  'stil': 'Stil'
+
                   }
 
         widgets = {
@@ -46,5 +48,7 @@ class CompetitionForm(ModelForm):
                                             'style': 'width: 100%; '}),
             'compGeneralType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                                    'style': 'width: 100%; '}),
+            'stil': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                        'style': 'width: 100%; '}),
 
         }

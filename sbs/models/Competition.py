@@ -1,43 +1,34 @@
-import enum
 
-from cffi import model
 from django.db import models
 
 from sbs.models.Category import Category
 from sbs.models.Judge import Judge
+from sbs.models.Competitiontype import Competitiontype
 
 from sbs.models.EnumFields import EnumFields
 class Competition(models.Model):
-    TURKEY = 0
-    WORLD = 1
-    OLYMPIAD = 2
-    EUROPE = 3
-
-    COMPGENERALTYPE = (
-        (TURKEY, 'Türkiye'),
-        (WORLD, 'Dünya'),
-        (OLYMPIAD, 'Olimpiyat'),
-        (EUROPE, 'Avrupa')
-    )
-
-    INTERUNIVERSITY = 0
-    INTERSCHOOL = 1
-    PERSONAL = 2
-
-    # GRANDPRİX = 3
-
+    serbest = 'Serbest Stil'
+    grokomen = 'Grokomen'
+    kadın = 'Kadınlar'
 
     COMPTYPE = (
-        (INTERUNIVERSITY, 'Üniversiteler Arası'),
-        (INTERSCHOOL, 'Okullar Arası'),
+        (serbest, 'Serbest Stil'),
+        (grokomen, 'Grokomen'),
+        (kadın, 'Kadınlar'),
 
-        (PERSONAL, 'Ferdi'),
-
-        # (GRANDPRİX, 'Grand Prix')
     )
 
-    compType = models.IntegerField(db_column='compType', blank=True, null=True,
-                                   choices=COMPTYPE)  # Field name made lowercase.
+    mider = 'Minder'
+    yagli = 'Yağlı'
+    karakucak = 'Karakucak'
+
+    Type = (
+        (mider, 'Minder'),
+        (yagli, 'Yağlı'),
+        (karakucak, 'Karakucak'),
+
+    )
+
     creationDate = models.DateTimeField(db_column='creationDate', blank=True, null=True, auto_now_add=True)
     # Field name made lowercase.
     operationDate = models.DateTimeField(db_column='operationDate', blank=True, null=True,
@@ -55,7 +46,12 @@ class Competition(models.Model):
                                   null=True)  # Field name made lowercase.
     eskimi = models.BooleanField(default=True)
     explanation = models.CharField(max_length=20, blank=True, null=True)
-    compGeneralType = models.IntegerField(db_column='compGeneralType', blank=True, null=True, choices=COMPGENERALTYPE)
+    compGeneralType = models.ForeignKey(Competitiontype, on_delete=models.CASCADE, null=True, blank=True)
+
+    compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
+
+    stil = models.CharField(max_length=20, blank=True, null=True, choices=COMPTYPE)
+
 
     categoryies = models.ManyToManyField(Category)
     judges = models.ManyToManyField(Judge)

@@ -9,8 +9,10 @@ class MaterialForm(ModelForm):
         model = Material
 
         fields = (
-            'ayakkabi', 'esofman', 'tshirt', 'raket')
-        labels = {'raket': 'Raket', 'tshirt': 'Tshirt', 'esofman': 'Esofman', 'ayakkabi': 'Ayakkabi'}
+            'ayakkabi', 'esofman', 'tshirt', 'guresayakkabi', 'sporayakkabi', 'klasikayakkabi')
+        labels = {'guresayakkabi': 'Güreş Ayakkabısı', 'sporayakkabi': 'Spor  Ayakkabı',
+                  'klasikayakkabi': 'Klasik Ayakkabı',
+                  'tshirt': 'Tshirt', 'esofman': 'Esofman', 'ayakkabi': 'Ayakkabi'}
         widgets = {
 
             'ayakkabi': forms.TextInput(attrs={'class': 'form-control ', "style": "text-transform:uppercase"}),
@@ -19,6 +21,8 @@ class MaterialForm(ModelForm):
 
             'tshirt': forms.TextInput(attrs={'class': 'form-control ', "style": "text-transform:uppercase"}),
 
-            'raket': forms.TextInput(attrs={'class': 'form-control ', "style": "text-transform:uppercase"}),
+            'guresayakkabi': forms.TextInput(attrs={'class': 'form-control ', "style": "text-transform:uppercase"}),
+            'sporayakkabi': forms.TextInput(attrs={'class': 'form-control ', "style": "text-transform:uppercase"}),
+            'klasikayakkabi': forms.TextInput(attrs={'class': 'form-control ', "style": "text-transform:uppercase"}),
 
         }
