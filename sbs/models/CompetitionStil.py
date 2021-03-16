@@ -9,7 +9,7 @@ class CompetitionStil(models.Model):
                                          auto_now_add=True)  # Field name made lowercase.
 
     def __str__(self):
-        return '%s ' % self.stil
+        return '%s ' % self.name
 
     # class Meta:
     #     default_permissions = ()
