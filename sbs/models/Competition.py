@@ -4,19 +4,12 @@ from django.db import models
 from sbs.models.Category import Category
 from sbs.models.Judge import Judge
 from sbs.models.Competitiontype import Competitiontype
+from sbs.models.CompetitionStil import CompetitionStil
+from sbs.models.CompetitionsDocument import CompetitionsDocument
+
 
 from sbs.models.EnumFields import EnumFields
 class Competition(models.Model):
-    serbest = 'Serbest Stil'
-    grokomen = 'Grokomen'
-    kadın = 'Kadınlar'
-
-    COMPTYPE = (
-        (serbest, 'Serbest Stil'),
-        (grokomen, 'Grokomen'),
-        (kadın, 'Kadınlar'),
-
-    )
 
     mider = 'Minder'
     yagli = 'Yağlı'
@@ -48,13 +41,16 @@ class Competition(models.Model):
     explanation = models.CharField(max_length=20, blank=True, null=True)
     compGeneralType = models.ForeignKey(Competitiontype, on_delete=models.CASCADE, null=True, blank=True)
 
+    weblink = models.CharField(max_length=100, blank=True, null=True)
+
     compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
 
-    stil = models.CharField(max_length=20, blank=True, null=True, choices=COMPTYPE)
+    stil = models.ManyToManyField(CompetitionStil)
 
 
     categoryies = models.ManyToManyField(Category)
     judges = models.ManyToManyField(Judge)
+    file = models.ManyToManyField(CompetitionsDocument)
 
 
     def __str__(self):

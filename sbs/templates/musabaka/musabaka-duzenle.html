@@ -198,6 +198,21 @@
                                         <label> {{ competition_form.eventPlace.label }}</label>
                                         {{ competition_form.eventPlace }}
                                     </div>
+                                    <div class="form-group">
+                                        <label> {{ competition_form.weblink.label }}</label>
+                                        {{ competition_form.weblink }}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label> {{ competition_form.registerStartDate.label }}</label>
+                                        {{ competition_form.registerStartDate }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> {{ competition_form.registerFinishDate.label }}</label>
+                                        {{ competition_form.registerFinishDate }}
+                                    </div>
+
 
                                     <div class="form-group">
                                         <label>Yaş Gruplari</label>
@@ -210,19 +225,17 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label> {{ competition_form.registerStartDate.label }}</label>
-                                        {{ competition_form.registerStartDate }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.registerFinishDate.label }}</label>
-                                        {{ competition_form.registerFinishDate }}
-                                    </div>
 
                                     {% if competition.compType == 'Minder' %}
                                         <div class="form-group">
-                                            <label> {{ competition_form.stil.label }}</label>
-                                            {{ competition_form.stil }}
+                                            <label>Stiller</label>
+                                            <select class="form-control select2" multiple="multiple " name="stil"
+                                                    id="stil"
+                                                    data-placeholder="Stilleri  Seçiniz">
+                                                {% for item in stil %}
+                                                    <option value="{{ item.pk }}">{{ item.name }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                     {% endif %}
 
@@ -367,6 +380,14 @@
                 jop.push("{{ item.pk }}");
             {% endfor %}
             $('#multipleSelect').val(jop);
+
+
+            var stil_array = new Array();
+            {% for item in competition.stil.all %}
+                stil_array.push("{{ item.pk }}");
+            {% endfor %}
+            $('#stil').val(stil_array);
+
 
 
 

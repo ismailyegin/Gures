@@ -1,38 +1,28 @@
 from builtins import print
-from itertools import combinations, product
-from statistics import mode
 
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.utils import timezone
 
 from sbs.Forms.CompetitionForm import CompetitionForm
 from sbs.Forms.CompetitionSearchForm import CompetitionSearchForm
-from django.db.models import Q
-from sbs.models import SportClubUser, SportsClub, Competition, Athlete, CompAthlete, Weight, CompCategory, Coach
-from sbs.models.SimpleCategory import SimpleCategory
-from sbs.models.EnumFields import EnumFields
-from sbs.models.SandaAthlete import SandaAthlete
-from sbs.models.Category import Category
-from sbs.models.TaoluAthlete import TaoluAthlete
-from sbs.services import general_methods
 from sbs.Forms.SimplecategoryForm import SimplecategoryForm
-
-from datetime import date, datetime
-from django.utils import timezone
-
+from sbs.models import SportClubUser, SportsClub, Competition, Athlete, Weight, CompCategory, Coach
+from sbs.models.Category import Category
+from sbs.models.CompetitionStil import CompetitionStil
 from sbs.models.CompetitionsAthlete import CompetitionsAthlete
+from sbs.models.SandaAthlete import SandaAthlete
+from sbs.models.SimpleCategory import SimpleCategory
+from sbs.services import general_methods
+
 
 # from pyexcel_xls import get_data as xls_get
 # from pyexcel_xlsx import get_data as xlsx_get
-from django.utils.datastructures import MultiValueDictKeyError
-
-from django.core import serializers
-from django.http import HttpResponse
 
 
 @login_required
@@ -184,6 +174,7 @@ def musabaka_duzenle(request, pk):
     weights = Weight.objects.all()
     competition_form = CompetitionForm(request.POST or None, instance=musabaka)
     category = Category.objects.all()
+    stil = CompetitionStil.objects.all()
 
     if request.method == 'POST':
         if competition_form.is_valid():
@@ -191,9 +182,18 @@ def musabaka_duzenle(request, pk):
             for item in musabaka.categoryies.all():
                 musabaka.categoryies.remove(item)
                 musabaka.save()
+            for item in musabaka.stil.all():
+                musabaka.stil.remove(item)
+                musabaka.save()
+
             if request.POST.getlist('jobDesription'):
                 for item in request.POST.getlist('jobDesription'):
                     musabaka.categoryies.add(Category.objects.get(pk=item))
+                    musabaka.save()
+
+            if request.POST.getlist('stil'):
+                for item in request.POST.getlist('stil'):
+                    musabaka.stil.add(CompetitionStil.objects.get(pk=item))
                     musabaka.save()
 
 
@@ -211,7 +211,7 @@ def musabaka_duzenle(request, pk):
 
     return render(request, 'musabaka/musabaka-duzenle.html',
                   {'competition_form': competition_form, 'competition': musabaka, 'athletes': athletes,
-                   'category': category})
+                   'category': category, 'stil': stil})
 
 
 @login_required
