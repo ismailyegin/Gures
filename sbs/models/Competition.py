@@ -42,6 +42,7 @@ class Competition(models.Model):
     compGeneralType = models.ForeignKey(Competitiontype, on_delete=models.CASCADE, null=True, blank=True)
 
     weblink = models.CharField(max_length=100, blank=True, null=True)
+    haber = models.CharField(max_length=100, blank=True, null=True)
 
     compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
 
