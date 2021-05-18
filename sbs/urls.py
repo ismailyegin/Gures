@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from sbs.Views import DashboardViews, AthleteViews, RefereeViews, ClubViews, CoachViews, DirectoryViews, UserViews, \
     CompetitionViews, AdminViews, HelpViews, PageViews, PreRegistration, ActivityView, ReferenceView, QuestionViews, \
-    LogViews, ProductView, ClaimView, PenalView, ArsivView
+    LogViews, ProductView, ClaimView, PenalView, ArsivView,ApiView
 
 app_name = 'sbs'
 
@@ -499,4 +499,9 @@ urlpatterns = [
         name='dosya-guncelle'),
 
     url(r'arsiv/arsiv-evrak/evrakEkle/$', ArsivView.arsiv_evrakEkle, name='evrak-ekle'),
+    #api
+
+    url(r'api/faliyet$', ApiView.api_faliyet, name='api-faaliyet'),
+    url(r'api/musebaka$', ApiView.api_musabaka, name='api-faaliyet'),
+
 ]

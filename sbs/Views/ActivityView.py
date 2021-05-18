@@ -18,15 +18,14 @@ from sbs.services import general_methods
 from sbs.Forms.SimplecategoryForm import SimplecategoryForm
 from sbs.models.Activity import Activity
 from sbs.Forms.ActivityForm import ActivityForm
+from django.core import serializers
 
 from datetime import date, datetime
 from django.utils import timezone
 
 
-
 @login_required
 def return_activity(request):
-
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -125,3 +124,5 @@ def faliyet_duzenle(request, pk):
 
     return render(request, 'faliyet/faaliyet-guncelle.html',
                   {'competition_form': competition_form, 'competition': activity})
+
+
