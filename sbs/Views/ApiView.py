@@ -57,7 +57,6 @@ def api_musabaka(request):
 
 def city_count(request):
 
-
     if request.GET.get('city'):
         athletecout = Athlete.objects.filter(communication__city__name__icontains=request.GET.get('city')).count()
         coachcout = Coach.objects.filter(communication__city__name__icontains=request.GET.get('city')).count()
@@ -93,8 +92,6 @@ def count(request):
     total_coachs = Coach.objects.count()
     total_judge = Judge.objects.count()
     total_user = User.objects.count()
-
-
     response=JsonResponse({'status': 'Success',
                          'messages': 'Verilen degerler',
                          'total_club_user': total_club_user,
@@ -111,3 +108,17 @@ def count(request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return  response
+
+
+def api_musabaka_basvuru(request):
+    response = JsonResponse({
+        'status': 'Success',
+        'musabaka': serializers.serialize("json",Competition.objects.filter(registerStartDate__lte=timezone.now(),
+                                             registerFinishDate__gte=timezone.now())),
+
+    })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response

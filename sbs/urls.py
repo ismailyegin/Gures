@@ -502,7 +502,8 @@ urlpatterns = [
     #api
 
     url(r'api/faliyet$', ApiView.api_faliyet, name='api-faaliyet'),
-    url(r'api/musebaka$', ApiView.api_musabaka, name='api-faaliyet'),
+    url(r'api/musebaka$', ApiView.api_musabaka, name='api-musabaka'),
+    url(r'api/musebaka/basvuru$', ApiView.api_musabaka_basvuru, name='api-musabaka-basvuru'),
     url(r'api/city$', ApiView.city_count, name='api-city'),
     url(r'api/count$', ApiView.count, name='api-count'),
 
