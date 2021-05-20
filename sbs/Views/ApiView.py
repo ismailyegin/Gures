@@ -111,6 +111,7 @@ def api_musabaka_basvuru(request):
     if Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now()):
         musabaka = \
         Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now())[0]
+
         response = JsonResponse({
             'status': True,
             'finishdate': musabaka.finishDate.strftime("%d-%B-%Y"),
@@ -121,6 +122,9 @@ def api_musabaka_basvuru(request):
             'eventPlace': musabaka.eventPlace,
             'explanation': musabaka.explanation,
             'compType': musabaka.compType,
+            'stil':list(musabaka.stil.all().values('name')),
+            'yas':list(musabaka.categoryies.all().values('kategoriadi'))
+
 
         })
     else:
