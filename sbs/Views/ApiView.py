@@ -25,15 +25,13 @@ from django.core import serializers
 from datetime import date, datetime
 from django.utils import timezone
 
-
 import json
-
 
 
 def api_faliyet(request):
     response = JsonResponse({
         'status': 'Success',
-        'faliyet': serializers.serialize("json",Activity.objects.all()),
+        'faliyet': serializers.serialize("json", Activity.objects.all()),
 
     })
     response["Access-Control-Allow-Origin"] = "*"
@@ -46,7 +44,7 @@ def api_faliyet(request):
 def api_musabaka(request):
     response = JsonResponse({
         'status': 'Success',
-        'musabaka': serializers.serialize("json",Competition.objects.all()),
+        'musabaka': serializers.serialize("json", Competition.objects.all()),
 
     })
     response["Access-Control-Allow-Origin"] = "*"
@@ -55,8 +53,8 @@ def api_musabaka(request):
     response["Access-Control-Allow-Headers"] = "*"
     return response
 
-def city_count(request):
 
+def city_count(request):
     if request.GET.get('city'):
         athletecout = Athlete.objects.filter(communication__city__name__icontains=request.GET.get('city')).count()
         coachcout = Coach.objects.filter(communication__city__name__icontains=request.GET.get('city')).count()
@@ -69,11 +67,11 @@ def city_count(request):
             'coach': coachcout,
             'referee': refereecout,
             'sportsClub': sportsClub,
-            'message':'success',
+            'message': 'success',
         })
     else:
         response = JsonResponse({
-            'message':'none'
+            'message': 'none'
         })
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
@@ -83,7 +81,6 @@ def city_count(request):
 
 
 def count(request):
-
     total_club = SportsClub.objects.count()
     total_athlete = Athlete.objects.count()
     total_athlete_gender_man = Athlete.objects.filter(person__gender=Person.MALE).count()
@@ -92,31 +89,45 @@ def count(request):
     total_coachs = Coach.objects.count()
     total_judge = Judge.objects.count()
     total_user = User.objects.count()
-    response=JsonResponse({'status': 'Success',
-                         'messages': 'Verilen degerler',
-                         'total_club_user': total_club_user,
-                         'total_club': total_club,
-                         'total_athlete': total_athlete,
-                         'total_coachs': total_coachs,
-                         'total_athlete_gender_man': total_athlete_gender_man,
-                         'total_athlete_gender_woman': total_athlete_gender_woman,
-                         'total_judge': total_judge,
-                         'total_user': total_user,
-                         })
+    response = JsonResponse({'status': 'Success',
+                             'messages': 'Verilen degerler',
+                             'total_club_user': total_club_user,
+                             'total_club': total_club,
+                             'total_athlete': total_athlete,
+                             'total_coachs': total_coachs,
+                             'total_athlete_gender_man': total_athlete_gender_man,
+                             'total_athlete_gender_woman': total_athlete_gender_woman,
+                             'total_judge': total_judge,
+                             'total_user': total_user,
+                             })
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
-    return  response
+    return response
 
 
 def api_musabaka_basvuru(request):
-    response = JsonResponse({
-        'status': 'Success',
-        'musabaka': serializers.serialize("json",Competition.objects.filter(registerStartDate__lte=timezone.now(),
-                                             registerFinishDate__gte=timezone.now())),
+    if Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now()):
+        musabaka = \
+        Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now())[0]
+        response = JsonResponse({
+            'status': 'Success',
+            'finishdate': musabaka.finishDate,
+            'startDate': musabaka.startDate,
+            'registerStartDate': musabaka.registerStartDate,
+            'registerFinishDate': musabaka.registerFinishDate,
+            'name': musabaka.name,
+            'eventPlace': musabaka.eventPlace,
+            'explanation': musabaka.explanation,
+            'compType': musabaka.compType,
 
-    })
+        })
+    else:
+        response = JsonResponse({
+            'status': 'unsuccessful',
+        })
+
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
