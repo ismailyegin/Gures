@@ -112,11 +112,11 @@ def api_musabaka_basvuru(request):
         musabaka = \
         Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now())[0]
         response = JsonResponse({
-            'status': 'Success',
-            'finishdate': musabaka.finishDate,
-            'startDate': musabaka.startDate,
-            'registerStartDate': musabaka.registerStartDate,
-            'registerFinishDate': musabaka.registerFinishDate,
+            'status': True,
+            'finishdate': musabaka.finishDate.strftime("%d-%B-%Y"),
+            'startDate': musabaka.startDate.strftime("%d-%B-%Y"),
+            'registerStartDate': musabaka.registerStartDate.strftime("%d-%B-%Y"),
+            'registerFinishDate': musabaka.registerFinishDate.strftime("%d-%B-%Y"),
             'name': musabaka.name,
             'eventPlace': musabaka.eventPlace,
             'explanation': musabaka.explanation,
@@ -125,7 +125,7 @@ def api_musabaka_basvuru(request):
         })
     else:
         response = JsonResponse({
-            'status': 'unsuccessful',
+            'status':False,
         })
 
     response["Access-Control-Allow-Origin"] = "*"
