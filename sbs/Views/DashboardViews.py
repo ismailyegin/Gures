@@ -444,7 +444,7 @@ def return_admin_dashboard(request):
     lastcompetitionArray = []
 
     if CompetitionsAthlete.objects.all():
-        count = CompetitionsAthlete.objects.filter(competition=lastcompetition, category=item).count()
+        count = CompetitionsAthlete.objects.filter(competition=lastcompetition).count()
     else:
         count = 0;
 

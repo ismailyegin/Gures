@@ -114,10 +114,20 @@ def api_musabaka_basvuru(request):
 
         stil =""
         catagori=""
+        foto = ""
+        fiksur = ""
+        sonuc = ""
         for item in musabaka.categoryies.all():
-            catagori+="/"+item.kategoriadi
+            catagori+=item.kategoriadi+"/"
         for item in musabaka.stil.all():
-            stil+="/"+item.name
+            stil+=item.name+"/"
+        for item in musabaka.file.all():
+            if item.type == 'fiksur':
+                foto += str(item.file) + "/"
+            elif item.type == 'sonuc':
+                sonuc += str(item.file) + "/"
+            elif item.type == 'fotogaleri':
+                foto += str(item.file) + "/"
         response = JsonResponse({
             'status': True,
             'finishdate': musabaka.finishDate.strftime("%d-%B-%Y"),
@@ -129,7 +139,13 @@ def api_musabaka_basvuru(request):
             'explanation': musabaka.explanation,
             'compType': musabaka.compType,
             'stil':stil,
-            'kategori':catagori
+            'kategori':catagori,
+            'ip':musabaka.pk,
+            "foto": foto,
+            "sonuc": sonuc,
+            "fiksur": fiksur,
+            "haber": musabaka.haber,
+            "weblink": musabaka.weblink,
 
 
         })
@@ -138,6 +154,63 @@ def api_musabaka_basvuru(request):
             'status':False,
         })
 
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+
+def competitionsDetail(request):
+    if request.GET.get('id'):
+        if Competition.objects.filter(pk=request.GET.get('id')):
+            musabaka=Competition.objects.get(pk=request.GET.get('id'))
+            stil = ""
+            catagori = ""
+            foto=""
+            fiksur=""
+            sonuc =""
+            for item in musabaka.categoryies.all():
+                catagori += item.kategoriadi+"/"
+            for item in musabaka.stil.all():
+                stil += item.name+"/"
+            for item in musabaka.file.all():
+                if item.type=='fiksur':
+                    foto+=str(item.file)+"/"
+                elif item.type == 'sonuc':
+                    sonuc+=str(item.file)+"/"
+                elif item.type == 'fotogaleri':
+                    foto+=str(item.file)+"/"
+
+
+            response = JsonResponse({
+                'status': True,
+                'finishdate': musabaka.finishDate.strftime("%d-%B-%Y"),
+                'startDate': musabaka.startDate.strftime("%d-%B-%Y"),
+                'registerStartDate': musabaka.registerStartDate.strftime("%d-%B-%Y"),
+                'registerFinishDate': musabaka.registerFinishDate.strftime("%d-%B-%Y"),
+                'name': musabaka.name,
+                'eventPlace': musabaka.eventPlace,
+                'explanation': musabaka.explanation,
+                'compType': musabaka.compType,
+                'stil': stil,
+                'kategori': catagori,
+                'ip': musabaka.pk,
+                "foto":foto,
+                "sonuc":sonuc,
+                "fiksur":fiksur,
+                "haber":musabaka.haber,
+                "weblink":musabaka.weblink,
+
+            })
+
+
+
+    else:
+        response = JsonResponse({
+            'message': 'none'
+        })
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
