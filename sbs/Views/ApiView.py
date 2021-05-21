@@ -168,22 +168,6 @@ def competitionsDetail(request):
     if request.GET.get('id'):
         if Competition.objects.filter(pk=request.GET.get('id')):
             musabaka=Competition.objects.get(pk=request.GET.get('id'))
-            stil = ""
-            catagori = ""
-            foto=""
-            fiksur=""
-            sonuc =""
-            for item in musabaka.categoryies.all():
-                catagori += item.kategoriadi+"/"
-            for item in musabaka.stil.all():
-                stil += item.name+"/"
-            for item in musabaka.file.all():
-                if item.type=='fiksur':
-                    foto+=str(item.file)+"/"
-                elif item.type == 'sonuc':
-                    sonuc+=str(item.file)+"/"
-                elif item.type == 'fotogaleri':
-                    foto+=str(item.file)+"/"
 
 
             response = JsonResponse({
@@ -197,12 +181,12 @@ def competitionsDetail(request):
                 'explanation': musabaka.explanation,
                 'compType': musabaka.compType,
                 'compGeneralType':musabaka.compGeneralType.name,
-                'stil': stil,
-                'kategori': catagori,
+                'stil': list(musabaka.stil.all().values('name')),
+                'kategori': list(musabaka.categoryies.all().values('kategoriadi')),
                 'id': musabaka.pk,
-                "foto":foto,
-                "sonuc":sonuc,
-                "fiksur":fiksur,
+                "foto":list(musabaka.file.filter(type="fotogaleri").values('file')),
+                "sonuc":list(musabaka.file.filter(type="sonuc").values('file')),
+                "fiksur":list(musabaka.file.filter(type="fiksur").values('file')),
                 "haber":str(musabaka.haber),
                 "weblink":str(musabaka.weblink),
 
