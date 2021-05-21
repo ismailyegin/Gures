@@ -138,14 +138,16 @@ def api_musabaka_basvuru(request):
             'eventPlace': musabaka.eventPlace,
             'explanation': musabaka.explanation,
             'compType': musabaka.compType,
+            'compGeneralType':musabaka.compGeneralType,
             'stil':stil,
             'kategori':catagori,
-            'ip':musabaka.pk,
+            'id':musabaka.pk,
             "foto": foto,
             "sonuc": sonuc,
             "fiksur": fiksur,
             "haber": musabaka.haber,
             "weblink": musabaka.weblink,
+
 
 
         })
@@ -194,9 +196,10 @@ def competitionsDetail(request):
                 'eventPlace': musabaka.eventPlace,
                 'explanation': musabaka.explanation,
                 'compType': musabaka.compType,
+                'compGeneralType':musabaka.compGeneralType,
                 'stil': stil,
                 'kategori': catagori,
-                'ip': musabaka.pk,
+                'id': musabaka.pk,
                 "foto":foto,
                 "sonuc":sonuc,
                 "fiksur":fiksur,
