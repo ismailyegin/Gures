@@ -46,8 +46,6 @@ class Competition(models.Model):
     compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
 
     stil = models.ManyToManyField(CompetitionStil)
-
-
     categoryies = models.ManyToManyField(Category)
     judges = models.ManyToManyField(Judge)
     file = models.ManyToManyField(CompetitionsDocument)
