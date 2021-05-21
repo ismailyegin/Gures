@@ -40,7 +40,8 @@ class Competition(models.Model):
     eskimi = models.BooleanField(default=True)
     explanation = models.CharField(max_length=20, blank=True, null=True)
 
-    weblink = models.CharField(max_length=100, blank=True, null=True)
+    youtubelink = models.CharField(max_length=100, blank=True, null=True)
+    basvurulink = models.CharField(max_length=100, blank=True, null=True)
     haber = models.CharField(max_length=100, blank=True, null=True)
 
     compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)

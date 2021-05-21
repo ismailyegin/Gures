@@ -10,14 +10,15 @@ class CompetitionForm(ModelForm):
 
         fields = (
             'name', 'startDate', 'finishDate', 'compType', 'eventPlace',
-            'registerStartDate', 'registerFinishDate', 'weblink','compGeneralType')
+            'registerStartDate', 'registerFinishDate', 'youtubelink','basvurulink','compGeneralType')
 
         labels = {'name': 'İsim', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Bitiş Tarihi',
                   'eventPlace': 'Etkinlik Yeri',
                   'registerStartDate': 'Ön Kayıt Başlangıç Tarihi',
                   'registerFinishDate': 'Ön Kayıt Bitiş Tarihi',
                   'compType': 'Türü',
-                  'weblink': 'Web Link ',
+                  'youtubelink': 'Youtube Link ',
+                  'basvurulink': 'Başvuru Link ',
                   'compGeneralType':'Genel Tür '
 
 
@@ -34,7 +35,8 @@ class CompetitionForm(ModelForm):
 
             'eventPlace': forms.TextInput(attrs={'class': 'form-control', "style": "text-transform:uppercase"}),
 
-            'weblink': forms.TextInput(attrs={'class': 'form-control'}),
+            'youtubelink': forms.TextInput(attrs={'class': 'form-control'}),
+            'basvurulink': forms.TextInput(attrs={'class': 'form-control'}),
 
             'startDate': forms.DateInput(
                 attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker2', 'autocomplete': 'on',

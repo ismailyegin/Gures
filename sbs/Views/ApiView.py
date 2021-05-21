@@ -146,7 +146,8 @@ def api_musabaka_basvuru(request):
             "sonuc": list(musabaka.file.filter(type="sonuc").values('file')),
             "fiksur": list(musabaka.file.filter(type="fiksur").values('file')),
             "haber": str(musabaka.haber),
-            "weblink": str(musabaka.weblink),
+            "basvurulink": str(musabaka.basvurulink),
+            "youtubelink":str(musabaka.youtubelink)
 
 
 
@@ -188,7 +189,8 @@ def competitionsDetail(request):
                 "sonuc":list(musabaka.file.filter(type="sonuc").values('file')),
                 "fiksur":list(musabaka.file.filter(type="fiksur").values('file')),
                 "haber":str(musabaka.haber),
-                "weblink":str(musabaka.weblink),
+                "basvurulink": str(musabaka.basvurulink),
+                "youtubelink": str(musabaka.youtubelink)
 
             })
 
