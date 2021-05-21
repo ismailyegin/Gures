@@ -12,6 +12,7 @@ from django.utils import timezone
 from sbs.Forms.CompetitionForm import CompetitionForm
 from sbs.Forms.CompetitionSearchForm import CompetitionSearchForm
 from sbs.Forms.SimplecategoryForm import SimplecategoryForm
+from sbs.Forms.CompetitionsDocumentForm import CompetitionsDocumentForm
 from sbs.models import SportClubUser, SportsClub, Competition, Athlete, Weight, CompCategory, Coach
 from sbs.models.Category import Category
 from sbs.models.CompetitionStil import CompetitionStil
@@ -19,6 +20,7 @@ from sbs.models.CompetitionsAthlete import CompetitionsAthlete
 from sbs.models.SandaAthlete import SandaAthlete
 from sbs.models.SimpleCategory import SimpleCategory
 from sbs.services import general_methods
+from sbs.models.CompetitionsDocument import CompetitionsDocument
 
 
 # from pyexcel_xls import get_data as xls_get
@@ -167,25 +169,34 @@ def musabaka_duzenle(request, pk):
         logout(request)
         return redirect('accounts:login')
 
+
     musabaka = Competition.objects.get(pk=pk)
-    athletes = CompetitionsAthlete.objects.filter(competition=musabaka)
-
-
-    weights = Weight.objects.all()
     competition_form = CompetitionForm(request.POST or None, instance=musabaka)
-    category = Category.objects.all()
-    stil = CompetitionStil.objects.all()
+
+
 
     if request.method == 'POST':
-        if competition_form.is_valid():
+        # döküman kaydedilecek alan
+        if request.FILES.getlist('file') and request.POST.get('type'):
+            files=request.FILES.getlist('file')
+            type=request.POST.get('type')
+            for item in files:
+                dokuman=CompetitionsDocument(type=type,
+                                             file=item)
+                dokuman.save()
+                musabaka.file.add(dokuman)
+                musabaka.save()
 
+
+
+        # form kaydedilme alani
+        elif competition_form.is_valid():
             for item in musabaka.categoryies.all():
                 musabaka.categoryies.remove(item)
                 musabaka.save()
             for item in musabaka.stil.all():
                 musabaka.stil.remove(item)
                 musabaka.save()
-
             if request.POST.getlist('jobDesription'):
                 for item in request.POST.getlist('jobDesription'):
                     musabaka.categoryies.add(Category.objects.get(pk=item))
@@ -195,9 +206,6 @@ def musabaka_duzenle(request, pk):
                 for item in request.POST.getlist('stil'):
                     musabaka.stil.add(CompetitionStil.objects.get(pk=item))
                     musabaka.save()
-
-
-
             competition_form.save()
             messages.success(request, 'Müsabaka Başarıyla Güncellenmiştir.')
 
@@ -208,10 +216,23 @@ def musabaka_duzenle(request, pk):
         else:
 
             messages.warning(request, 'Alanları Kontrol Ediniz')
+    competition_form = CompetitionForm(instance=musabaka)
+    athletes = CompetitionsAthlete.objects.filter(competition=musabaka)
+    category = Category.objects.all()
+    stil = CompetitionStil.objects.all()
+    dokuman_form = CompetitionsDocumentForm()
+
+
+
+
 
     return render(request, 'musabaka/musabaka-duzenle.html',
-                  {'competition_form': competition_form, 'competition': musabaka, 'athletes': athletes,
-                   'category': category, 'stil': stil})
+                  {'competition_form': competition_form,
+                   'competition': musabaka,
+                   'athletes': athletes,
+                   'category': category,
+                   'stil': stil,
+                   'dokuman_form':dokuman_form})
 
 
 @login_required

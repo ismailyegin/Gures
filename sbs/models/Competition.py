@@ -44,6 +44,7 @@ class Competition(models.Model):
     haber = models.CharField(max_length=100, blank=True, null=True)
 
     compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
+    compGeneralType=models.ForeignKey(Competitiontype,on_delete=models.SET_NULL, null=True, blank=True, verbose_name='competitonsGeneralTpe')
 
     stil = models.ManyToManyField(CompetitionStil)
     categoryies = models.ManyToManyField(Category)

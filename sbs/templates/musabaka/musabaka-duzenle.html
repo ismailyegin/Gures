@@ -71,6 +71,7 @@
         <!-- /.modal-dialog -->
     </div>
 
+
     <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-kural"
          aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -137,7 +138,39 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+     <form method="post" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
+            <div class="modal modal-body " tabindex="-1" role="dialog" id="modal-dokuman"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Müsabaka Dökümanlari Ekle</h4>
+                </div>
 
+                <div class="modal-body">
+
+                    <label for="id_type">Dosya Türü Seçiniz:</label>
+                    {{ dokuman_form.type }}
+                    <label for="id_file">Dosya Seçiniz:</label><input type="file" multiple name="file" required=""
+                                                                      id="id_file">
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn  btn-primary">Kaydet</button>
+                </div>
+
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    </form>
+     <form method="post" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
 
     <section class="content-header">
         <h1>
@@ -145,17 +178,20 @@
 
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Müsabaka İncele</a></li>
+            <li>
+                <a href="#"><i class="fa fa-dashboard"></i>Müsabaka İncele</a>
+            </li>
 
         </ol>
     </section>
-    <section class="content">
 
-        <form method="post" enctype="multipart/form-data" role="form">
-            {% csrf_token %}
+
+        <section class="content">
+
+
             <div class="row">
 
-                <div class="col-lg-12">
+                <div class="col-lg-8">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Genel Bilgiler</h3>
@@ -258,6 +294,73 @@
 
                     </div>
                 </div>
+
+
+                <div class="col-lg-4">
+                  <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Dökümanlar</h3>
+                        </div>
+                        <div class="box-header with-border">
+                            <div class="btn-group">
+
+
+
+                            <a class="btn btn-success" onclick="addDokuman()"> Döküman Ekle </a>
+
+
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+
+
+                                <table id="dokuman" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Dosya</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if competition %}
+                                        {% for file in competition.file.all %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ file.file }}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a
+                                                                type="button" class="btn btn-primary"><i
+                                                                class="fa fa-download"></i>
+                                                        </a>
+                                                        <a onclick="documandelete({{ file.id }})"
+                                                           type="button" class="btn btn-danger">Sil
+                                                        </a>
+
+
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    </tbody>
+                                </table>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
             </div>
             <div class="row">
 
@@ -365,11 +468,9 @@
                 </div>
             </div>
 
-        </form>
 
-
-    </section>
-
+        </section>
+    </form>
     <script>
 
 
@@ -390,7 +491,37 @@
 
 
 
+        $('#dokuman').DataTable({
 
+
+                language: {
+                    buttons: {
+                        pageLength: {
+                            _: " %d  Tane Göster",
+                            '-1': "Hepsini Göster"
+                        }
+
+                    }
+                },
+
+
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    ['10 tane', '25 tane ', '50 tane ', '100 Tane', 'Hepsini Getir']
+                ],
+
+
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'responsive': true,
+                "pageLength": 7,
+
+
+            });
 
 
             $('#sporcular').DataTable({
@@ -592,6 +723,45 @@
             console.log(id);
             var html = '';
             $("#modal-danger").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url "sbs:musabaka-sporcu-kaldir" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                            isActive: 'False'
+                        },
+                        success: function (result) {
+
+                            html = 'Sporcu başarıyla kaldırıldı.';
+                            debugger;
+                            $(".successModal").html(html);
+                            $('#modal-success').on("shown.bs.modal", function (e) {
+                                $(".btn-ok").click(function () {
+
+                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+
+                                });
+
+                            }).modal('show');
+
+
+                            console.log(result.status)
+                        }
+                    });
+                });
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+
+        }
+
+        function addDokuman() {
+
+            console.log('döküman ');
+            var html = '';
+            $("#modal-dokuman").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
                     $.ajax({
                         url: "{% url "sbs:musabaka-sporcu-kaldir" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),

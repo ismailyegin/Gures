@@ -4,6 +4,8 @@ from django.db import models
 class Category(models.Model):
     kategoriid = models.IntegerField(primary_key=True)
     kategoriadi = models.CharField(max_length=20, blank=True, null=True)
+    altyas=models.IntegerField(null=False,blank=False)
+    ustyas=models.IntegerField(null=False,blank=False)
 
     # erkek = models.IntegerField(blank=True, null=True)
     # bayan = models.IntegerField(blank=True, null=True)
