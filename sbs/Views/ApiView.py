@@ -205,3 +205,53 @@ def competitionsDetail(request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
+
+
+def club_result(request):
+
+
+    sportclupArray=[]
+    for item in SportsClub.objects.all():
+        beka = {
+            'id': item.pk,
+            'name': item.name
+
+        }
+        sportclupArray.append(beka)
+
+    response = JsonResponse({'status': 'Success',
+
+                             'sportclub':sportclupArray,
+
+                             })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+
+
+def club_search(request):
+
+
+    sportclupArray=[]
+    for item in SportsClub.objects.all():
+        beka = {
+            'id': item.pk,
+            'name': item.name
+
+        }
+        sportclupArray.append(beka)
+
+    response = JsonResponse({'status': 'Success',
+
+                             'sportclub':sportclupArray,
+
+                             })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response

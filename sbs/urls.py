@@ -508,4 +508,6 @@ urlpatterns = [
     url(r'api/city$', ApiView.city_count, name='api-city'),
     url(r'api/count$', ApiView.count, name='api-count'),
 
+    url(r'api/sporclub$', ApiView.club_result, name='api-sportclup'),
+
 ]
