@@ -292,6 +292,7 @@ def club_search(request):
             else:
                 club='None'
             beka = {
+
                 'name': item.user.first_name,
                 'lastname': item.user.last_name,
                 'club': club,
