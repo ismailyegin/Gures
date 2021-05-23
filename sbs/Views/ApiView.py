@@ -267,8 +267,8 @@ def club_search(request):
         lastName=unicode_tr(request.GET.get('soyisim')).upper()
     if request.GET.get('cinsiyet'):
         cinsiyet=request.GET.get('cinsiyet')
-    if request.GET.get('id'):
-        club_id=request.GET.get('id')
+    if request.GET.get('kulup'):
+        club_id=request.GET.get('kulup')
     if request.GET.get('email'):
         email=request.GET.get('email')
     if request.GET.get('tcno'):
