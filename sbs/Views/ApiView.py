@@ -23,6 +23,7 @@ from django.core import serializers
 
 from datetime import date, datetime
 from django.utils import timezone
+from unicode_tr import unicode_tr
 
 import json
 
@@ -251,32 +252,42 @@ def club_return(request):
 
 
 def club_search(request):
-    isim=None
-    soyisim=None
+    firstName=None
+    lastName=None
     cinsiyet=None
     club_id=None
+    email=None
+    tcno=None
+
     athlete =Athlete.objects.none()
 
     if request.GET.get('isim'):
-        isim=request.GET.get('isim')
+        firstName=unicode_tr(request.GET.get('isim')).upper()
     if request.GET.get('soyisim'):
-        soyisim=request.GET.get('soyisim')
+        lastName=unicode_tr(request.GET.get('soyisim')).upper()
     if request.GET.get('cinsiyet'):
         cinsiyet=request.GET.get('cinsiyet')
     if request.GET.get('id'):
         club_id=request.GET.get('id')
+    if request.GET.get('email'):
+        email=request.GET.get('email')
+    if request.GET.get('tcno'):
+        tcno=request.GET.get('tcno')
 
-    if cinsiyet or isim or soyisim or club_id:
+    if cinsiyet or firstName or lastName or club_id or tcno or email:
 
         query = Q()
-        if cinsiyet:
-            query &= Q(person__gender=cinsiyet)
-        if isim:
-            query &= Q(user__first_name__icontains=isim)
-        if soyisim:
-            query &= Q(user__last_name__icontains=soyisim)
+
+        if firstName:
+            query &= Q(user__first_name__icontains=firstName)
+        if tcno:
+            query &= Q(person__tc__icontains=tcno)
+        if lastName:
+            query &= Q(user__last_name__icontains=lastName)
+        if email:
+            query &= Q(user__email__icontains=email)
         if club_id:
-            query &= Q(licenses__sportsClub_id__in=club_id)
+            query &= Q(licenses__sportsClub__in=club_id)
 
         athlete = Athlete.objects.filter(query).distinct()
 
