@@ -1,5 +1,4 @@
 from itertools import combinations
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -229,13 +228,7 @@ def club_result(request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
-
-
-
-
-def club_search(request):
-
-
+def club_return(request):
     sportclupArray=[]
     for item in SportsClub.objects.all():
         beka = {
@@ -248,6 +241,65 @@ def club_search(request):
     response = JsonResponse({'status': 'Success',
 
                              'sportclub':sportclupArray,
+
+                             })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+def club_search(request):
+    isim=None
+    soyisim=None
+    cinsiyet=None
+    club_id=None
+    athlete =Athlete.objects.none()
+
+    if request.GET.get('isim'):
+        isim=request.GET.get('isim')
+    if request.GET.get('soyisim'):
+        soyisim=request.GET.get('soyisim')
+    if request.GET.get('cinsiyet'):
+        cinsiyet=request.GET.get('cinsiyet')
+    if request.GET.get('id'):
+        club_id=request.GET.get('id')
+
+    if cinsiyet or isim or soyisim or club_id:
+
+        query = Q()
+        if cinsiyet:
+            query &= Q(person__gender=cinsiyet)
+        if isim:
+            query &= Q(user__first_name__icontains=isim)
+        if soyisim:
+            query &= Q(user__last_name__icontains=soyisim)
+        if club_id:
+            query &= Q(licenses__sportsClub_id__in=club_id)
+
+        athlete = Athlete.objects.filter(query).distinct()
+
+    else:
+        athlete=Athlete.objects.all()
+
+    list=[]
+    if athlete:
+        for item in Athlete.objects.all():
+
+            if item.licenses.filter(isActive=True):
+                club=item.licenses.filter(isActive=True)[0].sportsClub.name
+            else:
+                club='None'
+            beka = {
+                'name': item.user.first_name,
+                'lastname': item.user.last_name,
+                'club': club,
+            }
+            list.append(beka)
+    response = JsonResponse({'status': 'Success',
+
+                             'results':list,
 
                              })
     response["Access-Control-Allow-Origin"] = "*"

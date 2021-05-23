@@ -509,5 +509,6 @@ urlpatterns = [
     url(r'api/count$', ApiView.count, name='api-count'),
 
     url(r'api/sporclub$', ApiView.club_result, name='api-sportclup'),
+    url(r'api/sporclub/arama$', ApiView.club_search, name='api-sportclup-search'),
 
 ]
