@@ -276,6 +276,8 @@ def club_search(request):
 
     if cinsiyet or firstName or lastName or club_id or tcno or email:
 
+        Athlete.objects.filter(person__gender=Person.MALE)
+
         query = Q()
 
         if firstName:
@@ -288,6 +290,13 @@ def club_search(request):
             query &= Q(user__email__icontains=email)
         if club_id:
             query &= Q(licenses__sportsClub__in=club_id)
+        if cinsiyet:
+            if cinsiyet==1:
+                query &= Q(person__gender=Person.MALE)
+            elif cinsiyet==0:
+                query &= Q(person__gender=Person.FEMALE)
+
+
 
         athlete = Athlete.objects.filter(query).distinct()
 
