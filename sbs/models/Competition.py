@@ -6,6 +6,7 @@ from sbs.models.Judge import Judge
 from sbs.models.Competitiontype import Competitiontype
 from sbs.models.CompetitionStil import CompetitionStil
 from sbs.models.CompetitionsDocument import CompetitionsDocument
+from sbs.models.CompetitionPhotoDocument import CompetitionPhotoDocumentDocument
 
 
 from sbs.models.EnumFields import EnumFields
@@ -51,6 +52,7 @@ class Competition(models.Model):
     categoryies = models.ManyToManyField(Category)
     judges = models.ManyToManyField(Judge)
     file = models.ManyToManyField(CompetitionsDocument)
+    photos=models.ManyToManyField(CompetitionPhotoDocumentDocument)
 
 
     def __str__(self):

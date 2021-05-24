@@ -72,28 +72,6 @@
     </div>
 
 
-    <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-kural"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Uyarı</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Girilen veriler 20 kg kuralına uygun degildir.</p>
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn  btn-outline btn-ok" id="btn-kural ">Kapat</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
 
     <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
         <div class="modal-dialog">
@@ -138,52 +116,92 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-     <form method="post" enctype="multipart/form-data" role="form">
+
+    <form method="post" enctype="multipart/form-data" role="form">
         {% csrf_token %}
-            <div class="modal modal-body " tabindex="-1" role="dialog" id="modal-dokuman"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Müsabaka Dökümanlari Ekle</h4>
+        <div class="modal modal-body " tabindex="-1" role="dialog" id="addphotomodel"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Müsabaka Fotografları Ekle</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="id_type">Tarihi Seçiniz:</label>
+                            {{ photo_form.date }}
+
+                        </div>
+                        <div class="form-group">
+                            <label for="id_file">Resimleri Seçiniz:</label
+                            ><input type="file" multiple name="photofile" required=""
+                                    id="id_file">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="submit" class="btn  btn-primary">Kaydet</button>
+                    </div>
+
+
                 </div>
-
-                <div class="modal-body">
-
-                    <label for="id_type">Dosya Türü Seçiniz:</label>
-                    {{ dokuman_form.type }}
-                    <label for="id_file">Dosya Seçiniz:</label><input type="file" multiple name="file" required=""
-                                                                      id="id_file">
-                </div>
-                <div class="modal-footer">
-
-                    <button type="submit" class="btn  btn-primary">Kaydet</button>
-                </div>
-
-
+                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-content -->
+            <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-dialog -->
-    </div>
     </form>
-     <form method="post" enctype="multipart/form-data" role="form">
+    <form method="post" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
+        <div class="modal modal-body " tabindex="-1" role="dialog" id="modal-dokuman"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Müsabaka Dökümanlari Ekle</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <label for="id_type">Dosya Türü Seçiniz:</label>
+                        {{ dokuman_form.type }}
+                        <label for="id_file">Dosya Seçiniz:</label><input type="file" multiple name="file" required=""
+                                                                          id="id_file">
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="submit" class="btn  btn-primary">Kaydet</button>
+                    </div>
+
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </form>
+
+    <form method="post" enctype="multipart/form-data" role="form">
         {% csrf_token %}
 
-    <section class="content-header">
-        <h1>
-            Müsabaka İncele
+        <section class="content-header">
+            <h1>
+                Müsabaka İncele
 
-        </h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="#"><i class="fa fa-dashboard"></i>Müsabaka İncele</a>
-            </li>
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#"><i class="fa fa-dashboard"></i>Müsabaka İncele</a>
+                </li>
 
-        </ol>
-    </section>
+            </ol>
+        </section>
 
 
         <section class="content">
@@ -191,7 +209,7 @@
 
             <div class="row">
 
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Genel Bilgiler</h3>
@@ -208,7 +226,7 @@
                                         <label> {{ competition_form.startDate.label }}</label>
                                         {{ competition_form.startDate }}
                                     </div>
-                                     <div class="form-group">
+                                    <div class="form-group">
                                         <label> {{ competition_form.basvurulink.label }}</label>
                                         {{ competition_form.basvurulink }}
                                     </div>
@@ -242,7 +260,6 @@
                                         <label> {{ competition_form.youtubelink.label }}</label>
                                         {{ competition_form.youtubelink }}
                                     </div>
-
 
 
                                     <div class="form-group">
@@ -301,23 +318,29 @@
                 </div>
 
 
-                <div class="col-lg-4">
-                  <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Dökümanlar</h3>
-                        </div>
-                        <div class="box-header with-border">
-                            <div class="btn-group">
-
-
-
-                            <a class="btn btn-success" onclick="addDokuman()"> Döküman Ekle </a>
-
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <div class="box box-primary collapsed-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Dökümanlar</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                            class="fa fa-plus"></i>
+                                    </button>
+                                </div>
 
                             </div>
-                        </div>
-                        <div class="box-body">
 
+                            <div class="box-body">
+                                <div class="box-header with-border">
+                                    <div class="btn-group">
+
+
+                                        <a class="btn btn-success" onclick="addDokuman()"> Döküman Ekle </a>
+
+
+                                    </div>
+                                </div>
 
 
                                 <table id="dokuman" class="table table-bordered table-hover">
@@ -358,15 +381,84 @@
                                     </tbody>
                                 </table>
 
+                            </div>
+
+
                         </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="box box-primary collapsed-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Fotograflar</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                            class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="box-body">
+                                <div class="box-header with-border">
+                                    <div class="btn-group">
 
 
+                                        <a class="btn btn-success" onclick="addPhoto()"> Fotograf Ekle </a>
+
+
+                                    </div>
+                                </div>
+
+
+                                <table id="photo" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Resim</th>
+                                        <th>Eklenme Tarihi</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if competition %}
+                                        {% for file in competition.photos.all %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ file.file }}</td>
+                                                <td>{{ file.date |date}}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a
+                                                                type="button" class="btn btn-primary"><i
+                                                                class="fa fa-download"></i>
+                                                        </a>
+                                                        <a onclick="documandelete({{ file.id }})"
+                                                           type="button" class="btn btn-danger">Sil
+                                                        </a>
+
+
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                        </div>
                     </div>
 
                 </div>
-
-
             </div>
+
+
             <div class="row">
 
                 <div class="col-lg-12">
@@ -495,8 +587,38 @@
             $('#stil').val(stil_array);
 
 
+            $('#dokuman').DataTable({
 
-        $('#dokuman').DataTable({
+
+                language: {
+                    buttons: {
+                        pageLength: {
+                            _: " %d  Tane Göster",
+                            '-1': "Hepsini Göster"
+                        }
+
+                    }
+                },
+
+
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    ['10 tane', '25 tane ', '50 tane ', '100 Tane', 'Hepsini Getir']
+                ],
+
+
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true,
+                'responsive': true,
+                "pageLength": 7,
+
+
+            });
+            $('#photo').DataTable({
 
 
                 language: {
@@ -621,95 +743,13 @@
                 'autoWidth': true,
                 'responsive': true,
 
-
             });
-
-
         });
 
 
-        function addPlayer(id, competitionId, weight, total, silk1, kop1) {
+        function addPhoto() {
 
-
-            $("#reddetwhy").on("shown.bs.modal", function (e) {
-
-                $('#total').val(total);
-                $('#silk').val(silk1);
-                $('#kop').val(kop1);
-                $('#weight  option:selected').text(weight);
-
-
-                $("#btn-gonder").click(function () {
-
-                    console.log('buradan girdi', competitionId)
-                    if (e.handled !== true) {
-                        // This will prevent event triggering more then once
-                        e.handled = true;
-                        if ($('#weight').val() && $('#total').val() && $('#silk').val() && $('#kop').val()) {
-
-                            $.ajax({
-                                url: "{% url "sbs:catagori-sporcu-update-ajax" pk=212121223232323232 competition=999999999999999 %}".replace(/212121223232323232/, id.toString()).replace(/999999999999999/, competitionId.toString()),
-                                type: "POST",
-                                data: {
-                                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
-                                    total: $('#total').val(),
-                                    weight: $('#weight').val(),
-                                    silk: $('#silk').val(),
-                                    kop: $('#kop').val(),
-                                    isActive: 'False'
-
-                                },
-                                success: function (result) {
-
-
-                                    if (result.msg == "Kural20") {
-                                        $('#modal-kural').on("shown.bs.modal", function (e) {
-                                            $(".btn-ok").click(function () {
-
-
-                                                $('#modal-warning').modal('hide');
-                                                $('.modal').modal('hide');
-                                            });
-
-                                        }).modal('show');
-                                    } else if (result.msg == "Eksik") {
-                                        $('#modal-eksik').on("shown.bs.modal", function (e) {
-                                            $(".btn-ok").click(function () {
-
-
-                                                $('#modal-warning').modal('hide');
-                                                $('.modal').modal('hide');
-                                            });
-
-                                        }).modal('show');
-
-
-                                    } else {
-
-                                        html = 'Sporcu Başarıyla Güncellendi .';
-                                        debugger;
-                                        $(".successModal").html(html);
-                                        window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
-
-
-                                    }
-
-
-                                }
-                            });
-
-
-                        } else {
-                            {#    model gelecek #}
-
-                            alert("Lütfen eksik alanlari giriniz");
-
-                        }
-
-
-                    }
-                });
-
+            $("#addphotomodel").on("shown.bs.modal", function (e) {
 
             }).modal('show');
             $('#btn-closereddet').click(function () {

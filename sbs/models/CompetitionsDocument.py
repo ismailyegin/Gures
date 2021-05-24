@@ -4,12 +4,10 @@ from django.db import models
 class CompetitionsDocument(models.Model):
     fiksur = 'fiksur'
     sonuc = 'sonuc'
-    fotogaleri = 'fotogaleri'
 
     Type = (
-        (fiksur, 'fiksur'),
-        (sonuc, 'sonuc'),
-        (fotogaleri, 'fotogaleri'),
+        (fiksur, 'Fiksür'),
+        (sonuc, 'Sonuç'),
 
     )
     file = models.FileField(upload_to='document/', null=False, blank=False, verbose_name='Document')

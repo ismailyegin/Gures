@@ -9,9 +9,12 @@ class CompetitionSearchForm(ModelForm):
         model = Competition
 
         fields = (
-            'name', 'startDate', 'finishDate',)
+            'name', 'startDate', 'finishDate','compType','compGeneralType')
 
-        labels = {'name': 'İsim', 'startDate': 'Başlangıç Yılı', 'finishDate': 'Yılı ', }
+        labels = {'name': 'İsim', 'startDate': 'Başlangıç Yılı', 'finishDate': 'Yılı ',
+                  'compGeneralType': 'Genel Tür ',
+                  'compType': 'Türü',
+                  }
 
         widgets = {
 
@@ -20,5 +23,10 @@ class CompetitionSearchForm(ModelForm):
                        }),
 
             'name': forms.TextInput(attrs={'class': 'form-control', "style": "text-transform:uppercase"}),
+
+            'compType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                            'style': 'width: 100%;'}),
+            'compGeneralType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                                   'style': 'width: 100%; '}),
 
         }

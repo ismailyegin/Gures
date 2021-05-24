@@ -123,13 +123,10 @@
         <section class="content">
             <!-- Info boxes -->
             {#        sayilar alani#}
-            <div class="row">
+             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-aqua">
-                            {% load static %}
-                                <img class="ion" src="{% static 'images/Sporcuicon.png'%}">
-                            </span>
+                        <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Sporcu Sayısı</span>
@@ -142,10 +139,7 @@
                 <!-- /.col -->
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-red">
-                            {% load static %}
-                                <img class="ion" src="{% static 'images/Antrenr.png'%}">
-                        </span>
+                        <span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Antrenör Sayısı</span>
@@ -160,29 +154,9 @@
                 <!-- fix for small devices only -->
                 <div class="clearfix visible-sm-block"></div>
 
-
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-yellow">
-                             {% load static %}
-                                <img class="ion" src="{% static 'images/hakemicon.png'%}">
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Hakem Sayısı</span>
-                            <span class="info-box-number">{{ total_judge }}</span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-green">
-                             {% load static %}
-                                <img class="ion" src="{% static 'images/Kulup.png'%}">
-                            </span>
+                        <span class="info-box-icon bg-green"><i class="ion ion-android-menu"></i></span>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Kulüp Sayısı</span>
@@ -193,8 +167,20 @@
                     <!-- /.info-box -->
                 </div>
                 <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Hakem Sayısı</span>
+                            <span class="info-box-number">{{ total_judge }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
             </div>
-            <!-- /.row -->
             {#müsabaka raporu#}
             <div class="row">
                 <div class="col-md-12">

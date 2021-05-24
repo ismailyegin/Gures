@@ -8,11 +8,13 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from datetime import timedelta, datetime
 
 from sbs.Forms.CompetitionForm import CompetitionForm
 from sbs.Forms.CompetitionSearchForm import CompetitionSearchForm
 from sbs.Forms.SimplecategoryForm import SimplecategoryForm
 from sbs.Forms.CompetitionsDocumentForm import CompetitionsDocumentForm
+from sbs.Forms.PhotoForm import PhotoForm
 from sbs.models import SportClubUser, SportsClub, Competition, Athlete, Weight, CompCategory, Coach
 from sbs.models.Category import Category
 from sbs.models.CompetitionStil import CompetitionStil
@@ -21,6 +23,7 @@ from sbs.models.SandaAthlete import SandaAthlete
 from sbs.models.SimpleCategory import SimpleCategory
 from sbs.services import general_methods
 from sbs.models.CompetitionsDocument import CompetitionsDocument
+from sbs.models.CompetitionPhotoDocument import CompetitionPhotoDocumentDocument
 
 
 # from pyexcel_xls import get_data as xls_get
@@ -117,13 +120,18 @@ def return_competitions(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         startDate = request.POST.get('startDate')
-
-        if name or startDate:
+        compGeneralType=request.POST.get('compGeneralType')
+        compType=request.POST.get('compType')
+        if name or startDate or compGeneralType or compType:
             query = Q()
             if name:
                 query &= Q(name__icontains=name)
             if startDate:
                 query &= Q(finishDate__year=int(startDate))
+            if compGeneralType:
+                query &= Q(compGeneralType=compGeneralType)
+            if compType:
+                query &= Q(compType=compType)
 
             competitions = Competition.objects.filter(query).order_by('-startDate').distinct()
         else:
@@ -172,10 +180,23 @@ def musabaka_duzenle(request, pk):
 
     musabaka = Competition.objects.get(pk=pk)
     competition_form = CompetitionForm(request.POST or None, instance=musabaka)
-
-
+    dokuman_form = CompetitionsDocumentForm()
+    category = Category.objects.all()
+    stil = CompetitionStil.objects.all()
+    photo_form=PhotoForm()
+    athletes=CompetitionsAthlete.objects.filter(competition=musabaka)
 
     if request.method == 'POST':
+        # döküman kaydedilecek alan
+        if request.FILES.getlist('photofile') and request.POST.get('date'):
+            files = request.FILES.getlist('photofile')
+            date=datetime.strptime(request.POST.get('date'),'%d/%m/%Y')
+            for item in files:
+                photo = CompetitionPhotoDocumentDocument(date=date,file=item)
+                photo.save()
+                musabaka.photos.add(photo)
+                musabaka.save()
+
         # döküman kaydedilecek alan
         if request.FILES.getlist('file') and request.POST.get('type'):
             files=request.FILES.getlist('file')
@@ -187,51 +208,42 @@ def musabaka_duzenle(request, pk):
                 musabaka.file.add(dokuman)
                 musabaka.save()
 
-
-
         # form kaydedilme alani
-        elif competition_form.is_valid():
-            for item in musabaka.categoryies.all():
-                musabaka.categoryies.remove(item)
-                musabaka.save()
-            for item in musabaka.stil.all():
-                musabaka.stil.remove(item)
-                musabaka.save()
-            if request.POST.getlist('jobDesription'):
-                for item in request.POST.getlist('jobDesription'):
-                    musabaka.categoryies.add(Category.objects.get(pk=item))
+        elif request.POST.get('name'):
+            if competition_form.is_valid():
+                for item in musabaka.categoryies.all():
+                    musabaka.categoryies.remove(item)
                     musabaka.save()
-
-            if request.POST.getlist('stil'):
-                for item in request.POST.getlist('stil'):
-                    musabaka.stil.add(CompetitionStil.objects.get(pk=item))
+                for item in musabaka.stil.all():
+                    musabaka.stil.remove(item)
                     musabaka.save()
-            competition_form.save()
-            messages.success(request, 'Müsabaka Başarıyla Güncellenmiştir.')
+                if request.POST.getlist('jobDesription'):
+                    for item in request.POST.getlist('jobDesription'):
+                        musabaka.categoryies.add(Category.objects.get(pk=item))
+                        musabaka.save()
 
-            log = str(request.POST.get('name')) + "  Musabaka guncellendi "
-            log = general_methods.logwrite(request, request.user, log)
+                if request.POST.getlist('stil'):
+                    for item in request.POST.getlist('stil'):
+                        musabaka.stil.add(CompetitionStil.objects.get(pk=item))
+                        musabaka.save()
+                competition_form.save()
+                messages.success(request, 'Müsabaka Başarıyla Güncellenmiştir.')
 
-            return redirect('sbs:musabaka-duzenle', pk=pk)
-        else:
+                log = str(request.POST.get('name')) + "  Musabaka guncellendi "
+                log = general_methods.logwrite(request, request.user, log)
 
-            messages.warning(request, 'Alanları Kontrol Ediniz')
+                return redirect('sbs:musabaka-duzenle', pk=pk)
+
+            else:
+               messages.warning(request, 'Alanları Kontrol Ediniz')
     competition_form = CompetitionForm(instance=musabaka)
-    athletes = CompetitionsAthlete.objects.filter(competition=musabaka)
-    category = Category.objects.all()
-    stil = CompetitionStil.objects.all()
-    dokuman_form = CompetitionsDocumentForm()
-
-
-
-
-
     return render(request, 'musabaka/musabaka-duzenle.html',
                   {'competition_form': competition_form,
                    'competition': musabaka,
                    'athletes': athletes,
                    'category': category,
                    'stil': stil,
+                   'photo_form':photo_form,
                    'dokuman_form':dokuman_form})
 
 

@@ -16,10 +16,10 @@ class CompetitionForm(ModelForm):
                   'eventPlace': 'Etkinlik Yeri',
                   'registerStartDate': 'Ön Kayıt Başlangıç Tarihi',
                   'registerFinishDate': 'Ön Kayıt Bitiş Tarihi',
-                  'compType': 'Türü',
                   'youtubelink': 'Youtube Link ',
                   'basvurulink': 'Başvuru Link ',
-                  'compGeneralType':'Genel Tür '
+                  'compGeneralType':'Genel Tür ',
+                  'compType': 'Türü',
 
 
                   }
