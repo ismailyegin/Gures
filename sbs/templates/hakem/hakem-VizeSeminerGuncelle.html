@@ -268,9 +268,9 @@
                                             <td>
                                                 <div class="btn-group">
 
-                                                    <a onclick="deleteAthlete({{ athlete.id }}, {{ competition.pk }})"
-                                                       type="button" class="btn btn-danger"><i
-                                                            class="fa fa-edit"></i>Kaldır
+                                                    <a onclick="deleteAthlete({{ athlete.id }}, {{ competition.pk }})" type="button" class="btn btn-danger">
+                                                        <i class="fa fa-edit"></i>
+                                                        Kaldır
                                                     </a>
 
 
@@ -359,21 +359,17 @@
 
     <script>
 
-        $(function () {
+{% comment %}        $(function () {
             $('#type_visaSeminer option[value={% if competition.forWhichClazz == 'REFEREE'  %}visa{% else %}
                 claim{% endif %}
-        ]
-            ').attr('
-            selected
-            ', '
-            selected
-            ');
+        ]').attr('selected', 'selected');
 
-        });
+        });{% endcomment %}
 
 
 
         function deleteAthlete(id, competition) {
+
             var html = '';
             $("#modal-danger").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {

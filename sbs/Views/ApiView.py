@@ -391,7 +391,7 @@ def search(list, platform):
 def competition_year(request):
     if Competition.objects.all():
         list = []
-        for item in Competition.objects.all():
+        for item in Competition.objects.all().order_by("-startDate"):
             if not(search(list, item.startDate.year)):
                 list.append(item.startDate.year)
         response = JsonResponse({
