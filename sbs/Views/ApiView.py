@@ -382,14 +382,18 @@ def club_search(request):
     response["Access-Control-Allow-Headers"] = "*"
     return response
 
+def search(list, platform):
+    for i in range(len(list)):
+        if list[i] == platform:
+            return True
+    return False
+
 def competition_year(request):
     if Competition.objects.all():
         list = []
         for item in Competition.objects.all():
-            beka = {
-                'year': item.startDate.year,
-            }
-            list.append(beka)
+            if not(search(list, item.startDate.year)):
+                list.append(item.startDate.year)
         response = JsonResponse({
             'year':list,
         })
