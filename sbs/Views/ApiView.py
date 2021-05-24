@@ -285,10 +285,10 @@ def competition_search (request):
             beka = {
 
                 'name': item.name,
-                'startdate': item.startDate,
-                'finishDate': item.finishDate,
-                'registerStartDate': item.registerStartDate,
-                'registerFinishDate': item.registerFinishDate,
+                'startdate': item.startDate.strftime("%d-%B-%Y"),
+                'finishDate': item.finishDate.strftime("%d-%B-%Y"),
+                'registerStartDate': item.registerStartDate.strftime("%d-%B-%Y"),
+                'registerFinishDate': item.registerFinishDate.strftime("%d-%B-%Y"),
                 'eventPlace': item.eventPlace,
                 'youtubelink': item.youtubelink,
                 'basvurulink': item.basvurulink,
