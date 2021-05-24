@@ -251,6 +251,72 @@ def club_return(request):
     return response
 
 
+def competition_search (request):
+    name=None
+    startDate=None
+    compGeneralType=None
+    compType=None
+    musabaka =Competition.objects.none()
+
+    if request.GET.get('name'):
+        name = request.GET.get('name')
+    if request.GET.get('year'):
+        startDate = request.GET.get('year')
+    if request.GET.get('compGeneralType'):
+        compGeneralType = request.GET.get('compGeneralType')
+    if request.GET.get('compType'):
+        compType = request.GET.get('compType')
+
+    if name or startDate or compGeneralType or compType:
+        query = Q()
+        if name:
+            query &= Q(name__icontains=name)
+        if startDate:
+            query &= Q(finishDate__year=int(startDate))
+        if compGeneralType:
+            query &= Q(compGeneralType=compGeneralType)
+        if compType:
+            query &= Q(compType=compType)
+
+        musabaka = Competition.objects.filter(query).order_by('-startDate').distinct()
+    else:
+        musabaka = Competition.objects.all().order_by('-startDate')
+
+    list=[]
+    if musabaka:
+        for item in musabaka:
+            beka = {
+
+                'name': item.name,
+                'startdate': item.startDate,
+                'finishDate': item.finishDate,
+                'registerStartDate': item.registerStartDate,
+                'registerFinishDate': item.registerFinishDate,
+                'eventPlace': item.eventPlace,
+                'youtubelink': item.youtubelink,
+                'basvurulink': item.basvurulink,
+                'haber': item.haber,
+                'compType': item.compType,
+                'compGeneralType': item.compGeneralType.name,
+
+            }
+            list.append(beka)
+    response = JsonResponse({'status': 'Success',
+
+                             'results':list,
+
+                             })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+
+
+
+
 def club_search(request):
     firstName=None
     lastName=None
@@ -298,7 +364,7 @@ def club_search(request):
 
     list=[]
     if athlete:
-        for item in Athlete.objects.all():
+        for item in athlete:
 
             if item.licenses.filter(isActive=True):
                 club=item.licenses.filter(isActive=True)[0].sportsClub.name
