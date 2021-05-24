@@ -193,9 +193,6 @@ def competitionsDetail(request):
                 "youtubelink": str(musabaka.youtubelink)
 
             })
-
-
-
     else:
         response = JsonResponse({
             'message': 'none'
@@ -371,19 +368,38 @@ def club_search(request):
             else:
                 club='None'
             beka = {
-
                 'name': item.user.first_name,
                 'lastname': item.user.last_name,
                 'club': club,
             }
             list.append(beka)
     response = JsonResponse({'status': 'Success',
-
                              'results':list,
-
                              })
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
+
+def competition_year(request):
+    if Competition.objects.all():
+        list = []
+        for item in Competition.objects.all():
+            beka = {
+                'year': item.startDate.year,
+            }
+            list.append(beka)
+        response = JsonResponse({
+            'year':list,
+        })
+    else:
+        response = JsonResponse({
+            'year': 'null',
+        })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+

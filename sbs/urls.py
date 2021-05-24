@@ -506,9 +506,9 @@ urlpatterns = [
     url(r'api/musabaka/detail$', ApiView.competitionsDetail, name='api-musabaka'),
     url(r'api/musabaka/basvuru$', ApiView.api_musabaka_basvuru, name='api-musabaka-basvuru'),
     url(r'api/musabaka/arama$', ApiView.competition_search, name='api-competition-search'),
+    url(r'api/musabaka/year$', ApiView.competition_year, name='api-competition-year'),
     url(r'api/city$', ApiView.city_count, name='api-city'),
     url(r'api/count$', ApiView.count, name='api-count'),
-
     url(r'api/sporclub$', ApiView.club_result, name='api-sportclup'),
     url(r'api/sporclub/arama$', ApiView.club_search, name='api-sportclup-search'),
 
