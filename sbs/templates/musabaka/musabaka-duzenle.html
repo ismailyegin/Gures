@@ -360,7 +360,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a class="btn btn-success" data-toggle="modal" href="{{ MEDIA_URL }}{{ file.file }}" download=""><i class="fa fa-download"></i></a>
+                                                        <a class="btn btn-success" data-toggle="modal" href="/media/{{ file.file }}" download=""><i class="fa fa-download"></i></a>
 
                                                         <a onclick="documandelete({{ file.id }})"
                                                            type="button" class="btn btn-danger"><i class="fa fa-trash"></i>
@@ -426,7 +426,7 @@
                                                 <td>{{ file.title}}</td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a class="btn btn-success" data-toggle="modal" href="{{ MEDIA_URL }}{{ file.file }}" download=""><i class="fa fa-download"></i></a>
+                                                        <a class="btn btn-success" data-toggle="modal" href="/media/{{ file.file }}" download=""><i class="fa fa-download"></i></a>
 
                                                         <a onclick="photodelete({{ file.id }})"
                                                            type="button" class="btn btn-danger"><i class="fa fa-trash"></i>

@@ -422,7 +422,6 @@ urlpatterns = [
 
 
     url(r'musabaka/musabaka-duzenle/dokumansil/(?P<pk>\d+)/$', CompetitionViews.musabaka_dokuman_sil,name='musabaka-dokuman-kaldir'),
-
     url(r'musabaka/musabaka-duzenle/resimsil/(?P<pk>\d+)/$', CompetitionViews.musabaka_photo_sil,name='musabaka-resim-kaldir'),
 
 
@@ -527,6 +526,9 @@ urlpatterns = [
     url(r'api/sporclub/arama$', ApiView.club_search, name='api-sportclup-search'),
 
     url(r'api/medal$', ApiView.medal_result, name='api-medal'),
+
+    url(r'api/athlete$', ApiView.return_athlete, name='api-athlete'),
+    url(r'api/athlete/musabaka$', ApiView.return_competition_athlete, name='api-athlete-competition'),
 
 
 

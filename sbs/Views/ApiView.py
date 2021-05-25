@@ -16,6 +16,7 @@ from sbs.models.Coach import Coach
 from sbs.models.Judge import Judge
 from sbs.models.Person import Person
 from sbs.models.Success import Success
+from sbs.models.CompetitionsAthlete import CompetitionsAthlete
 
 from sbs.models.Activity import Activity
 from django.core import serializers
@@ -423,6 +424,70 @@ def medal_result(request):
         response = JsonResponse({
             'medal': 'null',
         })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+
+def return_athlete(request):
+    if request.GET.get('pk') and Athlete.objects.filter(pk=request.GET.get('pk')):
+        if CompetitionsAthlete.objects.filter(athlete=Athlete.objects.get(pk=request.GET.get('pk'))):
+            list = []
+            for item in CompetitionsAthlete.objects.filter(athlete=Athlete.objects.get(pk=request.GET.get('pk'))):
+                beka = {
+                    'isim': item.athlete.user.get_full_name(),
+                    'musabaka': item.competition.name,
+                    'siklet': item.siklet.weight,
+                    'siklet': item.siklet.weight,
+                    'derece': item.degree
+                }
+                list.append(beka)
+            response = JsonResponse({
+                'athlete': list,
+            })
+        else:
+            response = JsonResponse({
+                'athlete': 'null',
+            })
+    else:
+        response = JsonResponse({
+            'athlete': 'null',
+        })
+
+
+
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+
+def return_competition_athlete(request):
+    if request.GET.get('pk') and Competition.objects.filter(pk=request.GET.get('pk')):
+        list = []
+        for item in CompetitionsAthlete.objects.filter(competition=Competition.objects.get(pk=request.GET.get('pk'))):
+            beka = {
+                'isim': item.athlete.user.get_full_name(),
+                'musabaka': item.competition.name,
+                'siklet': item.siklet.weight,
+                'siklet': item.siklet.weight,
+                'derece': item.degree
+            }
+            list.append(beka)
+        response = JsonResponse({
+            'athlete': list,
+        })
+
+    else:
+        response = JsonResponse({
+            'athlete': 'null',
+        })
+
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
