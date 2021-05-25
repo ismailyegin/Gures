@@ -215,27 +215,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade modal-dialog" tabindex="-1" role="dialog" id="kural20"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="Kural20title">Kural İhlali </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Verilen degerler 20 kg kuralına uymadıgı için güncellenemedi. </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
 
-                </div>
-            </div>
-        </div>
-</div>
 
 
     <div class="modal modal-dialog fade in deneme23" tabindex="-1" role="dialog" id="reddetwhy"
@@ -249,10 +229,10 @@
                 </div>
                 <div class="modal-body" id="kategoriadd">
                     <label for="inputState">Kategori</label>
-                    <select id="category" onchange="Kategori()" class="form-control">
+                    <select id="category" class="form-control">
                         <option selected>Seçiniz...</option>
                         {% for weight in weights %}
-                            <option value="{{ weight.pk }}">{{ weight.kategoriadi }}</option>
+                            <option value="{{ weight.pk }}">{{ weight.weight }}</option>
                         {% endfor %}
                     </select>
 
@@ -365,7 +345,7 @@
                             {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                 <th>Kulüp</th>
                             {% endif %}
-                            <th>Kategori</th>
+                            <th>Siklet</th>
 
                             <th>İşlemler</th>
 
@@ -388,11 +368,11 @@
                                     {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <td>{{ compathlete.athlete.licenses.last.sportsClub }}</td>
                                     {% endif %}
-                                    <td>{{ compathlete.category }}</td>
+                                    <td>{{ compathlete.siklet.weight }}</td>
 
                                     <td>
                                         <div class="btn-group">
-                                            <a onclick=" addPlayer( {{ compathlete.athlete.pk }},{{ compathlete.id }},{{ compathlete.category.pk }})"
+                                            <a onclick=" addPlayer( {{ compathlete.athlete.pk }},{{ compathlete.id }},{{ compathlete.siklet.pk }})"
                                                type="button" class="btn btn-primary"><i
                                                     class="fa fa-edit"></i>Güncelle
                                             </a>
@@ -550,44 +530,8 @@
 
         });
 
-        function addPlayer(id, competitionId, kategori) {
-
-            $('#category option').removeAttr('selected').filter('[value=' + kategori + ']').attr('selected', true)
-            console.log(kategori)
-
-            if (kategori == 3 || kategori == 4 || kategori == 5) {
-
-                row = $("body").find("#antrenor");
-
-                if (row.length == 0) {
-
-                    $('#kategoriadd').append("<label class=' test '>Antrenör Seç</label><select id='antrenor' class='form-control test ' onchange='SporcuGetir()'><option value='0'>Antrenör Seçiniz </option></select>");
-                    $('#kategoriadd').append("<label class=' test '>Sporcu Seç</label><select id='sporcu' class='form-control test '><option value='0'>Sporcu Seçiniz </option></select>");
-
-                }
-                $.ajax({
-                    url: "{% url "sbs:catagori-antrenor-sec-ajax" %}",
-                    type: "POST",
-                    data: {
-                        'csrfmiddlewaretoken': "{{  csrf_token  }}",
-
-
-                        isActive: 'False',
-
-                    },
-
-                    success: function (result) {
-                        $("#antrenor option").each(function () {
-                            $(this).remove();
-                        });
-
-                        result.data.forEach(element => $('#antrenor').append("<option value=" + element.pk + ">" + element.name + "</option>"));
-                    }
-                });
-
-
-            }
-
+        function addPlayer(id, competitionId, siklet) {
+            $("#category option").removeAttr('selected').filter('[value='+siklet+']').attr('selected', true);
 
             $("#reddetwhy").on("shown.bs.modal", function (e) {
                 if (e.handled !== true) { // This will prevent event triggering more then once
@@ -602,7 +546,6 @@
                         type: "POST",
                         data: {
                             'csrfmiddlewaretoken': "{{  csrf_token  }}",
-                            sporcu: $("#sporcu option:selected").val(),
                             category: $('#category').val(),
                             isActive: 'False'
                         },
@@ -644,73 +587,7 @@
             });
         };
 
-        function Kategori() {
 
-            if ($("#category option:selected").val() == 3 || $("#category option:selected").val() == 4 || $("#category option:selected").val() == 5) {
-
-                {#alert('benden selam olsun bolu beyine');#}
-                row = $("body").find("#antrenor")
-
-                if (row.length == 0) {
-
-                    $('#kategoriadd').append("<label class=' test '>Antrenör Seç</label><select id='antrenor' class='form-control test ' onchange='SporcuGetir()'><option value='0'>Antrenör Seçiniz </option></select>");
-                    $('#kategoriadd').append("<label class=' test '>Sporcu Seç</label><select id='sporcu' class='form-control test '><option value='0'>Sporcu Seçiniz </option></select>");
-
-
-                    $.ajax({
-                        url: "{% url "sbs:catagori-antrenor-sec-ajax" %}",
-                        type: "POST",
-                        data: {
-                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
-
-
-                            isActive: 'False',
-
-                        },
-
-                        success: function (result) {
-                            $("#antrenor option").each(function () {
-                                $(this).remove();
-                            });
-
-                            result.data.forEach(element => $('#antrenor').append("<option value=" + element.pk + ">" + element.name + "</option>"));
-                        }
-                    });
-                }
-            } else {
-
-                $('.test').remove();
-
-
-            }
-
-        }
-
-        function SporcuGetir() {
-
-
-            $.ajax({
-                url: "{% url "sbs:catagori-antrenor-sporcu-sec-ajax" %}",
-                type: "POST",
-                data: {
-                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
-
-
-                    isActive: 'False',
-                    coach: $("#antrenor option:selected").val(),
-
-                },
-
-                success: function (result) {
-
-                    $("#sporcu option").each(function () {
-                        $(this).remove();
-                    });
-
-                    result.data.forEach(element => $('#sporcu').append("<option value=" + element.pk + ">" + element.name + "</option>"));
-                }
-            });
-        }
 
     </script>
 

@@ -10,20 +10,20 @@ class PhotoForm(ModelForm):
 
         fields = (
              'file',
-             'date')
+             'title')
 
         labels = {
                   'file': 'Dosya Seçiniz',
-                  'date':'Tarihi Seçiniz',
+                  'title':'Tarihi Seçiniz',
 
 
                   }
 
         widgets = {
 
-            'date': forms.DateInput(
-                attrs={'class': 'form-control  pull-right datemask datepicker6', 'autocomplete': 'off',
-                       'required': 'required'}),
+            'title': forms.TextInput(
+                attrs={'class': 'form-control ', 'value': '', "style": "text-transform:uppercase"}),
+
 
 
         }

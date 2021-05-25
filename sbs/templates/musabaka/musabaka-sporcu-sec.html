@@ -81,14 +81,14 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Ek Bilgileri Giriniz</h4>
+                    <h4 class="modal-title">Siklet Seçiniz</h4>
                 </div>
                 <div class="modal-body" id="kategoriadd">
-                    <label for="inputState">Kategori</label>
-                    <select id="weight" onchange="Kategori()" class="form-control">
+                    <label for="inputState">Siklet</label>
+                    <select id="weight"  class="form-control">
                         <option selected>Seçiniz...</option>
                         {% for weight in weights %}
-                            <option value="{{ weight.pk }}">{{ weight.kategoriadi }}</option>
+                            <option value="{{ weight.pk }}">{{ weight.weight }}</option>
                         {% endfor %}
                     </select>
 
@@ -295,49 +295,6 @@
     <script>
 
 
-        function Kategori() {
-
-            console.log($("#weight option:selected").text());
-            console.log($("#weight option:selected").val());
-            if ($("#weight option:selected").val() == 3 || $("#weight option:selected").val() == 4 || $("#weight option:selected").val() == 5) {
-
-                row = $("body").find("#antrenor")
-
-                if (row.length == 0) {
-
-                    $('#kategoriadd').append("<label class=' test '>Antrenör Seç</label><select id='antrenor' class='form-control test ' onchange='SporcuGetir()'><option value='0'>Antrenör Seçiniz </option></select>");
-                    $('#kategoriadd').append("<label class=' test '>Sporcu Seç</label><select id='sporcu' class='form-control test '><option value='0'>Sporcu Seçiniz </option></select>");
-
-
-                    $.ajax({
-                        url: "{% url "sbs:catagori-antrenor-sec-ajax" %}",
-                        type: "POST",
-                        data: {
-                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
-
-
-                            isActive: 'False',
-
-                        },
-
-                        success: function (result) {
-                            $("#antrenor option").each(function () {
-                                $(this).remove();
-                            });
-
-                            result.data.forEach(element => $('#antrenor').append("<option value=" + element.pk + ">" + element.name + "</option>"));
-                        }
-                    });
-                }
-            } else {
-
-                $('.test').remove();
-
-
-            }
-
-        }
-
         function SporcuGetir() {
 
 
@@ -530,7 +487,6 @@
                                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
 
                                     weight: $('#weight').val(),
-                                    sporcu: $("#sporcu option:selected").val(),
                                     isActive: 'False',
 
                                 },
