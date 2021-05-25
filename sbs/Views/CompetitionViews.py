@@ -65,7 +65,7 @@ def aplication(request, pk):
 
     login_user = request.user
     user = User.objects.get(pk=login_user.pk)
-    weights = Category.objects.all()
+    weights = Weight.objects.all()
     if active == 'KlupUye':
         sc_user = SportClubUser.objects.get(user=user)
         if sc_user.dataAccessControl == True:
@@ -188,11 +188,11 @@ def musabaka_duzenle(request, pk):
 
     if request.method == 'POST':
         # döküman kaydedilecek alan
-        if request.FILES.getlist('photofile') and request.POST.get('date'):
+        if request.FILES.getlist('photofile') and request.POST.get('title'):
             files = request.FILES.getlist('photofile')
-            date=datetime.strptime(request.POST.get('date'),'%d/%m/%Y')
+            date=request.POST.get('title')
             for item in files:
-                photo = CompetitionPhotoDocumentDocument(date=date,file=item)
+                photo = CompetitionPhotoDocumentDocument(title=date,file=item)
                 photo.save()
                 musabaka.photos.add(photo)
                 musabaka.save()
@@ -294,7 +294,7 @@ def musabaka_sporcu_sec(request, pk):
         logout(request)
         return redirect('accounts:login')
 
-    category = Category.objects.all()
+    category = Weight.objects.all().order_by('-weight')
 
     competition = Competition.objects.filter(registerStartDate__lte=timezone.now(),
                                              registerFinishDate__gte=timezone.now())
@@ -463,7 +463,7 @@ def return_sporcu(request):
     if length == -1:
 
         athletes = []
-        for comp in compAthlete:
+        for comp in CompetitionsAthlete.objects.filter(competition=competition):
             if comp.athlete:
                 athletes.append(comp.athlete.pk)
 
@@ -605,20 +605,15 @@ def update_athlete(request, pk, competition):
     if request.method == 'POST' and request.is_ajax():
 
         try:
-            user = User.objects.get(pk=login_user.pk)
             compAthlete = CompetitionsAthlete.objects.get(pk=competition)
             category = request.POST.get('category')
-            if request.POST.get('sporcu'):
-                compAthlete.athleteTwo = Athlete.objects.get(pk=request.POST.get('sporcu'))
             if category is not None:
-                compAthlete.category = Category.objects.get(pk=category)
+                compAthlete.siklet = Weight.objects.get(pk=category)
             compAthlete.save()
 
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
         except SandaAthlete.DoesNotExist:
             return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
-
-
 
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
@@ -658,7 +653,6 @@ def choose_athlete(request, pk, competition):
 
         try:
             if request.POST.get('weight'):
-
                 user = User.objects.get(pk=login_user.pk)
                 competition = Competition.objects.get(pk=competition)
                 athlete = Athlete.objects.get(pk=pk)
@@ -666,25 +660,16 @@ def choose_athlete(request, pk, competition):
                 if CompetitionsAthlete.objects.filter(competition=competition).filter(athlete=athlete).count() <= 1:
                     if CompetitionsAthlete.objects.filter(competition=competition).filter(athlete=athlete):
                         competitionAthlete = CompetitionsAthlete.objects.get(athlete=athlete, competition=competition)
-                        katagori = competitionAthlete.category.pk
-                        if str(katagori) != request.POST.get('weight'):
-                            if request.POST.get('sporcu'):
-                                compAthlete.athleteTwo = Athlete.objects.get(pk=request.POST.get('sporcu'))
-                            compAthlete.athlete = athlete
-                            compAthlete.competition = competition
-                            compAthlete.category = Category.objects.get(pk=request.POST.get('weight'))
-                            compAthlete.save()
-                            log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu eklendi "
-                            log = general_methods.logwrite(request, request.user, log)
-                            return JsonResponse({'status': 'Success', 'msg': 'Sporcu Başarı ile kaydedilmiştir.'})
-                        else:
-                            return JsonResponse({'status': 'Fail', 'msg': 'Aynı kategoride kayıt vardır.'})
+                        competitionAthlete.siklet = Weight.objects.get(pk=request.POST.get('weight'))
+                        competitionAthlete.save()
+                        log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu güncellendi "
+                        log = general_methods.logwrite(request, request.user, log)
+                        return JsonResponse({'status': 'Success', 'msg': 'Sporcu Başarı ile kaydedilmiştir.'})
+
                     else:
-                        if request.POST.get('sporcu'):
-                            compAthlete.athleteTwo = Athlete.objects.get(pk=request.POST.get('sporcu'))
                         compAthlete.athlete = athlete
                         compAthlete.competition = competition
-                        compAthlete.category = Category.objects.get(pk=request.POST.get('weight'))
+                        compAthlete.siklet= Weight.objects.get(pk=request.POST.get('weight'))
                         compAthlete.save()
                         log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu eklendi "
                         log = general_methods.logwrite(request, request.user, log)
