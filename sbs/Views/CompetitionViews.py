@@ -60,7 +60,6 @@ def aplication(request, pk):
         logout(request)
         return redirect('accounts:login')
 
-
     musabaka = Competition.objects.get(pk=pk)
 
     login_user = request.user
@@ -92,7 +91,6 @@ def aplication(request, pk):
 
 @login_required
 def return_competition(request):
-
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -116,12 +114,11 @@ def return_competitions(request):
                                              registerFinishDate__gte=timezone.now())
     competitions = Competition.objects.none()
 
-
     if request.method == 'POST':
         name = request.POST.get('name')
         startDate = request.POST.get('startDate')
-        compGeneralType=request.POST.get('compGeneralType')
-        compType=request.POST.get('compType')
+        compGeneralType = request.POST.get('compGeneralType')
+        compType = request.POST.get('compType')
         if name or startDate or compGeneralType or compType:
             query = Q()
             if name:
@@ -177,33 +174,32 @@ def musabaka_duzenle(request, pk):
         logout(request)
         return redirect('accounts:login')
 
-
     musabaka = Competition.objects.get(pk=pk)
     competition_form = CompetitionForm(request.POST or None, instance=musabaka)
     dokuman_form = CompetitionsDocumentForm()
     category = Category.objects.all()
     stil = CompetitionStil.objects.all()
-    photo_form=PhotoForm()
-    athletes=CompetitionsAthlete.objects.filter(competition=musabaka)
+    photo_form = PhotoForm()
+    athletes = CompetitionsAthlete.objects.filter(competition=musabaka)
 
     if request.method == 'POST':
         # döküman kaydedilecek alan
         if request.FILES.getlist('photofile') and request.POST.get('title'):
             files = request.FILES.getlist('photofile')
-            date=request.POST.get('title')
+            date = request.POST.get('title')
             for item in files:
-                photo = CompetitionPhotoDocumentDocument(title=date,file=item)
+                photo = CompetitionPhotoDocumentDocument(title=date, file=item)
                 photo.save()
                 musabaka.photos.add(photo)
                 musabaka.save()
 
         # döküman kaydedilecek alan
         if request.FILES.getlist('file') and request.POST.get('type'):
-            files=request.FILES.getlist('file')
-            type=request.POST.get('type')
+            files = request.FILES.getlist('file')
+            type = request.POST.get('type')
             for item in files:
-                dokuman=CompetitionsDocument(type=type,
-                                             file=item)
+                dokuman = CompetitionsDocument(type=type,
+                                               file=item)
                 dokuman.save()
                 musabaka.file.add(dokuman)
                 musabaka.save()
@@ -235,7 +231,7 @@ def musabaka_duzenle(request, pk):
                 return redirect('sbs:musabaka-duzenle', pk=pk)
 
             else:
-               messages.warning(request, 'Alanları Kontrol Ediniz')
+                messages.warning(request, 'Alanları Kontrol Ediniz')
     competition_form = CompetitionForm(instance=musabaka)
     return render(request, 'musabaka/musabaka-duzenle.html',
                   {'competition_form': competition_form,
@@ -243,8 +239,8 @@ def musabaka_duzenle(request, pk):
                    'athletes': athletes,
                    'category': category,
                    'stil': stil,
-                   'photo_form':photo_form,
-                   'dokuman_form':dokuman_form})
+                   'photo_form': photo_form,
+                   'dokuman_form': dokuman_form})
 
 
 @login_required
@@ -299,7 +295,6 @@ def musabaka_sporcu_sec(request, pk):
     competition = Competition.objects.filter(registerStartDate__lte=timezone.now(),
                                              registerFinishDate__gte=timezone.now())
 
-
     return render(request, 'musabaka/musabaka-sporcu-sec.html',
                   {'pk': pk, 'weights': category, 'application': competition})
 
@@ -321,7 +316,6 @@ def return_sporcu_ajax(request):
 
     elif request.method == 'POST':
         datatables = request.POST
-
 
     # /Sayfanın baska bir yerden istenmesi durumunda degerlerin None dönmemesi icin degerler try boklari icerisine alindi
 
@@ -401,7 +395,6 @@ def return_sporcu_ajax(request):
             'anne': item.person.motherName,
             'baba': item.person.fatherName,
 
-
             'name': item.user.first_name + ' ' + item.user.last_name,
 
             'birthDate': date,
@@ -474,7 +467,6 @@ def return_sporcu(request):
             for club in clubs:
                 clubsPk.append(club.pk)
 
-
             modeldata = Athlete.objects.exclude(pk__in=athletes).filter(licenses__sportsClub__in=clubsPk).distinct()
             total = modeldata.count()
 
@@ -497,7 +489,6 @@ def return_sporcu(request):
             modeldata = Athlete.objects.filter(
                 Q(user__last_name__icontains=search) | Q(user__first_name__icontains=search) | Q(
                     user__email__icontains=search))
-
 
             for comp in compAthlete:
                 if comp.athlete:
@@ -582,7 +573,6 @@ def return_sporcu(request):
         beka.append(data)
         say += 1
 
-
     response = {
 
         'data': beka,
@@ -629,7 +619,6 @@ def choose_athlete_update(request, pk, competition):
         return redirect('accounts:login')
     if request.method == 'POST' and request.is_ajax():
 
-
         try:
 
             # bu alanda sporcu güncelleme alani olacak kategorisini güncelleme yapabilecegiz
@@ -669,7 +658,7 @@ def choose_athlete(request, pk, competition):
                     else:
                         compAthlete.athlete = athlete
                         compAthlete.competition = competition
-                        compAthlete.siklet= Weight.objects.get(pk=request.POST.get('weight'))
+                        compAthlete.siklet = Weight.objects.get(pk=request.POST.get('weight'))
                         compAthlete.save()
                         log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu eklendi "
                         log = general_methods.logwrite(request, request.user, log)
@@ -834,7 +823,6 @@ def return_competition_ajax(request):
                 modeldata = Competition.objects.filter(year=pk)
                 total = modeldata.count()
 
-
     say = start + 1
     start = start + length
     page = start / length
@@ -937,5 +925,52 @@ def antrenor_sporcu_ajax(request):
             return JsonResponse({'data': beka})
 
         # return HttpResponse(serializers.serialize("json", Coach.objects.all()))
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+@login_required
+def musabaka_dokuman_sil(request, pk):
+    perm = general_methods.control_access_klup(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            dokuman = CompetitionsDocument.objects.get(pk=pk)
+
+            log = str(dokuman.file) + "  döküman silindi "
+            log = general_methods.logwrite(request, request.user, log)
+
+            dokuman.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except SandaAthlete.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+
+@login_required
+def musabaka_photo_sil(request, pk):
+    perm = general_methods.control_access_klup(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            dokuman = CompetitionPhotoDocumentDocument.objects.get(pk=pk)
+
+            log = str(dokuman.title) + "  resim silindi "
+            log = general_methods.logwrite(request, request.user, log)
+
+            dokuman.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except SandaAthlete.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
