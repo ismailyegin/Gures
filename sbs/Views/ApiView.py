@@ -7,25 +7,23 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from sbs.Forms.CompetitionForm import CompetitionForm
-from sbs.Forms.CompetitionSearchForm import CompetitionSearchForm
 from django.db.models import Q
-from sbs.models import SportClubUser, SportsClub, Competition, Athlete, CompAthlete, Weight
-from sbs.models.SimpleCategory import SimpleCategory
+from sbs.models.SportsClub import SportsClub
+from sbs.models.SportClubUser import SportClubUser
+from sbs.models.Competition import Competition
+from sbs.models.Athlete import Athlete
 from sbs.models.Coach import Coach
 from sbs.models.Judge import Judge
 from sbs.models.Person import Person
-from sbs.services import general_methods
-from sbs.Forms.SimplecategoryForm import SimplecategoryForm
+from sbs.models.Success import Success
+
 from sbs.models.Activity import Activity
-from sbs.Forms.ActivityForm import ActivityForm
 from django.core import serializers
 
 from datetime import date, datetime
 from django.utils import timezone
 from unicode_tr import unicode_tr
 
-import json
 
 
 def api_faliyet(request):
@@ -407,3 +405,26 @@ def competition_year(request):
     response["Access-Control-Allow-Headers"] = "*"
     return response
 
+def medal_result(request):
+    if Success.objects.all():
+        list = []
+        for item in Success.objects.all():
+            beka={
+                'type':item.type,
+                'gold':item.gold,
+                'silver':item.silver,
+                'bronze':item.bronze
+            }
+            list.append(beka)
+        response = JsonResponse({
+            'medal':list,
+        })
+    else:
+        response = JsonResponse({
+            'medal': 'null',
+        })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
