@@ -339,8 +339,6 @@ def club_search(request):
         tcno=request.GET.get('tcno')
     if request.GET.get('pk'):
         pk=request.GET.get('pk')
-        print('geldim')
-        print(Athlete.objects.get(pk=request.GET.get('pk')))
 
 
 
