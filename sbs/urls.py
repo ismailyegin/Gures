@@ -527,7 +527,6 @@ urlpatterns = [
 
     url(r'api/medal$', ApiView.medal_result, name='api-medal'),
 
-    url(r'api/athlete$', ApiView.return_athlete, name='api-athlete'),
     url(r'api/athlete/musabaka$', ApiView.return_competition_athlete, name='api-athlete-competition'),
 
 

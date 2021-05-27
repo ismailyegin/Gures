@@ -321,6 +321,7 @@ def club_search(request):
     club_id=None
     email=None
     tcno=None
+    pk=None
 
     athlete =Athlete.objects.none()
 
@@ -336,8 +337,14 @@ def club_search(request):
         email=request.GET.get('email')
     if request.GET.get('tcno'):
         tcno=request.GET.get('tcno')
+    if request.GET.get('pk'):
+        pk=request.GET.get('pk')
+        print('geldim')
+        print(Athlete.objects.get(pk=request.GET.get('pk')))
 
-    if cinsiyet or firstName or lastName or club_id or tcno or email:
+
+
+    if cinsiyet or firstName or lastName or club_id or tcno or email or pk:
         query = Q()
         if firstName:
             query &= Q(user__first_name__icontains=firstName)
@@ -349,6 +356,8 @@ def club_search(request):
             query &= Q(user__email__icontains=email)
         if club_id:
             query &= Q(licenses__sportsClub__in=club_id)
+        if pk:
+            query &= Q(pk=pk)
         if cinsiyet:
             if cinsiyet==1:
                 query &= Q(person__gender=Person.MALE)
@@ -362,17 +371,27 @@ def club_search(request):
     list=[]
     if athlete:
         for item in athlete:
-
             if item.licenses.filter(isActive=True):
-                club=item.licenses.filter(isActive=True)[0].sportsClub.name
+                club=item.licenses.filter(isActive=True).last().sportsClub
+                beka = {
+                    'name': item.user.first_name,
+                    'lastname': item.user.last_name,
+                    'clubName': club.name,
+                    'clubPk': club.pk,
+                    'pk': item.pk,
+                    'cinsiyet':item.person.gender
+
+                }
             else:
-                club='None'
-            beka = {
-                'name': item.user.first_name,
-                'lastname': item.user.last_name,
-                'club': club,
-                'pk':item.pk
-            }
+                beka = {
+                    'name': item.user.first_name,
+                    'lastname': item.user.last_name,
+                    'clubName': 'None',
+                    'clubPk': 'None',
+                    'pk': item.pk,
+                    'cinsiyet': item.person.gender
+                }
+
             list.append(beka)
     response = JsonResponse({'status': 'Success',
                              'results':list,
@@ -431,43 +450,6 @@ def medal_result(request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
-
-
-
-def return_athlete(request):
-    if request.GET.get('pk') and Athlete.objects.filter(pk=request.GET.get('pk')):
-        if CompetitionsAthlete.objects.filter(athlete=Athlete.objects.get(pk=request.GET.get('pk'))):
-            list = []
-            for item in CompetitionsAthlete.objects.filter(athlete=Athlete.objects.get(pk=request.GET.get('pk'))):
-                beka = {
-                    'isim': item.athlete.user.get_full_name(),
-                    'musabaka': item.competition.name,
-                    'siklet': item.siklet.weight,
-                    'siklet': item.siklet.weight,
-                    'derece': item.degree
-                }
-                list.append(beka)
-            response = JsonResponse({
-                'athlete': list,
-            })
-        else:
-            response = JsonResponse({
-                'athlete': 'null',
-            })
-    else:
-        response = JsonResponse({
-            'athlete': 'null',
-        })
-
-
-
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    response["Access-Control-Max-Age"] = "1000"
-    response["Access-Control-Allow-Headers"] = "*"
-    return response
-
-
 
 def return_competition_athlete(request):
     if request.GET.get('pk') and Competition.objects.filter(pk=request.GET.get('pk')):
