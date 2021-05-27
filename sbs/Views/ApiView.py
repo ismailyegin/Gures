@@ -296,6 +296,7 @@ def competition_search (request):
                 'compGeneralType': item.compGeneralType.name,
                 'pk':item.pk,
 
+
             }
             list.append(beka)
     response = JsonResponse({'status': 'Success',
@@ -340,8 +341,6 @@ def club_search(request):
     if request.GET.get('pk'):
         pk=request.GET.get('pk')
 
-
-
     if cinsiyet or firstName or lastName or club_id or tcno or email or pk:
         query = Q()
         if firstName:
@@ -377,7 +376,8 @@ def club_search(request):
                     'clubName': club.name,
                     'clubPk': club.pk,
                     'pk': item.pk,
-                    'cinsiyet':item.person.gender
+                    'cinsiyet':item.person.gender,
+                    'image':item.person.profileImage
 
                 }
             else:
@@ -387,7 +387,8 @@ def club_search(request):
                     'clubName': 'None',
                     'clubPk': 'None',
                     'pk': item.pk,
-                    'cinsiyet': item.person.gender
+                    'cinsiyet': item.person.gender,
+                    'image': item.person.profileImage
                 }
 
             list.append(beka)
