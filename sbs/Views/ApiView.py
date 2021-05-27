@@ -294,6 +294,7 @@ def competition_search (request):
                 'haber': item.haber,
                 'compType': item.compType,
                 'compGeneralType': item.compGeneralType.name,
+                'pk':item.pk,
 
             }
             list.append(beka)
@@ -370,6 +371,7 @@ def club_search(request):
                 'name': item.user.first_name,
                 'lastname': item.user.last_name,
                 'club': club,
+                'pk':item.pk
             }
             list.append(beka)
     response = JsonResponse({'status': 'Success',
