@@ -228,6 +228,7 @@
                     <h4 class="modal-title">Ek Bilgileri Giriniz</h4>
                 </div>
                 <div class="modal-body" id="kategoriadd">
+                <div class="form-group">
                     <label for="inputState">Kategori</label>
                     <select id="category" class="form-control">
                         <option selected>Seçiniz...</option>
@@ -235,6 +236,19 @@
                             <option value="{{ weight.pk }}">{{ weight.weight }}</option>
                         {% endfor %}
                     </select>
+                </div>
+                <div class="form-group">
+                     <label for="inputState">Yaş Gurubu Seçiniz</label>
+                    <select id="year"  class="form-control">
+                        <option selected>Seçiniz...</option>
+
+                            {% for item in competition.categoryies.all %}
+                            <option value="{{ item.pk }}">{{ item.kategoriadi }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
 
 
                 </div>
@@ -346,6 +360,7 @@
                                 <th>Kulüp</th>
                             {% endif %}
                             <th>Siklet</th>
+                        <th>Yas Gurubu</th>
 
                             <th>İşlemler</th>
 
@@ -359,16 +374,16 @@
                                     <td>{{ forloop.counter }} </td>
                                     <td>
                                         {{ compathlete.athlete.user.first_name }} {{ compathlete.athlete.user.last_name }}
-                                        {% if compathlete.category.kategoriadi == 'Çift Erkekler' or compathlete.category.kategoriadi == 'Çift Bayanlar' or compathlete.category.kategoriadi == 'Karışık' %}
-                                            <br>{{ compathlete.athleteTwo.user.first_name }}
-                                            {{ compathlete.athleteTwo.user.last_name }}
+                                      </td>
 
-                                        {% endif %}</td>
+
+
                                     {#                                    <td>{{ compathlete.athlete.person.birthDate |date }} </td>#}
                                     {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                         <td>{{ compathlete.athlete.licenses.last.sportsClub }}</td>
                                     {% endif %}
                                     <td>{{ compathlete.siklet.weight }}</td>
+                                <td>{{ compathlete.category }}</td>
 
                                     <td>
                                         <div class="btn-group">
@@ -547,6 +562,7 @@
                         data: {
                             'csrfmiddlewaretoken': "{{  csrf_token  }}",
                             category: $('#category').val(),
+                            year: $('#year').val(),
                             isActive: 'False'
                         },
                         success: function (result) {

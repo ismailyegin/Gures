@@ -7,6 +7,7 @@ from sbs.models.Coach import Coach
 from sbs.models.Athlete import Athlete
 from sbs.models.SportsClub import SportsClub
 from sbs.models.Competition import Competition
+from sbs.models.Category import Category
 
 
 class CompetitionsAthlete(models.Model):
@@ -19,6 +20,7 @@ class CompetitionsAthlete(models.Model):
     competition = models.ForeignKey(Competition, on_delete=models.SET_NULL, null=True)
     siklet = models.ForeignKey(Weight, on_delete=models.SET_NULL, null=True)
     degree = models.IntegerField(default=0)
+    category=models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
 
     def __str__(self):

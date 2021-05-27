@@ -286,14 +286,10 @@
 
                                     {% if competition.compType == 'Minder' %}
                                         <div class="form-group">
-                                            <label>Stiller</label>
-                                            <select class="form-control select2" multiple="multiple " name="stil"
-                                                    id="stil"
-                                                    data-placeholder="Stilleri  Seçiniz">
-                                                {% for item in stil %}
-                                                    <option value="{{ item.pk }}">{{ item.name }}</option>
-                                                {% endfor %}
-                                            </select>
+
+                                         <label> {{ competition_form.stil.label }}</label>
+                                        {{ competition_form.stil }}
+
                                         </div>
                                     {% endif %}
 
@@ -576,12 +572,6 @@
             {% endfor %}
             $('#multipleSelect').val(jop);
 
-
-            var stil_array = new Array();
-            {% for item in competition.stil.all %}
-                stil_array.push("{{ item.pk }}");
-            {% endfor %}
-            $('#stil').val(stil_array);
 
 
             $('#dokuman').DataTable({

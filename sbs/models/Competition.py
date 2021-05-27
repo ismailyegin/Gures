@@ -47,9 +47,9 @@ class Competition(models.Model):
     haber = models.CharField(max_length=100, blank=True, null=True)
 
     compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
-    compGeneralType=models.ForeignKey(Competitiontype,on_delete=models.SET_NULL, null=True, blank=True, verbose_name='competitonsGeneralTpe')
+    compGeneralType=models.ForeignKey(Competitiontype,on_delete=models.SET_NULL,blank=True,null=True, verbose_name='competitonsGeneralTpe')
 
-    stil = models.ManyToManyField(CompetitionStil)
+    stil = models.ForeignKey(CompetitionStil,on_delete=models.SET_NULL,blank=True,null=True,verbose_name='stil')
     categoryies = models.ManyToManyField(Category)
     judges = models.ManyToManyField(Judge)
     file = models.ManyToManyField(CompetitionsDocument)

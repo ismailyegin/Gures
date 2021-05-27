@@ -210,18 +210,11 @@ def musabaka_duzenle(request, pk):
                 for item in musabaka.categoryies.all():
                     musabaka.categoryies.remove(item)
                     musabaka.save()
-                for item in musabaka.stil.all():
-                    musabaka.stil.remove(item)
-                    musabaka.save()
                 if request.POST.getlist('jobDesription'):
                     for item in request.POST.getlist('jobDesription'):
                         musabaka.categoryies.add(Category.objects.get(pk=item))
                         musabaka.save()
 
-                if request.POST.getlist('stil'):
-                    for item in request.POST.getlist('stil'):
-                        musabaka.stil.add(CompetitionStil.objects.get(pk=item))
-                        musabaka.save()
                 competition_form.save()
                 messages.success(request, 'Müsabaka Başarıyla Güncellenmiştir.')
 
@@ -292,8 +285,7 @@ def musabaka_sporcu_sec(request, pk):
 
     category = Weight.objects.all().order_by('-weight')
 
-    competition = Competition.objects.filter(registerStartDate__lte=timezone.now(),
-                                             registerFinishDate__gte=timezone.now())
+    competition = Competition.objects.filter(registerStartDate__lte=timezone.now(),registerFinishDate__gte=timezone.now())
 
     return render(request, 'musabaka/musabaka-sporcu-sec.html',
                   {'pk': pk, 'weights': category, 'application': competition})
@@ -596,9 +588,10 @@ def update_athlete(request, pk, competition):
 
         try:
             compAthlete = CompetitionsAthlete.objects.get(pk=competition)
-            category = request.POST.get('category')
-            if category is not None:
-                compAthlete.siklet = Weight.objects.get(pk=category)
+            if Weight.objects.filter(pk=request.POST.get('category')):
+                compAthlete.siklet = Weight.objects.get(pk=request.POST.get('category'))
+            if Category.objects.filter(pk=request.POST.get('year')):
+                compAthlete.category=Category.objects.get(pk=request.POST.get('year'))
             compAthlete.save()
 
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
@@ -641,8 +634,7 @@ def choose_athlete(request, pk, competition):
     if request.method == 'POST' and request.is_ajax():
 
         try:
-            if request.POST.get('weight'):
-                user = User.objects.get(pk=login_user.pk)
+            if request.POST.get('weight') and request.POST.get('category'):
                 competition = Competition.objects.get(pk=competition)
                 athlete = Athlete.objects.get(pk=pk)
                 compAthlete = CompetitionsAthlete()
@@ -650,6 +642,8 @@ def choose_athlete(request, pk, competition):
                     if CompetitionsAthlete.objects.filter(competition=competition).filter(athlete=athlete):
                         competitionAthlete = CompetitionsAthlete.objects.get(athlete=athlete, competition=competition)
                         competitionAthlete.siklet = Weight.objects.get(pk=request.POST.get('weight'))
+                        competitionAthlete.category=Category.objects.get(pk=request.POST.get('category'))
+
                         competitionAthlete.save()
                         log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu güncellendi "
                         log = general_methods.logwrite(request, request.user, log)
@@ -659,6 +653,7 @@ def choose_athlete(request, pk, competition):
                         compAthlete.athlete = athlete
                         compAthlete.competition = competition
                         compAthlete.siklet = Weight.objects.get(pk=request.POST.get('weight'))
+                        compAthlete.category = Category.objects.get(pk=request.POST.get('category'))
                         compAthlete.save()
                         log = str(athlete.user.get_full_name()) + "  Musabakaya sporcu eklendi "
                         log = general_methods.logwrite(request, request.user, log)
