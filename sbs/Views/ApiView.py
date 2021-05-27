@@ -377,7 +377,7 @@ def club_search(request):
                     'clubPk': club.pk,
                     'pk': item.pk,
                     'cinsiyet':item.person.gender,
-                    'image':item.person.profileImage
+                    'image':str(item.person.profileImage)
 
                 }
             else:
@@ -388,7 +388,7 @@ def club_search(request):
                     'clubPk': 'None',
                     'pk': item.pk,
                     'cinsiyet': item.person.gender,
-                    'image': item.person.profileImage
+                    'image': str(item.person.profileImage)
                 }
 
             list.append(beka)
