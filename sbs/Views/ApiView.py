@@ -17,16 +17,11 @@ from sbs.models.Judge import Judge
 from sbs.models.Person import Person
 from sbs.models.Success import Success
 from sbs.models.CompetitionsAthlete import CompetitionsAthlete
-
 from sbs.models.Activity import Activity
 from django.core import serializers
-
 from datetime import date, datetime
 from django.utils import timezone
 from unicode_tr import unicode_tr
-
-
-
 def api_faliyet(request):
     response = JsonResponse({
         'status': 'Success',
@@ -111,15 +106,12 @@ def api_musabaka_basvuru(request):
         musabaka = \
         Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now())[0]
 
-        stil =""
         catagori=""
         foto = ""
         fiksur = ""
         sonuc = ""
         for item in musabaka.categoryies.all():
             catagori+=item.kategoriadi+"/"
-        for item in musabaka.stil.all():
-            stil+=item.name+"/"
         for item in musabaka.file.all():
             if item.type == 'fiksur':
                 foto += str(item.file) + "/"
@@ -138,7 +130,7 @@ def api_musabaka_basvuru(request):
             'explanation': musabaka.explanation,
             'compType': musabaka.compType,
             'compGeneralType': musabaka.compGeneralType.name,
-            'stil': list(musabaka.stil.all().values('name')),
+            'stil': musabaka.stil,
             'kategori': list(musabaka.categoryies.all().values('kategoriadi')),
             'id': musabaka.pk,
             "foto": list(musabaka.file.filter(type="fotogaleri").values('file')),
@@ -181,7 +173,7 @@ def competitionsDetail(request):
                 'explanation': musabaka.explanation,
                 'compType': musabaka.compType,
                 'compGeneralType':musabaka.compGeneralType.name,
-                'stil': list(musabaka.stil.all().values('name')),
+                'stil': musabaka.stil,
                 'kategori': list(musabaka.categoryies.all().values('kategoriadi')),
                 'id': musabaka.pk,
                 "foto":list(musabaka.file.filter(type="fotogaleri").values('file')),
@@ -309,12 +301,6 @@ def competition_search (request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
-
-
-
-
-
-
 def club_search(request):
     firstName=None
     lastName=None
@@ -459,14 +445,13 @@ def return_competition_athlete(request):
                 'isim': item.athlete.user.get_full_name(),
                 'musabaka': item.competition.name,
                 'siklet': item.siklet.weight,
-                'siklet': item.siklet.weight,
+                'year': item.category.kategoriadi,
                 'derece': item.degree
             }
             list.append(beka)
         response = JsonResponse({
             'athlete': list,
         })
-
     else:
         response = JsonResponse({
             'athlete': 'null',
