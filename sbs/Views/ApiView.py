@@ -379,6 +379,7 @@ def club_search(request):
                     'cinsiyet':item.person.gender,
                     'image':str(item.person.profileImage)
 
+
                 }
             else:
                 beka = {
