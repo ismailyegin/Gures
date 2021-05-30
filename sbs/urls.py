@@ -525,21 +525,11 @@ urlpatterns = [
     url(r'api/sporclub/arama$', ApiView.club_search, name='api-sportclup-search'),
 
 
-
-
-
     url(r'api/city$', ApiView.city_count, name='api-city'),
     url(r'api/count$', ApiView.count, name='api-count'),
 
-
-
     url(r'api/sporclub$', ApiView.club_result, name='api-sportclup'),
-
-
     url(r'api/medal$', ApiView.medal_result, name='api-medal'),
-
-
-
 
 
 

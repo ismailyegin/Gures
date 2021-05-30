@@ -130,7 +130,7 @@ def api_musabaka_basvuru(request):
             'explanation': musabaka.explanation,
             'compType': musabaka.compType,
             'compGeneralType': musabaka.compGeneralType.name,
-            'stil': musabaka.stil,
+            'stil': musabaka.stil.name,
             'kategori': list(musabaka.categoryies.all().values('kategoriadi')),
             'id': musabaka.pk,
             "foto": list(musabaka.file.filter(type="fotogaleri").values('file')),
