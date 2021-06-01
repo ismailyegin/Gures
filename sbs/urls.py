@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'sporcu/sporcu-ekle-antrenor/$', AthleteViews.return_add_athlete_antrenor, name='sporcu-ekle-antrenor'),
     url(r'sporcu/sporcular/$', AthleteViews.return_athletes, name='sporcular'),
     url(r'sporcu/sporcular/antrenor/$', AthleteViews.return_athletes_antrenor, name='sporcular-antrenor'),
-
     # pagenation deneme
     url(r'page/$', PageViews.deneme, name='deneme'),
     url(r'sporcularajax/$', PageViews.return_athletesdeneme, name='sporculardeneme'),
