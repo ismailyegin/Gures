@@ -313,9 +313,9 @@ def club_search(request):
     if request.GET.get('soyisim'):
         lastName=unicode_tr(request.GET.get('soyisim')).upper()
     if request.GET.get('cinsiyet'):
-        cinsiyet=request.GET.get('cinsiyet')
+        cinsiyet=int(request.GET.get('cinsiyet'))
     if request.GET.get('kulup'):
-        club_id=request.GET.get('kulup')
+        club_id=int(request.GET.get('kulup'))
     if request.GET.get('email'):
         email=request.GET.get('email')
     if request.GET.get('tcno'):
@@ -323,7 +323,10 @@ def club_search(request):
     if request.GET.get('pk'):
         pk=request.GET.get('pk')
 
-    if cinsiyet or firstName or lastName or club_id or tcno or email or pk:
+    test=Athlete.objects.filter(person__gender=Person.FEMALE)
+
+
+    if cinsiyet !=None or firstName or lastName or club_id !=None or tcno or email or pk:
         query = Q()
         if firstName:
             query &= Q(user__first_name__icontains=firstName)
@@ -334,14 +337,13 @@ def club_search(request):
         if email:
             query &= Q(user__email__icontains=email)
         if club_id:
-            query &= Q(licenses__sportsClub__in=club_id)
+            query &= Q(licenses__sportsClub_id=club_id)
         if pk:
             query &= Q(pk=pk)
-        if cinsiyet:
-            if cinsiyet==1:
-                query &= Q(person__gender=Person.MALE)
-            elif cinsiyet==0:
-                query &= Q(person__gender=Person.FEMALE)
+        if cinsiyet == 1:
+            query &= Q(person__gender=Person.MALE)
+        if cinsiyet == 0:
+            query &= Q(person__gender=Person.FEMALE)
         athlete = Athlete.objects.filter(query).distinct()
 
     else:
