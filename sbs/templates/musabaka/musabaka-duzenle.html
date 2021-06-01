@@ -1196,9 +1196,6 @@
                         // This will prevent event triggering more then once
                         e.handled = true;
                          $.ajax({
-
-
-
                         url: "{% url "sbs:musabaka-hakem-delete" pk=212121223232323232 %}".replace(/212121223232323232/,{{ competition.pk }}),
                         type: "POST",
                         data: {

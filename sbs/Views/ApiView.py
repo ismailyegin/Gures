@@ -99,8 +99,6 @@ def count(request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
-
-
 def api_musabaka_basvuru(request):
     if Competition.objects.filter(registerStartDate__lte=timezone.now(), registerFinishDate__gte=timezone.now()):
         musabaka = \
@@ -123,22 +121,22 @@ def api_musabaka_basvuru(request):
             'status': True,
             'finishdate': musabaka.finishDate.strftime("%d-%B-%Y"),
             'startDate': musabaka.startDate.strftime("%d-%B-%Y"),
-            'registerStartDate': musabaka.registerStartDate.strftime("%d-%B-%Y"),
-            'registerFinishDate': musabaka.registerFinishDate.strftime("%d-%B-%Y"),
+            'registerStartDate': musabaka.registerStartDate.strftime("%d-%B-%Y") if musabaka.registerStartDate else None,
+            'registerFinishDate': musabaka.registerFinishDate.strftime("%d-%B-%Y") if musabaka.registerFinishDate else None,
             'name': musabaka.name,
             'eventPlace': musabaka.eventPlace,
             'explanation': musabaka.explanation,
             'compType': musabaka.compType,
             'compGeneralType': musabaka.compGeneralType.name,
-            'stil': musabaka.stil.name,
+            'stil': list(musabaka.stil.all().values('name')),
             'kategori': list(musabaka.categoryies.all().values('kategoriadi')),
             'id': musabaka.pk,
             "foto": list(musabaka.file.filter(type="fotogaleri").values('file')),
             "sonuc": list(musabaka.file.filter(type="sonuc").values('file')),
             "fiksur": list(musabaka.file.filter(type="fiksur").values('file')),
             "haber": str(musabaka.haber),
-            "basvurulink": str(musabaka.basvurulink),
-            "youtubelink":str(musabaka.youtubelink)
+
+            "youtubelink":list(musabaka.youtubelink.all().values('youtubelink'))
 
 
 
@@ -166,8 +164,8 @@ def competitionsDetail(request):
                 'status': True,
                 'finishdate': musabaka.finishDate.strftime("%d-%B-%Y"),
                 'startDate': musabaka.startDate.strftime("%d-%B-%Y"),
-                'registerStartDate': musabaka.registerStartDate.strftime("%d-%B-%Y"),
-                'registerFinishDate': musabaka.registerFinishDate.strftime("%d-%B-%Y"),
+                'registerStartDate': musabaka.registerStartDate.strftime("%d-%B-%Y") if musabaka.registerStartDate else None,
+                'registerFinishDate': musabaka.registerFinishDate.strftime("%d-%B-%Y") if musabaka.registerFinishDate else None,
                 'name': musabaka.name,
                 'eventPlace': musabaka.eventPlace,
                 'explanation': musabaka.explanation,
@@ -278,11 +276,9 @@ def competition_search (request):
                 'name': item.name,
                 'startdate': item.startDate.strftime("%d-%B-%Y"),
                 'finishDate': item.finishDate.strftime("%d-%B-%Y"),
-                'registerStartDate': item.registerStartDate.strftime("%d-%B-%Y"),
-                'registerFinishDate': item.registerFinishDate.strftime("%d-%B-%Y"),
+                'registerStartDate': item.registerStartDate.strftime("%d-%B-%Y") if item.registerStartDate else None,
+                'registerFinishDate': item.registerFinishDate.strftime("%d-%B-%Y") if item.registerFinishDate else None,
                 'eventPlace': item.eventPlace,
-                'youtubelink': item.youtubelink,
-                'basvurulink': item.basvurulink,
                 'haber': item.haber,
                 'compType': item.compType,
                 'compGeneralType': item.compGeneralType.name,
