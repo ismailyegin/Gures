@@ -417,6 +417,7 @@ urlpatterns = [
         name='musabaka-sporcu-kaldir'),
     url(r'musabaka/KategoriEkle/$', CompetitionViews.categori_ekle, name='kategori-ekle'),
     url(r'musabaka/sonucal/(?P<pk>\d+)$', CompetitionViews.upload, name='competition-result'),
+    url(r'musabaka/musabaka-duzenle/hakem-sec/(?P<pk>\d+)$', CompetitionViews.choose_referee, name='musabaka-hakem-sec'),
 
 
 
@@ -426,6 +427,14 @@ urlpatterns = [
 
 
 
+
+    url(r'musabaka/musabaka-duzenle/linkupdate/(?P<pk>\d+)/$', CompetitionViews.musabaka_link_update,
+        name='musabaka-link-update'),
+
+    url(r'musabaka/musabaka-duzenle/linkdelete/(?P<pk>\d+)/$', CompetitionViews.musabaka_link_delete,
+        name='musabaka-link-delete'),
+    url(r'musabaka/musabaka-duzenle/hakemdelete/(?P<pk>\d+)/$', CompetitionViews.musabaka_hakem_delete,
+        name='musabaka-hakem-delete'),
 
     #     Yardım ve destek
 

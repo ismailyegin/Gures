@@ -355,6 +355,7 @@
                         <tr>
                             <th>#</th>
                             <th>Ad Soyad</th>
+                        <th>T.C.</th>
                             {#                            <th>Doğum Tarihi</th>#}
                             {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                 <th>Kulüp</th>
@@ -375,6 +376,8 @@
                                     <td>
                                         {{ compathlete.athlete.user.first_name }} {{ compathlete.athlete.user.last_name }}
                                       </td>
+
+                                <td> {{ compathlete.athlete.person.tc}}</td>
 
 
 
@@ -514,9 +517,15 @@
 
                     {
                         extend: 'excelHtml5',
-                        title: 'Sbs Bilgi Sistemi',
+                        {#title: 'Sbs Bilgi Sistemi',#}
+                        {#messageTop: 'TGF Bilgi Sistemi ',#}
+
                         text: '<i class="fa fa-file-excel-o"></i>',
-                        messageTop: 'Sbs Bilgi Sistemi ',
+
+                        exportOptions: {
+                            columns: [0, 1,2,3,4,5]
+                        },
+
                         footer: true,
                         titleAttr: 'Excel Kaydet'
                     },

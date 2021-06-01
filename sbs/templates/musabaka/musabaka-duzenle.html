@@ -63,7 +63,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn  btn-outline btn-ok" id="btn-kural ">Kapat</button>
+                    <button type="button" class="btn  btn-outline btn-ok" id="btn-kural">Kapat</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -116,7 +116,6 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-
     <form method="post" enctype="multipart/form-data" role="form">
         {% csrf_token %}
         <div class="modal modal-body " tabindex="-1" role="dialog" id="addphotomodel"
@@ -136,12 +135,9 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="id_file">Resimleri Seçiniz:</label
-                            ><input type="file" multiple name="photofile" required=""
-                                    id="id_file">
+                            <label for="photofile">Resimleri Seçiniz:</label
+                            ><input type="file" multiple name="photofile" required="" id="photofile">
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
 
@@ -149,6 +145,36 @@
                     </div>
 
 
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </form>
+
+    <form method="post" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
+        <div class="modal modal-body " tabindex="-1" role="dialog" id="modal-link"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Link Ekle</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <label for="linkdefinition">Açıklama:</label>
+                        <input type="text" name="linkdefinition" id="linkdefinition" class="form-control"
+                               maxlength="200">
+                        <label for="linkyoutube">link:</label><input id="linkyoutube" type="text" name="linkyoutube"
+                                                                     class="form-control" maxlength="200">
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="submit" class="btn  btn-primary">Kaydet</button>
+                    </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -164,7 +190,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title">Müsabaka Dökümanlari Ekle</h4>
+                        <h4 class="modal-title"> Dökümanlari Ekle</h4>
                     </div>
 
                     <div class="modal-body">
@@ -188,6 +214,35 @@
     </form>
 
     <form method="post" enctype="multipart/form-data" role="form">
+
+        <div class="modal modal-body " tabindex="-1" role="dialog" id="modal-link-update"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title"> Link Güncelle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="linkdefinition_update">Açıklama:</label>
+                        <input type="text" name="linkdefinitionUpdate" id="linkdefinition_update" class="form-control"
+                               maxlength="200">
+                        <label for="linkyoutube_update">link:</label><input id="linkyoutube_update" type="text"
+                                                                            name="linkyoutubeUpdate"
+                                                                            class="form-control" maxlength="200">
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" id="btn-update" class="btn  btn-primary">Kaydet</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
         {% csrf_token %}
 
         <section class="content-header">
@@ -256,10 +311,6 @@
                                         <label> {{ competition_form.eventPlace.label }}</label>
                                         {{ competition_form.eventPlace }}
                                     </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.youtubelink.label }}</label>
-                                        {{ competition_form.youtubelink }}
-                                    </div>
 
 
                                     <div class="form-group">
@@ -287,8 +338,15 @@
                                     {% if competition.compType == 'Minder' %}
                                         <div class="form-group">
 
-                                         <label> {{ competition_form.stil.label }}</label>
-                                        {{ competition_form.stil }}
+                                            <label>Stiller</label>
+                                            <select class="form-control select2" multiple="multiple " name="stil"
+                                                    id="sitil"
+                                                    data-placeholder="Stilleri  Seçiniz">
+                                                {% for item in stil %}
+                                                    <option value="{{ item.pk }}">{{ item.name }}</option>
+                                                {% endfor %}
+                                            </select>
+
 
                                         </div>
                                     {% endif %}
@@ -356,10 +414,13 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a class="btn btn-success" data-toggle="modal" href="/media/{{ file.file }}" download=""><i class="fa fa-download"></i></a>
+                                                        <a class="btn btn-success" data-toggle="modal"
+                                                           href="/media/{{ file.file }}" download=""><i
+                                                                class="fa fa-download"></i></a>
 
                                                         <a onclick="documandelete({{ file.id }})"
-                                                           type="button" class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                           type="button" class="btn btn-danger"><i
+                                                                class="fa fa-trash"></i>
                                                         </a>
 
 
@@ -419,16 +480,155 @@
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
 
-                                                <td>{{ file.title}}</td>
+                                                <td>{{ file.title }}</td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a class="btn btn-success" data-toggle="modal" href="/media/{{ file.file }}" download=""><i class="fa fa-download"></i></a>
+                                                        <a class="btn btn-success" data-toggle="modal"
+                                                           href="/media/{{ file.file }}" download=""><i
+                                                                class="fa fa-download"></i></a>
 
                                                         <a onclick="photodelete({{ file.id }})"
-                                                           type="button" class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                           type="button" class="btn btn-danger"><i
+                                                                class="fa fa-trash"></i>
                                                         </a>
 
 
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="box box-primary collapsed-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"> Linkler</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                            class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="box-body">
+                                <div class="box-header with-border">
+                                    <div class="btn-group">
+
+
+                                        <a class="btn btn-success" onclick="addLinlks()"> Link Ekle </a>
+
+
+                                    </div>
+                                </div>
+
+
+                                <table id="photo" class="table table-bordered table-hover" style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Açıklama</th>
+                                        <th>Link</th>
+                                        <th>işlemler</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if competition %}
+                                        {% for item in competition.youtubelink.all %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+
+                                                <td id="defi-{{ item.pk }}">{{ item.definition }}</td>
+                                                <td><a href="{{ item.youtubelink }}" target="_blank"
+                                                       id="link-{{ item.pk }}">{{ item.youtubelink }}</a></td>
+                                                <td>
+                                                    <div class="btn-group">
+
+                                                        <a class="btn btn-warning" data-toggle="modal"
+                                                           onclick="updatelinks({{ item.pk }})">İncele
+                                                        </a>
+
+                                                        <a onclick="linkdelete({{ item.id }})"
+                                                           type="button" class="btn btn-danger">Sil
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        {% endfor %}
+                                    {% endif %}
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="box box-primary collapsed-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Hakemler</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                            class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div class="box-body">
+                                <div class="box-header with-border">
+                                    <div class="btn-group">
+
+
+                                        <a class="btn btn-success" href="{% url "sbs:musabaka-hakem-sec" competition.pk %}"> Hakem Ekle </a>
+
+
+                                    </div>
+                                </div>
+
+
+                                <table id="photo" class="table table-bordered table-hover" style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Adı</th>
+                                        <th>Rolü</th>
+                                        <th>işlemler</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if competition %}
+                                        {% for item in competition.judges.all %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+
+                                                <td>{{ item.judge.user.first_name}} {{ item.judge.user.last_name}}</td>
+                                                <td>{{ item.role.name }}</td>
+
+                                                <td>
+                                                    <div class="btn-group">
+
+
+                                                        <a onclick="judgedelete({{ item.id }})"
+                                                           type="button" class="btn btn-danger">Sil
+                                                        </a>
                                                     </div>
                                                 </td>
 
@@ -487,7 +687,7 @@
                                     {% endif %}
 
 
-                           {% comment %}       <th>İşlemler</th>{% endcomment %}
+                                    {% comment %}       <th>İşlemler</th>{% endcomment %}
 
 
                                 </tr>
@@ -525,7 +725,7 @@
 
 
 
-                        {% comment %}                                             <td>
+                                            {% comment %}                                             <td>
                                                                                             <div class="btn-group">
                                                                                                 <a onclick="addPlayer({{ compathlete.id }},{{ competition.pk }},{{ compathlete.sıklet.weight }},{{ compathlete.total }}, {{ compathlete.silk1 }}, {{ compathlete.kop1 }})"
                                                                                                    type="button" class="btn btn-primary"><i
@@ -563,7 +763,6 @@
     <script>
 
 
-
         $(function () {
 
             var jop = new Array();
@@ -572,6 +771,12 @@
             {% endfor %}
             $('#multipleSelect').val(jop);
 
+
+            var sitil = new Array();
+            {% for item in competition.stil.all %}
+                sitil.push("{{ item.pk }}");
+            {% endfor %}
+            $('#sitil').val(sitil);
 
 
             $('#dokuman').DataTable({
@@ -703,7 +908,7 @@
                         text: '<i class="fa fa-file-excel-o"></i>',
 
                         exportOptions: {
-                            columns: [0, 1, ':visible']
+                            columns: [0, 1,2,3,4,5,6]
                         },
 
                         titleAttr: 'Excel Kaydet'
@@ -748,7 +953,8 @@
             });
 
         }
-                function photodelete(id) {
+
+        function photodelete(id) {
 
             $("#modal-danger").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
@@ -855,6 +1061,175 @@
                         }
                     });
                 });
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+
+        }
+
+        function addLinlks() {
+            $("#modal-link").on("shown.bs.modal", function (e) {
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+
+        }
+
+
+        function updatelinks(pk) {
+
+            $("#linkdefinition_update").val($("#defi-" + pk).text())
+            $("#linkyoutube_update").val($("#link-" + pk).text())
+
+            $("#modal-link-update").on("shown.bs.modal", function (e) {
+                $("#btn-update").click(function () {
+                    if (e.handled !== true) {
+                        // This will prevent event triggering more then once
+                        e.handled = true;
+                         $.ajax({
+                        url: "{% url "sbs:musabaka-link-update" pk=212121223232323232 %}".replace(/212121223232323232/,pk.toString()),
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                             defi:$("#linkdefinition_update").val(),
+                             link:$("#linkyoutube_update").val(),
+                            isActive: 'False'
+                        },
+                        success: function (result) {
+
+                            html = 'Link başarıyla kaldırıldı.';
+                            $('#modal-link-update').modal('hide');
+                            $('#modal-success').on("shown.bs.modal", function (e) {
+                                $(".btn-ok").click(function () {
+
+                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+
+                                });
+
+                            }).modal('show');
+
+
+                            console.log(result.status)
+                        }
+                    });
+                    }
+
+
+
+
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+
+        }
+
+
+          function linkdelete(pk) {
+
+
+
+            $("#modal-danger").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+
+
+
+                    if (e.handled !== true) {
+                        // This will prevent event triggering more then once
+                        e.handled = true;
+                         $.ajax({
+
+
+
+                        url: "{% url "sbs:musabaka-link-delete" pk=212121223232323232 %}".replace(/212121223232323232/,{{ competition.pk }}),
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                            'pk':pk,
+                            isActive: 'False'
+                        },
+                        success: function (result) {
+
+                            html = 'Link başarıyla silindi.';
+                            $('#modal-link-update').modal('hide');
+                            $('#modal-success').on("shown.bs.modal", function (e) {
+                                $(".btn-ok").click(function () {
+
+                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+
+                                });
+
+                            }).modal('show');
+
+
+                            console.log(result.status)
+                        }
+                    });
+                    }
+
+
+
+
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+
+        }
+
+              function judgedelete(pk) {
+
+
+
+            $("#modal-danger").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+
+
+
+                    if (e.handled !== true) {
+                        // This will prevent event triggering more then once
+                        e.handled = true;
+                         $.ajax({
+
+
+
+                        url: "{% url "sbs:musabaka-hakem-delete" pk=212121223232323232 %}".replace(/212121223232323232/,{{ competition.pk }}),
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                            'pk':pk,
+                            isActive: 'False'
+                        },
+                        success: function (result) {
+
+                            html = 'Link başarıyla silindi.';
+                            $('#modal-link-update').modal('hide');
+                            $('#modal-success').on("shown.bs.modal", function (e) {
+                                $(".btn-ok").click(function () {
+
+                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+
+                                });
+
+                            }).modal('show');
+
+
+                            console.log(result.status)
+                        }
+                    });
+                    }
+
+
+
+
+                });
+
             }).modal('show');
             $('#btn-close').click(function () {
                 $('#modal-danger').modal('hide');

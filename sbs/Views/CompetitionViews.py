@@ -21,6 +21,8 @@ from sbs.models.CompetitionStil import CompetitionStil
 from sbs.models.CompetitionsAthlete import CompetitionsAthlete
 from sbs.models.SandaAthlete import SandaAthlete
 from sbs.models.SimpleCategory import SimpleCategory
+from sbs.models.Judge import Judge
+from sbs.models.Link import Link
 from sbs.services import general_methods
 from sbs.models.CompetitionsDocument import CompetitionsDocument
 from sbs.models.CompetitionPhotoDocument import CompetitionPhotoDocumentDocument
@@ -29,7 +31,8 @@ from sbs.models.CompetitionPhotoDocument import CompetitionPhotoDocumentDocument
 # from pyexcel_xls import get_data as xls_get
 # from pyexcel_xlsx import get_data as xlsx_get
 
-
+from sbs.models.CompetitionJudgeRole import CompetitionJudgeRole
+from sbs.models.JudgeRole import JudgeRole
 @login_required
 def categori_ekle(request):
     perm = general_methods.control_access(request)
@@ -183,6 +186,16 @@ def musabaka_duzenle(request, pk):
     athletes = CompetitionsAthlete.objects.filter(competition=musabaka)
 
     if request.method == 'POST':
+
+
+        #müsabaka link eklendi
+        if request.POST.get('linkdefinition') and request.POST.get('linkyoutube'):
+            link=Link(definition=request.POST.get('linkdefinition'),
+                      youtubelink=request.POST.get('linkyoutube'))
+            link.save()
+            musabaka.youtubelink.add(link)
+            musabaka.save()
+
         # döküman kaydedilecek alan
         if request.FILES.getlist('photofile') and request.POST.get('title'):
             files = request.FILES.getlist('photofile')
@@ -207,6 +220,18 @@ def musabaka_duzenle(request, pk):
         # form kaydedilme alani
         elif request.POST.get('name'):
             if competition_form.is_valid():
+
+                for item in musabaka.stil.all():
+                    musabaka.stil.remove(item)
+                    musabaka.save()
+                if request.POST.getlist('stil'):
+                    for item in request.POST.getlist('stil'):
+                        musabaka.stil.add(CompetitionStil.objects.get(pk=item))
+                        musabaka.save()
+
+
+
+
                 for item in musabaka.categoryies.all():
                     musabaka.categoryies.remove(item)
                     musabaka.save()
@@ -969,3 +994,155 @@ def musabaka_photo_sil(request, pk):
 
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+
+@login_required
+def musabaka_link_update(request, pk):
+    perm = general_methods.control_access_klup(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            link = Link.objects.get(pk=pk)
+
+            if request.POST.get('defi'):
+                link.definition=request.POST.get('defi')
+            if request.POST.get('link'):
+                link.youtubelink=request.POST.get('link')
+            link.save()
+            log = str( pk)+ "  link güncellendi"
+            log = general_methods.logwrite(request, request.user, log)
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except SandaAthlete.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+@login_required
+def musabaka_link_delete(request, pk):
+    perm = general_methods.control_access_klup(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+
+
+
+        try:
+            competition = Competition.objects.get(pk=pk)
+            if Link.objects.filter(pk=request.POST.get('pk')):
+                link = Link.objects.get(pk=request.POST.get('pk'))
+                log = str(competition.name) + "  müsabasından" + link.youtubelink + "  linki silindi "
+                log = general_methods.logwrite(request, request.user, log)
+                competition.youtubelink.remove(link)
+                competition.save()
+                link.delete()
+                return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except SandaAthlete.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+
+@login_required
+def choose_referee(request, pk):
+    perm = general_methods.control_access(request)
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    competition = Competition.objects.get(pk=pk)
+    competitionRole=JudgeRole.objects.all()
+    athletes=Judge.objects.none()
+    coa = []
+    for item in competition.judges.all():
+        coa.append(item.judge.user.id)
+    athletes = Judge.objects.exclude(user__in=coa)
+    if request.method == 'POST':
+        if request.POST.get('judge') and  request.POST.get('role'):
+            if Judge.objects.filter(pk=request.POST.get('judge')) and JudgeRole.objects.filter(pk=request.POST.get('role')):
+                judge=Judge.objects.get(pk=request.POST.get('judge'))
+                role=JudgeRole.objects.get(pk=request.POST.get('role'))
+                rol=CompetitionJudgeRole(
+                    judge=judge,
+                    role=role
+                )
+                rol.save()
+                competition.judges.add(rol)
+                competition.save()
+        # return redirect('sbs:musabaka-duzenle', pk=pk)
+    return render(request, 'musabaka/musabaka-hakem-sec.html', {
+        'athletes': athletes,
+        'competitionRole':competitionRole,
+        'competition':competition
+    })
+
+
+
+
+
+@login_required
+def choose_referee_ajax(request, pk):
+    perm = general_methods.control_access_klup(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+
+
+
+        try:
+            competition = Competition.objects.get(pk=pk)
+            print('ben geldim')
+
+            # if Link.objects.filter(pk=request.POST.get('pk')):
+            #
+            #     return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except SandaAthlete.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
+
+
+@login_required
+def musabaka_hakem_delete(request, pk):
+    perm = general_methods.control_access_klup(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+
+
+
+        try:
+            competition = Competition.objects.get(pk=pk)
+            if CompetitionJudgeRole.objects.filter(pk=request.POST.get('pk')):
+                role = CompetitionJudgeRole.objects.get(pk=request.POST.get('pk'))
+                log = str(competition.name) + "  müsabasından" + role.judge.user.get_full_name() + "  hakem  silindi "
+                log = general_methods.logwrite(request, request.user, log)
+                competition.judges.remove(role)
+                competition.save()
+                return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+        except SandaAthlete.DoesNotExist:
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
