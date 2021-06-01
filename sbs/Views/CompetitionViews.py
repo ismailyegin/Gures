@@ -1062,11 +1062,6 @@ def choose_referee(request, pk):
         return redirect('accounts:login')
     competition = Competition.objects.get(pk=pk)
     competitionRole=JudgeRole.objects.all()
-    athletes=Judge.objects.none()
-    coa = []
-    for item in competition.judges.all():
-        coa.append(item.judge.user.id)
-    athletes = Judge.objects.exclude(user__in=coa)
     if request.method == 'POST':
         if request.POST.get('judge') and  request.POST.get('role'):
             if Judge.objects.filter(pk=request.POST.get('judge')) and JudgeRole.objects.filter(pk=request.POST.get('role')):
@@ -1079,6 +1074,11 @@ def choose_referee(request, pk):
                 rol.save()
                 competition.judges.add(rol)
                 competition.save()
+    coa = []
+    for item in competition.judges.all():
+        coa.append(item.judge.user.id)
+
+    athletes = Judge.objects.exclude(user__in=coa)
         # return redirect('sbs:musabaka-duzenle', pk=pk)
     return render(request, 'musabaka/musabaka-hakem-sec.html', {
         'athletes': athletes,
