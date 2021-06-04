@@ -257,10 +257,12 @@
 
                                     {% for item in group %}
 
-
-                                        <div class="col-xs-4 text-center">
+                                        {% if item.name != 'Sporcu' %}
+                                             <div class="col-xs-4 text-center">
                                             <a href="{% url "sbs:aktive-update"  item.pk %}">{{ item.name }}</a>
                                         </div>
+
+                                        {% endif %}
 
                                     {% endfor %}
 

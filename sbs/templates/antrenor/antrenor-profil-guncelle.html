@@ -71,10 +71,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label> {{ person_form.profileImage.label }}</label>
-                                        {{ person_form.profileImage }}
-                                    </div>
+
 
                                     <div class="form-group">
                                         <label> </label>
@@ -137,7 +134,9 @@
                                 </div>
                             </div>
                         </div>
-
+<div class="box-footer">
+                            <button class="btn btn-primary" type="submit">Kaydet</button>
+                        </div>
 
                     </div>
 
@@ -152,6 +151,13 @@
                         </div>
                         <div class="box-body">
                             <div class="row">
+
+                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                        <label> {{ person_form.profileImage.label }}</label>
+                                        {{ person_form.profileImage }}
+                                    </div>
+                                </div>
                                 <div class="col-lg-6">
 
 
@@ -214,7 +220,9 @@
 
                             </div>
                         </div>
-
+<div class="box-footer">
+                            <button class="btn btn-primary" type="submit">Kaydet</button>
+                        </div>
 
                     </div>
 
@@ -225,7 +233,14 @@
         </form>
 
 
+
     </section>
+            <script>
+
+            $('#id_new_password2').prop('required', false);
+            $('#id_new_password1').prop('required', false);
+
+        </script>
 
 {% endblock %}
 

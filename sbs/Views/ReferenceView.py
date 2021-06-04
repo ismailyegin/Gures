@@ -61,21 +61,19 @@ def hakemler(request):
 
     return render(request, 'basvurular/hakembasvuru.html', {'referees': referee,
                                                             'user_form':user_form})
-
-
 @login_required
 def antroner(request):
     perm = general_methods.control_access(request)
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    referee = ReferenceCoach.objects.all().order_by('status')
+    referee = ReferenceCoach.objects.none()
     user_form = UserSearchForm()
     if request.method == 'POST':
         user_form = UserSearchForm(request.POST)
         firstName = unicode_tr(request.POST.get('first_name')).upper()
         lastName = unicode_tr(request.POST.get('last_name')).upper()
-        email = user_form.cleaned_data.get('email')
+        email = request.POST.get('email')
         active = request.POST.get('is_active')
         if not (firstName or lastName or email or active):
             referee = ReferenceCoach.objects.all()
@@ -94,8 +92,6 @@ def antroner(request):
             if active == '3':
                 query &= Q(status=ReferenceCoach.DENIED)
             referee = ReferenceCoach.objects.filter(query)
-
-
     return render(request, 'basvurular/antrenorbasvuru.html', {'referees': referee,
                                                                'user_form':user_form})
 

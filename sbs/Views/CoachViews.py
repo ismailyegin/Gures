@@ -961,40 +961,36 @@ def updateCoachProfile(request):
     person = Person.objects.get(pk=directory_user.person.pk)
     communication = Communication.objects.get(pk=directory_user.communication.pk)
     user_form = DisabledUserForm(request.POST or None, instance=user)
-    person_form = DisabledPersonForm(request.POST or None, instance=person)
-    communication_form = DisabledCommunicationForm(request.POST or None, instance=communication)
+    person_form = PersonForm(request.POST or None, instance=person)
+    communication_form = CommunicationForm(request.POST or None, instance=communication)
+    person_form.fields['tc'].widget.attrs['readonly']='readonly'
+    person_form.fields['birthDate'].widget.attrs['readonly']='readonly'
+    person_form.fields['birthDate'].widget.attrs['id']='date'
     password_form = SetPasswordForm(request.user, request.POST)
 
     if request.method == 'POST':
 
-        data = request.POST.copy()
-        person_form = DisabledPersonForm(data)
+        if request.method == 'POST':
+            if password_form.is_valid():
+                user.set_password(password_form.cleaned_data['new_password2'])
+                user.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Şifre Başarıyla Güncellenmiştir.')
 
-        if len(request.FILES) > 0:
-            person.profileImage = request.FILES['profileImage']
-            person.save()
-            messages.success(request, 'Profil Fotoğrafı Başarıyla Güncellenmiştir.')
+            if person_form.is_valid():
+                person_form.save(commit=False)
+                if len(request.FILES) > 0:
+                    person_form.profileImage = request.FILES['profileImage']
+                else:
+                    person_form.profileImage = person.profileImage
+                person_form.save()
 
-            log = str(user) + " Profil resmini degiştirdi."
-            log = general_methods.logwrite(request, request.user, log)
-
-        if password_form.is_valid():
-            log = str(user) + "Şifresini degiştirdi."
-            log = general_methods.logwrite(request, request.user, log)
-
-            user.set_password(password_form.cleaned_data['new_password2'])
-            user.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, 'Şifre Başarıyla Güncellenmiştir.')
-
-            return redirect('sbs:antrenor')
-
-
-
-
-        else:
-
-            messages.warning(request, 'Alanları Kontrol Ediniz')
+            if user_form.is_valid():
+                user = user_form.save(commit=False)
+                user.is_active = True
+                user.save()
+            if communication_form.is_valid():
+                communication_form.save()
 
     return render(request, 'antrenor/antrenor-profil-guncelle.html',
                   {'user_form': user_form, 'communication_form': communication_form,
