@@ -85,20 +85,12 @@
     {#    test harita #}
 
 
-
-
-
-
-
-
-
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- Google Font -->
     <link rel="stylesheet"
@@ -129,53 +121,54 @@
                 <ul class="nav navbar-nav">
 
 
-                                        <li class="dropdown notifications-menu">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                                <i class="fa fa-bell-o"></i>
-                                                <span class="label label-warning">{{ notifications_tatal }}</span>
+                    {% if aktif == 'Admin' or   aktif ==  "Yonetim" %}
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">{{ notifications_tatal }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+
+
+                                <li class="header">{{ notifications_tatal }} tane beklemede basvuru var</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="{% url "sbs:basvuru-referee" %}">
+                                                <i class="fa fa-warning text-yellow"></i> Hakem basvurusu
+                                                <small class="label label-primary pull-right">{{ total_notifications_refere }}</small>
                                             </a>
-                                            <ul class="dropdown-menu">
-
-
-                                                <li class="header">{{ notifications_tatal }} tane beklemede basvuru var</li>
-                                                <li>
-                                                    <!-- inner menu: contains the actual data -->
-                                                    <ul class="menu">
-                                                        <li>
-                                                            <a href="{% url "sbs:basvuru-referee" %}">
-                                                                <i class="fa fa-warning text-yellow"></i> Hakem basvurusu
-                                                                <small class="label label-primary pull-right">{{ total_notifications_refere }}</small>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{% url "sbs:basvuru-coach" %}">
-                                                                <i class="fa fa-warning text-yellow"></i> Antrenör basvurusu
-                                                                <small class="label label-primary pull-right ">{{ total_notifications_coach }}</small>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{% url "sbs:basvuru-listesi" %}">
-                                                                <i class="fa fa-warning text-yellow"></i> Klup basvurusu
-                                                                <small class="label label-primary pull-right">{{ total_notifications_clup }}</small>
-                                                            </a>
-                                                        </li>
-{#                                      <li>#}
-{#                                        <a href="#">#}
-{#                                          <i class="fa fa-shopping-cart text-green"></i>#}
-{#                                        </a>#}
-{#                                      </li>#}
-{#                                      <li>#}
-{#                                        <a href="#">#}
-{#                                          <i class="fa fa-user text-red"></i>#}
-{#                                        </a>#}
-{#                                      </li>#}
-                                                    </ul>
-                                                </li>
-                                                <!--              <li class="footer"><a href="#">View all</a></li>-->
-
-                                            </ul>
                                         </li>
+                                        <li>
+                                            <a href="{% url "sbs:basvuru-coach" %}">
+                                                <i class="fa fa-warning text-yellow"></i> Antrenör basvurusu
+                                                <small class="label label-primary pull-right ">{{ total_notifications_coach }}</small>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "sbs:basvuru-listesi" %}">
+                                                <i class="fa fa-warning text-yellow"></i> Klup basvurusu
+                                                <small class="label label-primary pull-right">{{ total_notifications_clup }}</small>
+                                            </a>
+                                        </li>
+                                        {#                                      <li>#}
+                                        {#                                        <a href="#">#}
+                                        {#                                          <i class="fa fa-shopping-cart text-green"></i>#}
+                                        {#                                        </a>#}
+                                        {#                                      </li>#}
+                                        {#                                      <li>#}
+                                        {#                                        <a href="#">#}
+                                        {#                                          <i class="fa fa-user text-red"></i>#}
+                                        {#                                        </a>#}
+                                        {#                                      </li>#}
+                                    </ul>
+                                </li>
+                                <!--              <li class="footer"><a href="#">View all</a></li>-->
 
+                            </ul>
+                        </li>
+                    {% endif %}
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -258,9 +251,9 @@
                                     {% for item in group %}
 
                                         {% if item.name != 'Sporcu' %}
-                                             <div class="col-xs-4 text-center">
-                                            <a href="{% url "sbs:aktive-update"  item.pk %}">{{ item.name }}</a>
-                                        </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="{% url "sbs:aktive-update"  item.pk %}">{{ item.name }}</a>
+                                            </div>
 
                                         {% endif %}
 
@@ -919,12 +912,6 @@
 {#buton tasarimi icin eklendi #}
 {#<script src="https://cdn.datatables.net/1.10.20/js/dataTables.foundation.min.js"></script>#}
 {#<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.foundation.min.js"></script>#}
-
-
-
-
-
-
 
 
 <script>
