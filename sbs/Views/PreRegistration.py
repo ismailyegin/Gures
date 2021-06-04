@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group, User
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render, redirect
 from zeep import Client
-
+from django.db.models import Q
 from accounts.models import Forgot
 from sbs.Forms.PreRegidtrationForm import PreRegistrationForm
 from sbs.models import SportsClub, SportClubUser, Communication, Person
@@ -19,7 +19,7 @@ from sbs.services import general_methods
 from sbs.models.EnumFields import EnumFields
 
 from unicode_tr import unicode_tr
-
+from sbs.Forms.UserSearchForm import UserSearchForm
 
 def update_preRegistration(request, pk):
     perm = general_methods.control_access(request)
@@ -261,6 +261,33 @@ def return_preRegistration(request):
         logout(request)
         return redirect('accounts:login')
 
-    prepegidtration = PreRegistration.objects.all().order_by('status')
+    prepegidtration = PreRegistration.objects.none()
+    user_form = UserSearchForm()
+    if request.method == 'POST':
+        firstName = unicode_tr(request.POST.get('first_name')).upper()
+        lastName = unicode_tr(request.POST.get('last_name')).upper()
+        email = request.POST.get('email')
+        active = request.POST.get('is_active')
+        if not (firstName or lastName or email or active):
+            prepegidtration = PreRegistration.objects.all()
+        else:
+            query = Q()
+            if lastName:
+                query &= Q(last_name__icontains=lastName)
+            if firstName:
+                query &= Q(first_name__icontains=firstName)
+            if email:
+                query &= Q(email__icontains=email)
+            if active == '1':
+                query &= Q(status=ReferenceCoach.WAITED)
+            if active == '2':
+                query &= Q(status=ReferenceCoach.APPROVED)
+            if active == '3':
+                query &= Q(status=ReferenceCoach.DENIED)
+            prepegidtration = PreRegistration.objects.filter(query)
+
+
+
     return render(request, 'kulup/kulupBasvuru.html',
-                  {'prepegidtration': prepegidtration})
+                  {'prepegidtration': prepegidtration,
+                   'user_form':user_form})

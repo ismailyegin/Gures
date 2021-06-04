@@ -3,7 +3,7 @@ from sbs.models.City import City
 from sbs.models.Country import Country
 from sbs.models.CategoryItem import CategoryItem
 from sbs.models.EnumFields import EnumFields
-
+from unicode_tr import unicode_tr
 
 class ReferenceReferee(models.Model):
     MALE = 'Erkek'
@@ -92,6 +92,14 @@ class ReferenceReferee(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
+
+
+    def save(self, force_insert=False, force_update=False):
+        if self.first_name:
+            self.first_name = unicode_tr(self.first_name)
+        if self.last_name:
+            self.last_name=unicode_tr(self.last_name)
+        super(ReferenceReferee, self).save(force_insert, force_update)
     #
     # class Meta:
     #     default_permissions = ()

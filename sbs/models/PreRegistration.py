@@ -6,7 +6,7 @@ from sbs.models.Coach import Coach
 from sbs.models.ClubRole import ClubRole
 from sbs.models.CategoryItem import CategoryItem
 
-
+from unicode_tr import unicode_tr
 
 class PreRegistration(models.Model):
     MALE = 'Erkek'
@@ -133,3 +133,10 @@ class PreRegistration(models.Model):
     #
     #     self.shortName = self.shortName.upper()
     #     super(PreRegistration, self).save(force_insert, force_update)
+
+    def save(self, force_insert=False, force_update=False):
+        if self.first_name:
+            self.first_name = unicode_tr(self.first_name)
+        if self.last_name:
+            self.last_name=unicode_tr(self.last_name)
+        super(PreRegistration, self).save(force_insert, force_update)

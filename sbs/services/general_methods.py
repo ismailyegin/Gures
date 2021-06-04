@@ -233,7 +233,7 @@ def get_notification(request):
         current_user = request.user
         if current_user.groups.filter(name='Admin').exists():
             total_notifications_refere = ReferenceReferee.objects.filter(status=ReferenceReferee.WAITED).count()
-            total_notifications_coach = ReferenceReferee.objects.filter(status=ReferenceCoach.WAITED).count()
+            total_notifications_coach = ReferenceCoach.objects.filter(status=ReferenceCoach.WAITED).count()
             total_notifications_clup = PreRegistration.objects.filter(status=PreRegistration.WAITED).count()
             notifications_tatal = total_notifications_refere + total_notifications_coach + total_notifications_clup
 

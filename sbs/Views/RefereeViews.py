@@ -622,51 +622,41 @@ def updateRefereeProfile(request):
     person = Person.objects.get(pk=referee_user.person.pk)
     communication = Communication.objects.get(pk=referee_user.communication.pk)
     user_form = DisabledUserForm(request.POST or None, instance=user)
-    person_form = DisabledPersonForm(request.POST or None, request.FILES or None, instance=person)
-    communication_form = DisabledCommunicationForm(request.POST or None, instance=communication)
+    print(person.profileImage)
+    person_form = PersonForm(request.POST or None, request.FILES or None, instance=person)
+    person_form.fields['tc'].widget.attrs['readonly']='readonly'
+    person_form.fields['birthDate'].widget.attrs['readonly']='readonly'
+    person_form.fields['birthDate'].widget.attrs['id']='date'
+    communication_form = CommunicationForm(request.POST or None, instance=communication)
     password_form = SetPasswordForm(request.user, request.POST)
 
     if request.method == 'POST':
-        data = request.POST.copy()
-        data['bloodType'] = "AB Rh+"
-        data['gender'] = "Erkek"
-        person_form = DisabledPersonForm(data)
-
-        if person_form.is_valid() and password_form.is_valid():
-            if len(request.FILES) > 0:
-                person.profileImage = request.FILES['profileImage']
-                person.save()
-                messages.success(request, 'Profil Fotoğrafı Başarıyla Güncellenmiştir.')
-
+        if password_form.is_valid():
             user.set_password(password_form.cleaned_data['new_password2'])
             user.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Şifre Başarıyla Güncellenmiştir.')
-            return redirect('sbs:hakem-profil-guncelle')
 
 
 
-        elif person_form.is_valid() and not password_form.is_valid():
+
+        if person_form.is_valid():
+            person_form.save(commit=False)
             if len(request.FILES) > 0:
-                person.profileImage = request.FILES['profileImage']
-                person.save()
-                messages.success(request, 'Profil Fotoğrafı Başarıyla Güncellenmiştir.')
+                person_form.profileImage = request.FILES['profileImage']
             else:
-                messages.warning(request, 'Alanları Kontrol Ediniz')
-            return redirect('sbs:hakem-profil-guncelle')
+                person_form.profileImage=person.profileImage
+            person_form.save()
 
 
-        elif not person_form.is_valid() and password_form.is_valid():
-            user.set_password(password_form.cleaned_data['new_password2'])
+
+        if user_form.is_valid():
+
+            user=user_form.save(commit=False)
+            user.is_active=True
             user.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, 'Şifre Başarıyla Güncellenmiştir.')
-            return redirect('sbs:hakem-profil-guncelle')
-
-        else:
-            messages.warning(request, 'Alanları Kontrol Ediniz.')
-
-            return redirect('sbs:hakem-profil-guncelle')
+        if communication_form.is_valid():
+            communication_form.save()
 
     return render(request, 'hakem/hakem-profil-guncelle.html',
                   {'user_form': user_form, 'communication_form': communication_form,
