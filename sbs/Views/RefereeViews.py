@@ -373,7 +373,11 @@ def refenceapprovalReferee(request, pk):
                 communication.country = reference.country
                 communication.save()
 
-                judge = Judge(user=user, person=person, communication=communication)
+                judge = Judge(user=user,
+                              person=person,
+                              communication=communication,
+                              startDate=reference.adayHakemStartDate
+                              )
                 judge.iban = reference.iban
                 judge.save()
 
@@ -522,7 +526,7 @@ def updateReferee(request, pk):
     communication_form = CommunicationForm(request.POST or None, instance=communication)
 
     metarial_form = MaterialForm(request.POST or None, instance=metarial)
-    competitions = Competition.objects.filter(judges=judge).distinct()
+    competitions = Competition.objects.filter(judges__judge=judge)
 
 
     iban_form = IbanFormJudge(request.POST or None, instance=judge)

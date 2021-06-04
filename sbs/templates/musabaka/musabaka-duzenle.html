@@ -278,13 +278,20 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label> {{ competition_form.compType.label }}</label>
+                                        {{ competition_form.compType }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> {{ competition_form.compGeneralType.label }}</label>
+                                        {{ competition_form.compGeneralType }}
+                                    </div>
+
+
+                                    <div class="form-group">
                                         <label> {{ competition_form.startDate.label }}</label>
                                         {{ competition_form.startDate }}
                                     </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.basvurulink.label }}</label>
-                                        {{ competition_form.basvurulink }}
-                                    </div>
+
 
                                     <div class="form-group">
                                         <label> {{ competition_form.finishDate.label }}</label>
@@ -293,15 +300,6 @@
                                     <div class="form-group">
                                         <label> {{ competition_form.year.label }}</label>
                                         {{ competition_form.year }}
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label> {{ competition_form.compType.label }}</label>
-                                        {{ competition_form.compType }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.compGeneralType.label }}</label>
-                                        {{ competition_form.compGeneralType }}
                                     </div>
 
 
@@ -313,17 +311,7 @@
                                     </div>
 
 
-                                    <div class="form-group">
-                                        <label> {{ competition_form.registerStartDate.label }}</label>
-                                        {{ competition_form.registerStartDate }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.registerFinishDate.label }}</label>
-                                        {{ competition_form.registerFinishDate }}
-                                    </div>
-
-
-                                    <div class="form-group">
+                                       <div class="form-group">
                                         <label>Yaş Gruplari</label>
                                         <select class="form-control select2" multiple="multiple " name="jobDesription"
                                                 id="multipleSelect"
@@ -350,6 +338,19 @@
 
                                         </div>
                                     {% endif %}
+
+
+                                    <div class="form-group">
+                                        <label> {{ competition_form.registerStartDate.label }}</label>
+                                        {{ competition_form.registerStartDate }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> {{ competition_form.registerFinishDate.label }}</label>
+                                        {{ competition_form.registerFinishDate }}
+                                    </div>
+
+
+
 
 
                                 </div>
@@ -597,7 +598,8 @@
                                     <div class="btn-group">
 
 
-                                        <a class="btn btn-success" href="{% url "sbs:musabaka-hakem-sec" competition.pk %}"> Hakem Ekle </a>
+                                        <a class="btn btn-success"
+                                           href="{% url "sbs:musabaka-hakem-sec" competition.pk %}"> Hakem Ekle </a>
 
 
                                     </div>
@@ -619,7 +621,7 @@
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
 
-                                                <td>{{ item.judge.user.first_name}} {{ item.judge.user.last_name}}</td>
+                                                <td>{{ item.judge.user.first_name }} {{ item.judge.user.last_name }}</td>
                                                 <td>{{ item.role.name }}</td>
 
                                                 <td>
@@ -908,7 +910,7 @@
                         text: '<i class="fa fa-file-excel-o"></i>',
 
                         exportOptions: {
-                            columns: [0, 1,2,3,4,5,6]
+                            columns: [0, 1, 2, 3, 4, 5, 6]
                         },
 
                         titleAttr: 'Excel Kaydet'
@@ -1088,35 +1090,33 @@
                     if (e.handled !== true) {
                         // This will prevent event triggering more then once
                         e.handled = true;
-                         $.ajax({
-                        url: "{% url "sbs:musabaka-link-update" pk=212121223232323232 %}".replace(/212121223232323232/,pk.toString()),
-                        type: "POST",
-                        data: {
-                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
-                             defi:$("#linkdefinition_update").val(),
-                             link:$("#linkyoutube_update").val(),
-                            isActive: 'False'
-                        },
-                        success: function (result) {
+                        $.ajax({
+                            url: "{% url "sbs:musabaka-link-update" pk=212121223232323232 %}".replace(/212121223232323232/, pk.toString()),
+                            type: "POST",
+                            data: {
+                                'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                                defi: $("#linkdefinition_update").val(),
+                                link: $("#linkyoutube_update").val(),
+                                isActive: 'False'
+                            },
+                            success: function (result) {
 
-                            html = 'Link başarıyla kaldırıldı.';
-                            $('#modal-link-update').modal('hide');
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
+                                html = 'Link başarıyla kaldırıldı.';
+                                $('#modal-link-update').modal('hide');
+                                $('#modal-success').on("shown.bs.modal", function (e) {
+                                    $(".btn-ok").click(function () {
 
-                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+                                        window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
 
-                                });
+                                    });
 
-                            }).modal('show');
+                                }).modal('show');
 
 
-                            console.log(result.status)
-                        }
-                    });
+                                console.log(result.status)
+                            }
+                        });
                     }
-
-
 
 
                 });
@@ -1129,49 +1129,44 @@
         }
 
 
-          function linkdelete(pk) {
-
+        function linkdelete(pk) {
 
 
             $("#modal-danger").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
 
 
-
                     if (e.handled !== true) {
                         // This will prevent event triggering more then once
                         e.handled = true;
-                         $.ajax({
+                        $.ajax({
 
 
+                            url: "{% url "sbs:musabaka-link-delete" pk=212121223232323232 %}".replace(/212121223232323232/, {{ competition.pk }}),
+                            type: "POST",
+                            data: {
+                                'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                                'pk': pk,
+                                isActive: 'False'
+                            },
+                            success: function (result) {
 
-                        url: "{% url "sbs:musabaka-link-delete" pk=212121223232323232 %}".replace(/212121223232323232/,{{ competition.pk }}),
-                        type: "POST",
-                        data: {
-                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
-                            'pk':pk,
-                            isActive: 'False'
-                        },
-                        success: function (result) {
+                                html = 'Link başarıyla silindi.';
+                                $('#modal-link-update').modal('hide');
+                                $('#modal-success').on("shown.bs.modal", function (e) {
+                                    $(".btn-ok").click(function () {
 
-                            html = 'Link başarıyla silindi.';
-                            $('#modal-link-update').modal('hide');
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
+                                        window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
 
-                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+                                    });
 
-                                });
-
-                            }).modal('show');
+                                }).modal('show');
 
 
-                            console.log(result.status)
-                        }
-                    });
+                                console.log(result.status)
+                            }
+                        });
                     }
-
-
 
 
                 });
@@ -1183,46 +1178,42 @@
 
         }
 
-              function judgedelete(pk) {
-
+        function judgedelete(pk) {
 
 
             $("#modal-danger").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
 
 
-
                     if (e.handled !== true) {
                         // This will prevent event triggering more then once
                         e.handled = true;
-                         $.ajax({
-                        url: "{% url "sbs:musabaka-hakem-delete" pk=212121223232323232 %}".replace(/212121223232323232/,{{ competition.pk }}),
-                        type: "POST",
-                        data: {
-                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
-                            'pk':pk,
-                            isActive: 'False'
-                        },
-                        success: function (result) {
+                        $.ajax({
+                            url: "{% url "sbs:musabaka-hakem-delete" pk=212121223232323232 %}".replace(/212121223232323232/, {{ competition.pk }}),
+                            type: "POST",
+                            data: {
+                                'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                                'pk': pk,
+                                isActive: 'False'
+                            },
+                            success: function (result) {
 
-                            html = 'Link başarıyla silindi.';
-                            $('#modal-link-update').modal('hide');
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
+                                html = 'Link başarıyla silindi.';
+                                $('#modal-link-update').modal('hide');
+                                $('#modal-success').on("shown.bs.modal", function (e) {
+                                    $(".btn-ok").click(function () {
 
-                                    window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
+                                        window.location.replace("{% url "sbs:musabaka-duzenle" competition.pk %}");
 
-                                });
+                                    });
 
-                            }).modal('show');
+                                }).modal('show');
 
 
-                            console.log(result.status)
-                        }
-                    });
+                                console.log(result.status)
+                            }
+                        });
                     }
-
-
 
 
                 });

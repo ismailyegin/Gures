@@ -51,8 +51,8 @@ class RefereeCoachForm(ModelForm):
                 attrs={'class': 'form-control ', 'value': '', 'required': 'required',
                        "style": "text-transform:uppercase"}),
             'iban': forms.TextInput(
-                attrs={'id': 'iban', 'class': 'form-control  iban',
-                       'onkeyup': 'if(this.value.length > 34){this.value=this.value.substr(0, 34);}', 'value': '',
+                attrs={'id': 'iban', 'class': 'form-control  iban', 'data-rule-iban': "true",
+                       'onkeyup': 'if(this.value.length > 34){this.value=this.value.substr(0, 34);}', 'value': 'TR',
                        'required': 'required'}),
 
             'birthDate': forms.DateInput(

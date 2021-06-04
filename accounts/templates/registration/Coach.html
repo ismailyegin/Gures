@@ -174,7 +174,8 @@
                                                          style=" height: 125px;width: 130px;">
                                                     <input type="file" name="profileImage" accept="image/*"
                                                            id="id_profileImage"
-                                                           onchange="previewImage()">
+                                                           onchange="previewImage()"
+                                                    required="required">
                                                 </div>
                                             </center>
 
@@ -196,6 +197,10 @@
                                                 <div class="form-group">
                                                     <label> {{ preRegistrationform.gender.label }}</label>
                                                     {{ preRegistrationform.gender }}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> {{ preRegistrationform.bloodType.label }}</label>
+                                                    {{ preRegistrationform.bloodType }}
                                                 </div>
 
 
@@ -229,10 +234,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <h4><p class="text-primary">(*) Lütfen tüm alanları dordurunuz.</p></h4>
 
-                                        </div>
 
 
                                     </div>
@@ -243,7 +245,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <div class="box box-solid box-success">
+                            <div class="box box-solid box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title"> Kişi İletişim Bilgileri</h3>
                                 </div>
@@ -295,10 +297,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <h4><p class="text-success"> (*) Lütfen tüm alanları dordurunuz.</p></h4>
 
-                                    </div>
                                 </div>
 
 
@@ -311,7 +310,7 @@
 
 
                         <div class="col-lg-12">
-                            <div class="box box-solid box-danger">
+                            <div class="box box-solid box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Kademe Bilgileri </h3>
                                 </div>
@@ -319,10 +318,17 @@
 
 
                                     <div class="col-lg-6">
+
+                                                                       <div class="form-group">
+                                            <label> {{ preRegistrationform.kademe_startDate.label }}</label>
+                                            {{ preRegistrationform.kademe_startDate }}
+                                        </div>
                                         <div class="form-group">
                                             <label> {{ preRegistrationform.kademe_belge.label }}</label>
                                             {{ preRegistrationform.kademe_belge }}
                                         </div>
+
+
 
                                     </div>
                                     <div class="col-lg-6">
@@ -330,23 +336,15 @@
                                             <label> {{ preRegistrationform.kademe_definition.label }}</label>
                                             {{ preRegistrationform.kademe_definition }}
                                         </div>
-                                        <div class="form-group">
-                                            <label> {{ preRegistrationform.kademe_startDate.label }}</label>
-                                            {{ preRegistrationform.kademe_startDate }}
-                                        </div>
+
 
 
                                     </div>
 
 
-                                    <div class="col-lg-12 pull-right">
-                                        <h4><p class="text-danger pull-right">(*) Lütfen tüm alanları dordurunuz.</p>
-                                        </h4>
-
-                                    </div>
                                 </div>
                                 <div class="box-footer">
-                                    <button class="btn btn-danger pull-right" type="submit">Onaya gönder</button>
+                                    <button class="btn btn-success pull-right" type="submit">Onaya gönder</button>
                                 </div>
                             </div>
                         </div>
@@ -560,6 +558,9 @@
         $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
         //Datemask2 mm/dd/yyyy
         $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'})
+
+
+        $('.datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
         //Money Euro
         $('[data-mask]').inputmask()
 

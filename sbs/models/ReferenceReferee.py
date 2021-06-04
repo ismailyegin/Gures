@@ -75,6 +75,7 @@ class ReferenceReferee(models.Model):
 
     kademe_definition = models.ForeignKey(CategoryItem, on_delete=models.CASCADE)
     kademe_startDate = models.DateField(verbose_name="Kademe başlangıç Tarihi")
+    adayHakemStartDate = models.DateField(verbose_name="Aday Hakem Başlangıç Tarihi")
 
 
 

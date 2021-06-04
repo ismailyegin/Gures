@@ -23,10 +23,11 @@ class RefereeForm(ModelForm):
             'city', 'kademe_startDate',
             'country', 'iban', 'tc', 'profileImage', 'birthDate', 'bloodType', 'gender',
             'birthplace', 'motherName',
-            'fatherName')
+            'fatherName','adayHakemStartDate')
         labels = {'iban': 'İban Adresi', 'first_name': 'Ad', 'last_name': 'Soyad', 'email': 'Email',
                   'phoneNumber': 'Cep Telefonu', 'phoneNumber2': 'Sabit Telefon', 'postalCode': 'Posta Kodu',
                   'city': 'İl', 'country': 'Ülke', 'tc': 'T.C.', 'gender': 'Cinsiyet',
+                  'adayHakemStartDate':'Aday Hakem Başlama Zamanı'
                   }
         widgets = {
 
@@ -60,6 +61,10 @@ class RefereeForm(ModelForm):
                 attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker', 'autocomplete': 'off',
                        'required': 'required'}),
 
+            'adayHakemStartDate': forms.DateInput(
+                attrs={'class': 'form-control  pull-right datemask', 'id': 'datepicker3', 'autocomplete': 'off',
+                       'required': 'required'}),
+
             'bloodType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                              'style': 'width: 100%; '}),
 
@@ -78,8 +83,8 @@ class RefereeForm(ModelForm):
 
             'phoneNumber': forms.TextInput(attrs={'class': 'form-control ', 'onkeypress': 'validate(event)'}),
             'iban': forms.TextInput(
-                attrs={'id': 'iban', 'class': 'form-control  iban',
-                       'onkeyup': 'if(this.value.length > 34){this.value=this.value.substr(0, 34);}', 'value': '',
+                attrs={'id': 'iban', 'class': 'form-control  iban','data-rule-iban':"true",
+                       'onkeyup': 'if(this.value.length > 34){this.value=this.value.substr(0, 34);}', 'value':'TR',
                        'required': 'required'}),
 
             'phoneNumber2': forms.TextInput(attrs={'class': 'form-control ', 'onkeypress': 'validate(event)'}),

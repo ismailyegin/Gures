@@ -20,6 +20,8 @@ class Judge(models.Model):
     iban = models.CharField(max_length=120, null=True, blank=True, verbose_name='İban Adresi')
 
     oldpk = models.IntegerField(null=True, blank=True)
+# hakemlige baslama tarihi
+    startDate = models.DateField(verbose_name="Hakem başlama Tarihi",null=True,blank=True)
 
 
     def __str__(self):
