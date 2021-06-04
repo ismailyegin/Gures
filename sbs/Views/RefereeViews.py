@@ -611,12 +611,11 @@ def updateReferee(request, pk):
 
 @login_required
 def updateRefereeProfile(request):
-    perm = general_methods.control_access(request)
+    perm = general_methods.control_access_klup(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-
     user = request.user
     referee_user = Judge.objects.filter(user=user)[0]
     person = Person.objects.get(pk=referee_user.person.pk)
