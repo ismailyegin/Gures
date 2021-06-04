@@ -28,6 +28,9 @@ from sbs.models.CompetitionsDocument import CompetitionsDocument
 from sbs.models.CompetitionPhotoDocument import CompetitionPhotoDocumentDocument
 
 
+from sbs.Forms.UserSearchForm import UserSearchForm
+from unicode_tr import unicode_tr
+
 # from pyexcel_xls import get_data as xls_get
 # from pyexcel_xlsx import get_data as xlsx_get
 
@@ -1146,3 +1149,42 @@ def musabaka_hakem_delete(request, pk):
     else:
         return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
 
+@login_required
+def musabaka_rapor(request, pk):
+    perm = general_methods.control_access(request)
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    competition = Competition.objects.get(pk=pk)
+    compathlete=CompetitionsAthlete.objects.none()
+    weight=Weight.objects.all()
+    user_form = UserSearchForm()
+    if request.method == 'POST':
+        user_form = UserSearchForm(request.POST)
+        firstName = unicode_tr(request.POST.get('first_name')).upper()
+        lastName = unicode_tr(request.POST.get('last_name')).upper()
+        email = request.POST.get('email')
+        category = request.POST.get('category')
+        siklet=request.POST.get('siklet')
+        if not (firstName or lastName or email or category or siklet):
+            compathlete = CompetitionsAthlete.objects.filter(competition=competition)
+        else:
+            query = Q()
+            if lastName:
+                query &= Q(last_name__icontains=lastName)
+            if firstName:
+                query &= Q(first_name__icontains=firstName)
+            if email:
+                query &= Q(email__icontains=email)
+            if siklet:
+                query &= Q(siklet_id=siklet)
+            if category:
+                query &= Q(category_id=category)
+            compathlete = CompetitionsAthlete.objects.filter(competition=competition).filter(query)
+
+    return render(request, 'musabaka/musabaka-basvuru-raporu.html', {
+        'referees':compathlete,
+        'competition':competition,
+        'user_form':user_form,
+        'weight':weight
+    })

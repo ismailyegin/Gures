@@ -435,6 +435,9 @@ urlpatterns = [
     url(r'musabaka/musabaka-duzenle/hakemdelete/(?P<pk>\d+)/$', CompetitionViews.musabaka_hakem_delete,
         name='musabaka-hakem-delete'),
 
+    url(r'musabaka/musabaka-duzenle/raporal/(?P<pk>\d+)/$', CompetitionViews.musabaka_rapor,
+        name='musabaka-rapor'),
+
     #     Yardım ve destek
 
     url(r'yardim$', HelpViews.help, name='help'),
@@ -532,13 +535,9 @@ urlpatterns = [
     url(r'api/athlete/musabaka$', ApiView.return_competition_athlete, name='api-athlete-competition'),
     url(r'api/sporclub/arama$', ApiView.club_search, name='api-sportclup-search'),
 
-
     url(r'api/city$', ApiView.city_count, name='api-city'),
     url(r'api/count$', ApiView.count, name='api-count'),
 
     url(r'api/sporclub$', ApiView.club_result, name='api-sportclup'),
     url(r'api/medal$', ApiView.medal_result, name='api-medal'),
-
-
-
 ]
