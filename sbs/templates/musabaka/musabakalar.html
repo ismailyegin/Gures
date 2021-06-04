@@ -442,6 +442,11 @@
                                                    type="button" class="btn btn-primary"><i
                                                         class="fa fa-edit"></i>Başvurular
                                                      </a>
+
+                                                      <a href="{% url "sbs:musabaka-rapor" competition.pk %}"
+                                                       type="button" class="btn btn-default"><i
+                                                            class="fa fa-edit"></i>Rapor Al
+                                                    </a>
                                                     <a href="{% url "sbs:musabaka-duzenle" competition.pk %}"
                                                        type="button" class="btn btn-warning"><i
                                                             class="fa fa-edit"></i>İncele
@@ -589,9 +594,7 @@
             })
 
         })
-    </script>
 
-    <script>
         function deleteCompetition(id) {
 
             console.log(id);
