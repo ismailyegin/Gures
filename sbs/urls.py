@@ -424,6 +424,9 @@ urlpatterns = [
     url(r'musabaka/musabaka-duzenle/dokumansil/(?P<pk>\d+)/$', CompetitionViews.musabaka_dokuman_sil,name='musabaka-dokuman-kaldir'),
     url(r'musabaka/musabaka-duzenle/resimsil/(?P<pk>\d+)/$', CompetitionViews.musabaka_photo_sil,name='musabaka-resim-kaldir'),
 
+    url(r'musabaka/musabaka-sonucEkle/$', CompetitionViews.musabakaResultAdd, name='musabaka-SonucEkle'),
+    url(r'musabaka/musabaka-sonucEkle-ajax/$', CompetitionViews.choose_athlete_competition, name='musabaka-sonuc-ajax'),
+
 
 
 

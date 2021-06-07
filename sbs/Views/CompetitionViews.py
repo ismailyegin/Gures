@@ -758,11 +758,13 @@ def result_list(request, pk):
         return redirect('accounts:login')
     competition = Competition.objects.filter(pk=pk)
 
-    compAthlete = CompetitionsAthlete.objects.filter(competition=pk).order_by('degree')
-    compCategory = CompCategory.objects.filter(competition=pk).order_by('-name')
+    compAthlete = CompetitionsAthlete.objects.filter(competition=pk).order_by('-siklet')
+
+
+
 
     return render(request, 'musabaka/musabaka-sonuclar.html',
-                  {'compCategory': compCategory, 'compAthlete': compAthlete})
+                  {'compAthlete': compAthlete})
 
 
 @login_required
@@ -1122,7 +1124,6 @@ def choose_referee_ajax(request, pk):
 
         try:
             competition = Competition.objects.get(pk=pk)
-            print('ben geldim')
 
             # if Link.objects.filter(pk=request.POST.get('pk')):
             #
@@ -1204,3 +1205,70 @@ def musabaka_rapor(request, pk):
         'user_form':user_form,
         'weight':weight
     })
+
+
+
+
+@login_required
+def musabakaResultAdd(request):
+    competition = Competition.objects.none()
+    categori=Category.objects.none()
+    if Competition.objects.all():
+        competition = Competition.objects.all().order_by('-creationDate')
+    if Category.objects.all():
+        categori = Weight.objects.all()
+
+    if request.POST:
+        if request.POST.get('categori') and request.POST.get('competitions') and request.POST.get('athlete') and request.POST.get('degre'):
+            pk=int(request.POST.get('athlete'))
+            comAthlete=CompetitionsAthlete.objects.get(pk=pk)
+            comAthlete.degree=int(request.POST.get('degre'))
+            comAthlete.save()
+            messages.success(request, 'Basarili bir sekilde kaydedildi.')
+        else:
+            messages.warning(request, 'Alanlari kontrol ediniz.')
+
+
+
+    return render(request, 'musabaka/musabakaSonucEkle.html', {'competition': competition,'categori':categori})
+
+
+
+@login_required
+def choose_athlete_competition(request):
+    perm = general_methods.control_access(request)
+    login_user = request.user
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.method == 'POST' and request.is_ajax():
+
+        if request.POST.get('categori') and request.POST.get('competition'):
+            if Category.objects.filter(pk=request.POST.get('categori')) and Competition.objects.filter(
+                    pk=request.POST.get('competition')):
+                categori = Weight.objects.get(pk=request.POST.get('categori'))
+                competition = Competition.objects.get(pk=request.POST.get('competition'))
+                comAthlete = CompetitionsAthlete.objects.filter(siklet=categori , competition=competition).distinct()
+                dizi=[]
+                for item in comAthlete:
+                    beka={
+                        'name': item.athlete.user.get_full_name(),
+                        'pk':item.pk
+                    }
+                    dizi.append(beka)
+                return JsonResponse(
+                    {'status': 'Success', 'msg': 'Basarili bir şekilde sporcular alındı', 'athlete': dizi,'categori':categori.weight})
+
+        else:
+            return JsonResponse({'status': 'Fail', 'msg': 'Eksik'})
+
+        # try:
+        #
+        #
+        #
+        # except :
+        #     return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
+
+    else:
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
