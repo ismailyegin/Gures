@@ -186,6 +186,7 @@
                                     <tr>
                                         <th>Seç</th>
                                         <th>Ad Soyad</th>
+                                        <th>Mail</th>
                                         <th>İşlemler</th>
                                     </tr>
                                     </thead>
@@ -196,7 +197,7 @@
 
                                                 <td>{{ forloop.counter }}</td>
                                                 <td id="judge-{{ athlete.pk}}">{{ athlete.user.first_name }} {{ athlete.user.last_name }} </td>
-
+<td>{{ athlete.user.email }}</td>
                                                 <td><a class="btn btn-primary"
                                                        onclick="AddJudge({{ athlete.pk }})">Seç</a>
                                                 </td>

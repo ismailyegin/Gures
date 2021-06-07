@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from datetime import timedelta, datetime
+from django.core.mail import EmailMultiAlternatives
 
 from sbs.Forms.CompetitionForm import CompetitionForm
 from sbs.Forms.CompetitionSearchForm import CompetitionSearchForm
@@ -140,7 +141,8 @@ def return_competitions(request):
         else:
             competitions = Competition.objects.all().order_by('-startDate')
     return render(request, 'musabaka/musabakalar.html',
-                  {'competitions': competitions, 'query': comquery, 'application': competition})
+                  {'competitions': competitions, 'query': comquery,
+                   'application': competition, 'user':request.user})
 
 
 @login_required
@@ -1077,6 +1079,20 @@ def choose_referee(request, pk):
                 rol.save()
                 competition.judges.add(rol)
                 competition.save()
+
+                # mail gönderiliyor
+
+                log = str(judge.user.get_full_name()) + " Hakem "+competition.name+" müsabasına  eklendi"
+                log = general_methods.logwrite(request, request.user, log)
+
+                html_content = ''
+                subject, from_email, to = 'Güreş Bilgi Sistemi Kullanıcı Bilgileri', 'no-reply@tgf.gov.tr', judge.user.email
+                html_content = '<h2>TÜRKİYE GÜREŞ FEDERASYONU BİLGİ SİSTEMİ</h2>'
+                html_content +=str(competition.name)+"müsabakasına      "+str(rol.role)+"      olarak eklendiniz."
+                msg = EmailMultiAlternatives(subject, '', from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+
     coa = []
     for item in competition.judges.all():
         coa.append(item.judge.user.id)

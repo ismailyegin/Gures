@@ -123,11 +123,6 @@
     </style>
 
 
-
-
-
-
-
     <!-- success modal -->
     <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
         <div class="modal-dialog">
@@ -247,77 +242,74 @@
     </div>
 
 
-
-
-
     <section class="content">
+        {% if aktif != 'Hakem' %}
+            {% if application.all %}
+                {% for competition in application %}
 
-        {% if application.all %}
-            {% for competition in application %}
+                    <div class="row">
+                        <section class="col-lg-12 ">
 
-                <div class="row">
-                    <section class="col-lg-12 ">
-
-                        <div class=" dash-center">
-                            <div class="profile-left mb20">
-                                <h4><span class="label pull-left label-danger mr5"
-                                          style="margin: 0px 0px 0px 0px">Güncel Müsabaka</span></h4>
-
-
-                                <div class="profile-left-heading">
-                                    <h2 class="profile-name">{{ competition.name }}</h2>
-                                    <h4 class="profile-designation">{{ competition.startDate |date:"d " }}
-                                        - {{ competition.finishDate | date }}</h4>
-                                    <center><a href="{% url "sbs:basvuru" pk=competition.pk %}">
-                                        <button class="btn btn-danger btn-quirk profile-btn-follow">&nbsp;&nbsp;&nbsp;
-                                            BAŞVURU YAP
-                                            &nbsp;&nbsp;&nbsp;
-                                        </button>
-                                    </a></center>
-
-                                </div>
-                                <div class="profile-left-body">
+                            <div class=" dash-center">
+                                <div class="profile-left mb20">
+                                    <h4><span class="label pull-left label-danger mr5"
+                                              style="margin: 0px 0px 0px 0px">Güncel Müsabaka</span></h4>
 
 
-                                    <div class="row">
-                                        <div class="col-xs-5 col-sm-4">
-                                            <div class="pull-left">
-                                                <h4 class="panel-title">MÜSABAKANIN YERİ</h4>
-                                                <p>
-                                                    <i class="glyphicon glyphicon-map-marker mr5"></i>{{ competition.eventPlace }}
-                                                </p>
+                                    <div class="profile-left-heading">
+                                        <h2 class="profile-name">{{ competition.name }}</h2>
+                                        <h4 class="profile-designation">{{ competition.startDate |date:"d " }}
+                                            - {{ competition.finishDate | date }}</h4>
+                                        <center><a href="{% url "sbs:basvuru" pk=competition.pk %}">
+                                            <button class="btn btn-danger btn-quirk profile-btn-follow">&nbsp;&nbsp;&nbsp;
+                                                BAŞVURU YAP
+                                                &nbsp;&nbsp;&nbsp;
+                                            </button>
+                                        </a></center>
+
+                                    </div>
+                                    <div class="profile-left-body">
+
+
+                                        <div class="row">
+                                            <div class="col-xs-5 col-sm-4">
+                                                <div class="pull-left">
+                                                    <h4 class="panel-title">MÜSABAKANIN YERİ</h4>
+                                                    <p>
+                                                        <i class="glyphicon glyphicon-map-marker mr5"></i>{{ competition.eventPlace }}
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-5 col-sm-4">
-                                            <div class="pull-left">
-                                                <h4 class="panel-title">MÜSABAKANIN TARİHİ</h4>
-                                                <p>
-                                                    <i class="fa fa-calendar mr5"></i> {{ competition.startDate |date:"d " }}
-                                                    - {{ competition.finishDate | date }}</p>
+                                            <div class="col-xs-5 col-sm-4">
+                                                <div class="pull-left">
+                                                    <h4 class="panel-title">MÜSABAKANIN TARİHİ</h4>
+                                                    <p>
+                                                        <i class="fa fa-calendar mr5"></i> {{ competition.startDate |date:"d " }}
+                                                        - {{ competition.finishDate | date }}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-5 col-sm-4">
-                                            <div class="pull-left">
-                                                <h4 class="panel-title">ONLİNE BAŞVURU TARİHİ</h4>
-                                                <p>
-                                                    <i class="fa fa-calendar mr5"></i>{{ competition.registerStartDate |date:"d " }}
-                                                    - {{ competition.registerFinishDate | date }}</p>
+                                            <div class="col-xs-5 col-sm-4">
+                                                <div class="pull-left">
+                                                    <h4 class="panel-title">ONLİNE BAŞVURU TARİHİ</h4>
+                                                    <p>
+                                                        <i class="fa fa-calendar mr5"></i>{{ competition.registerStartDate |date:"d " }}
+                                                        - {{ competition.registerFinishDate | date }}</p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </div><!-- row -->
-
-
-                                </div>
-                            </div><!-- profile-left -->
-                            <br>
-                        </div>
+                                        </div><!-- row -->
 
 
-                </div>
-            {% endfor %}
+                                    </div>
+                                </div><!-- profile-left -->
+                                <br>
+                            </div>
+
+
+                    </div>
+                {% endfor %}
+            {% endif %}
         {% endif %}
-
     </section>
 
 
@@ -350,13 +342,13 @@
                                     {{ query.startDate }}
                                 </div>
                             </div>
-                                                       <div class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label> {{ query.compGeneralType.label }}</label>
                                     {{ query.compGeneralType }}
                                 </div>
                             </div>
-                                                       <div class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label> {{ query.compType.label }}</label>
                                     {{ query.compType }}
@@ -436,14 +428,31 @@
                                                         class="fa fa-edit"></i>Sonuclar
                                                 </a>
 
+                                                {% if aktif == 'Hakem' %}
+
+                                                    {% for judge in competition.judges.all %}
+
+                                                        {% if user == judge.judge.user %}
+                                                            {% if judge.role.name == "Baş Hakem" or  judge.role.name == "Cetvel Hakemi(Sekreterya)" %}
+                                                                <a href="{% url "sbs:musabaka-rapor" competition.pk %}"
+                                                                   type="button" class="btn btn-default"><i
+                                                                        class="fa fa-edit"></i>Rapor Al
+                                                                </a>
+                                                            {% endif %}
+
+
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+
 
                                                 {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                                                     <a href="{% url "sbs:basvuru" pk=competition.pk %}"
-                                                   type="button" class="btn btn-primary"><i
-                                                        class="fa fa-edit"></i>Başvurular
-                                                     </a>
+                                                       type="button" class="btn btn-primary"><i
+                                                            class="fa fa-edit"></i>Başvurular
+                                                    </a>
 
-                                                      <a href="{% url "sbs:musabaka-rapor" competition.pk %}"
+                                                    <a href="{% url "sbs:musabaka-rapor" competition.pk %}"
                                                        type="button" class="btn btn-default"><i
                                                             class="fa fa-edit"></i>Rapor Al
                                                     </a>
@@ -634,14 +643,6 @@
 
         }
     </script>
-
-
-
-
-
-
-
-
 
 
 {% endblock %}
