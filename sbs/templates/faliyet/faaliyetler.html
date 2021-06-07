@@ -154,18 +154,18 @@
                                         {{ query.name }}
                                     </div>
                                 </div>
-{#                                <div class="col-md-3">#}
-{#                                    <div class="form-group">#}
-{#                                        <label> {{ query.compType.label }}</label>#}
-{#                                        {{ query.compType }}#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-md-3">#}
-{#                                    <div class="form-group">#}
-{#                                        <label> {{ query.compGeneralType.label }}</label>#}
-{#                                        {{ query.compGeneralType }}#}
-{#                                    </div>#}
-{#                                </div>#}
+                                {#                                <div class="col-md-3">#}
+                                {#                                    <div class="form-group">#}
+                                {#                                        <label> {{ query.compType.label }}</label>#}
+                                {#                                        {{ query.compType }}#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                                {#                                <div class="col-md-3">#}
+                                {#                                    <div class="form-group">#}
+                                {#                                        <label> {{ query.compGeneralType.label }}</label>#}
+                                {#                                        {{ query.compGeneralType }}#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ query.startDate.label }}</label>
@@ -203,15 +203,18 @@
                         <div class="box-header with-border">
                             <h3 class="box-title center-block">Faaliyetler</h3>
                         </div>
+                       {% if aktif == 'Admin' or aktif == 'Yonetim' %}
                         <div class="box-header with-border">
+
                             <div class="btn-group">
-                                {% if aktif == 'Admin' or aktif == 'Yonetim' %}
+
                                     <a href="{% url "sbs:faaliyet-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Yeni Faaliyet Ekle
                                     </a>
-                                {% endif %}
+
                             </div>
+
                             {#                            <div class="btn-group">#}
                             {##}
                             {#                                    <ul class="nav nav-tabs nav-justified nav-inverse ">#}
@@ -230,6 +233,7 @@
                             {##}
                             {#                            </div>#}
                         </div>
+                      {% endif %}
                         <div class="box-body">
                             <table id="musabakalar" class="table table-bordered table-hover">
                                 <thead>
@@ -240,8 +244,10 @@
                                     <th>Başl. Tarihi</th>
                                     <th>Bitiş. Tarihi</th>
                                     <th>Yıl</th>
-                                    <th>Türü</th>
-                                    <td>işlemler</td>
+                                    {#                                    <th>Türü</th>#}
+                                    {% if  aktif == 'Yonetim' or aktif == 'Admin' %}
+                                        <td>işlemler</td>
+                                    {% endif %}
 
 
                                 </tr>
@@ -256,32 +262,32 @@
                                             <td>{{ competition.startDate | date }} </td>
                                             <td>{{ competition.finishDate | date }}</td>
                                             <td>{{ competition.year }}</td>
-                                            {% if competition.type == 0 %}
-                                                <td>YURT İÇİ FAALİYETLERİ</td>
-                                            {% elif competition.type == 1 %}
-                                                <td>YURT DIŞI FAALİYETLERİ</td>
-                                            {% elif competition.type == 2 %}
-                                                <td>EGİTİM FAALİYETLERİ</td>
-                                            {% elif competition.type == 3 %}
-                                                <td>KAMP FAALİYETLERİ</td>
-                                            {% endif %}
+                                            {#                                            {% if competition.type == 0 %}#}
+                                            {#                                                <td>YURT İÇİ FAALİYETLERİ</td>#}
+                                            {#                                            {% elif competition.type == 1 %}#}
+                                            {#                                                <td>YURT DIŞI FAALİYETLERİ</td>#}
+                                            {#                                            {% elif competition.type == 2 %}#}
+                                            {#                                                <td>EGİTİM FAALİYETLERİ</td>#}
+                                            {#                                            {% elif competition.type == 3 %}#}
+                                            {#                                                <td>KAMP FAALİYETLERİ</td>#}
+                                            {#                                            {% endif %}#}
+                                            {% if  aktif == 'Yonetim' or aktif == 'Admin' %}
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="{% url "sbs:faliyet-duzenle" competition.pk %}"
+                                                           type="button" class="btn btn-warning"><i
+                                                                class="fa fa-edit"></i>İncele
+                                                        </a>
 
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="{% url "sbs:faliyet-duzenle" competition.pk %}"
-                                                       type="button" class="btn btn-warning"><i
-                                                            class="fa fa-edit"></i>İncele
-                                                    </a>
-
-                                                    {% if  aktif == 'Yonetim' or aktif == 'Admin' %}
 
                                                         <a class="btn btn-danger"
                                                            data-toggle="modal"
                                                            onclick=deleteCompetition({{ competition.pk }})><i
                                                                 class="fa fa-trash"></i>Sil</a>
-                                                    {% endif %}
-                                                </div>
-                                            </td>
+
+                                                    </div>
+                                                </td>
+                                            {% endif %}
 
                                         </tr>
 
