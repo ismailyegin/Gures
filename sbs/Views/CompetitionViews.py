@@ -192,6 +192,13 @@ def musabaka_duzenle(request, pk):
 
     if request.method == 'POST':
 
+        if request.POST.get("reservationtime"):
+            dates = request.POST.get("reservationtime")
+            date = dates.split("-")
+            musabaka.registerFinishDate = datetime.strptime(str(date[1].strip()), '%d/%m/%Y %H:%M:%S')
+            musabaka.registerStartDate = datetime.strptime(str(date[0].strip()), '%d/%m/%Y %H:%M:%S')
+            musabaka.save()
+
 
         #müsabaka link eklendi
         if request.POST.get('linkdefinition') and request.POST.get('linkyoutube'):

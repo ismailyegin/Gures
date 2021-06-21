@@ -945,7 +945,26 @@
         //Date range picker
         $('#reservation').daterangepicker()
         //Date range picker with time picker
-        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'})
+        {#$('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'})#}
+        {##}
+
+        $('#reservationtime').daterangepicker({
+
+
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 30,
+            {#startDate: moment().startOf('hour'),#}
+            {#endDate: moment().startOf('hour').add(32, 'hour'),#}
+
+            locale: {
+                format: 'DD/MM/YYYY hh:mm:ss'
+            }
+
+
+        })
+
+
         //Date range as a button
         $('#daterange-btn').daterangepicker(
             {

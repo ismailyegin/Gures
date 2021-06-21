@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 from sbs.Forms.ClaimForm import ClaimForm
 from sbs.services import general_methods
 from sbs.models.Claim import Claim
-
+from django.core.mail import BadHeaderError, send_mail
 from sbs.models import MenuDirectory, MenuAdmin
 
 
@@ -40,7 +40,15 @@ def claim_add(request):
     if request.method == 'POST':
         claim_form = ClaimForm(request.POST)
         if claim_form.is_valid():
-            claim_form.save()
+            claimSave=claim_form.save(commit=False)
+            claimSave.save()
+
+
+            konu = "Güreş Bilgi Sistemi Destek ve Yardım"
+            icerik=claimSave.definition
+            send_mail(konu, icerik, 'no-reply@tgf.gov.tr', ['fatih@kobiltek.com'])
+
+
 
 
             messages.success(request, 'Destek Talep  Eklendi.')

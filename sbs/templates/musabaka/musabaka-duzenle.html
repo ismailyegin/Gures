@@ -340,15 +340,19 @@
                                     {% endif %}
 
 
-                                    <div class="form-group">
-                                        <label> {{ competition_form.registerStartDate.label }}</label>
-                                        {{ competition_form.registerStartDate }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.registerFinishDate.label }}</label>
-                                        {{ competition_form.registerFinishDate }}
-                                    </div>
+                                  <div class="form-group">
+                                        <label>Ön kayıt Başlangıç ve Bitiş
+                                            Tarihi </label>
 
+
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        <input type="text" name="reservationtime" class="form-control "
+                                               value="{{ competition.registerStartDate |date:"d/m/Y H:i:s" }}-{{ competition.registerFinishDate |date:"d/m/Y H:i:s" }}"
+                                               id="reservationtimelocal">
+
+                                    </div>
 
 
 
@@ -766,6 +770,25 @@
 
 
         $(function () {
+            $('#reservationtimelocal').daterangepicker({
+
+                timePicker: true,
+                timePicker24Hour: true,
+            {% if competition.registerStartDate  %}
+                startDate: "{{ competition.registerStartDate |date:"d/m/Y H:i:s" }}",
+             {% endif %}
+                     {% if competition.registerFinishDate  %}
+                endDate: "{{ competition.registerFinishDate |date:"d/m/Y H:i:s" }}",
+            {% endif %}
+
+
+                locale: {
+                    format: 'DD/MM/YYYY H:mm:ss'
+                }
+
+
+            })
+
 
             var jop = new Array();
             {% for item in competition.categoryies.all %}
