@@ -9,13 +9,11 @@ class CompetitionForm(ModelForm):
         model = Competition
 
         fields = (
-            'name', 'startDate', 'finishDate', 'compType', 'eventPlace',
-            'registerStartDate', 'registerFinishDate','compGeneralType')
+            'name', 'startDate', 'finishDate', 'compType', 'eventPlace'
+            ,'compGeneralType')
 
         labels = {'name': 'İsim', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Bitiş Tarihi',
                   'eventPlace': 'Etkinlik Yeri',
-                  'registerStartDate': 'Ön Kayıt Başlangıç Tarihi',
-                  'registerFinishDate': 'Ön Kayıt Bitiş Tarihi',
                   'compGeneralType':'Genel Tür ',
                   'compType': 'Türü',
 

@@ -18,6 +18,7 @@ from sbs.services import general_methods
 from sbs.Forms.SimplecategoryForm import SimplecategoryForm
 from sbs.models.Activity import Activity
 from sbs.Forms.ActivityForm import ActivityForm
+from sbs.models.ActivityType import ActivityType
 from django.core import serializers
 
 from datetime import date, datetime
@@ -33,12 +34,14 @@ def return_activity(request):
         return redirect('accounts:login')
 
     comquery = CompetitionSearchForm()
+    activity_type= ActivityType.objects.all()
     activity = None
     if request.method == 'POST':
         name = request.POST.get('name')
         startDate = request.POST.get('startDate')
         compType = request.POST.get('compType')
         finishDate = request.POST.get('finishDate')
+        a_type = request.POST.get('type')
 
         if startDate:
             startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
@@ -46,7 +49,7 @@ def return_activity(request):
         if finishDate:
             finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
 
-        if name or startDate or compType or finishDate:
+        if name or startDate or compType or finishDate or a_type:
             query = Q()
             if name:
                 query &= Q(name__icontains=name)
@@ -56,10 +59,12 @@ def return_activity(request):
                 query &= Q(compType=compType)
             if finishDate:
                 query &= Q(finishDate__lte=finishDate)
+            if a_type:
+                query &= Q(type__id=a_type)
             activity = Activity.objects.filter(query).distinct()
         else:
             activity = Activity.objects.all()
-    return render(request, 'faliyet/faaliyetler.html', {'activity': activity, 'query': comquery})
+    return render(request, 'faliyet/faaliyetler.html', {'activity': activity, 'query': comquery,'activity_type':activity_type})
 
 
 @login_required

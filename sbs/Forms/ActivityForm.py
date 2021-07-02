@@ -12,7 +12,7 @@ class ActivityForm(ModelForm):
             'name', 'startDate', 'finishDate', 'eventPlace', 'type', 'year','compType',)
 
         labels = {'name': 'Tanımı', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Bitiş Tarihi',
-                  'eventPlace': 'Etkinlik Yeri', 'type': 'Faaliyet Türü ', 'year': 'Yılı ','compType':'Türü'}
+                  'eventPlace': 'Etkinlik Yeri', 'type': 'Türü ', 'year': 'Yılı ','compType':'Branş'}
 
         widgets = {
 

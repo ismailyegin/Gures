@@ -148,13 +148,13 @@
 
                             <div class="box-body">
                                 {% csrf_token %}
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label> {{ query.name.label }}</label>
                                         {{ query.name }}
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label> {{ query.compType.label }}</label>
                                         {{ query.compType }}
@@ -162,7 +162,7 @@
                                 </div>
 
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label> {{ query.startDate.label }}</label>
                                         {{ query.startDate }}
@@ -170,18 +170,33 @@
                                 </div>
 
 
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label> {{ query.finishDate.label }}</label>
                                         {{ query.finishDate }}
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label> Türü</label>
+                                        <select name="type" class="form-control select2 select2-hidden-accessible"
+                                                style="width: 100%;" id="id_type">
+                                            <option value="" selected>---------</option>
+                                            {% for item in activity_type %}
+                                                <option value="{{ item.pk }}">{{ item.name }}</option>
+                                            {% endfor %}
 
-                                <!-- /.box-body -->
 
-                                <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary pull-right">Ara</button>
+                                        </select>
+
+                                    </div>
                                 </div>
+
+                            </div><!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary pull-right">Ara</button>
+                            </div>
                         </form>
 
 

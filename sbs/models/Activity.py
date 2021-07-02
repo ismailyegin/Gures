@@ -7,12 +7,12 @@ from sbs.models.Competitiontype import Competitiontype
 class Activity(models.Model):
 
     mider = 'Minder'
-    yagli = 'Yağlı'
+    yagli = 'Yağlı Güres'
     karakucak = 'Karakucak'
 
     Type = (
         (mider, 'Minder'),
-        (yagli, 'Yağlı'),
+        (yagli, 'Yağlı Güreş'),
         (karakucak, 'Karakucak'),
 
     )

@@ -11,14 +11,13 @@ class CompetitionSearchForm(ModelForm):
         fields = (
             'name', 'startDate', 'finishDate','compType','compGeneralType')
 
-        labels = {'name': 'İsim', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Yılı ',
+        labels = {'name': 'İsim',
+                  'startDate': 'Başlangıç Tarihi',
                   'compGeneralType': 'Genel Tür ',
-                  'compType': 'Türü',
-                  'finishDate':'Bitiş Tarihi'
+                  'compType': 'Branş',
+                  'finishDate':'Bitiş Tarihi',
                   }
-
         widgets = {
-
             'startDate': forms.DateInput(
                 attrs={'class': 'form-control  pull-right ', 'id': 'datepicker3', 'autocomplete': 'on',
                        }),
@@ -32,5 +31,4 @@ class CompetitionSearchForm(ModelForm):
                                             'style': 'width: 100%;'}),
             'compGeneralType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                                    'style': 'width: 100%; '}),
-
         }
