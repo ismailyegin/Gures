@@ -33,7 +33,7 @@ def return_activity(request):
         return redirect('accounts:login')
 
     comquery = CompetitionSearchForm()
-    activity = Activity.objects.all()
+    activity = None
     if request.method == 'POST':
         name = request.POST.get('name')
         startDate = request.POST.get('startDate')
