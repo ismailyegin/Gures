@@ -3,7 +3,22 @@
 from django.db import models
 from sbs.models.ActivityType import ActivityType
 from sbs.models.CompetitionsDocument import CompetitionsDocument
+from sbs.models.Competitiontype import Competitiontype
 class Activity(models.Model):
+
+    mider = 'Minder'
+    yagli = 'Yağlı'
+    karakucak = 'Karakucak'
+
+    Type = (
+        (mider, 'Minder'),
+        (yagli, 'Yağlı'),
+        (karakucak, 'Karakucak'),
+
+    )
+
+
+
     type = models.ForeignKey(ActivityType, on_delete=models.CASCADE, null=False, blank=False)
     creationDate = models.DateTimeField(db_column='creationDate', blank=True, null=True,
                                         auto_now_add=True)  # Field name made lowercase.
@@ -17,7 +32,7 @@ class Activity(models.Model):
     year = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
 
     files = models.ManyToManyField(CompetitionsDocument)
-
+    compType = models.CharField(max_length=20, blank=True, null=True, choices=Type)
     def __str__(self):
         return '%s ' % self.name
 

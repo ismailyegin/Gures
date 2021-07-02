@@ -38,14 +38,24 @@ def return_activity(request):
         name = request.POST.get('name')
         startDate = request.POST.get('startDate')
         compType = request.POST.get('compType')
-        compGeneralType = request.POST.get('compGeneralType')
-        if name or startDate or compType or compGeneralType:
+        finishDate = request.POST.get('finishDate')
+
+        if startDate:
+            startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
+
+        if finishDate:
+            finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
+
+        if name or startDate or compType or finishDate:
             query = Q()
             if name:
                 query &= Q(name__icontains=name)
             if startDate:
-                query &= Q(startDate__year=int(startDate))
-
+                query &= Q(startDate__gte=startDate)
+            if compType:
+                query &= Q(compType=compType)
+            if finishDate:
+                query &= Q(finishDate__lte=finishDate)
             activity = Activity.objects.filter(query).distinct()
         else:
             activity = Activity.objects.all()

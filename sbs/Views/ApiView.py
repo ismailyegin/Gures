@@ -35,6 +35,34 @@ def api_faliyet(request):
     return response
 
 
+def detail_activity(request):
+    if request.GET.get('id'):
+        if Activity.objects.filter(pk=request.GET.get('id')):
+            activity=Activity.objects.get(pk=request.GET.get('id'))
+            response = JsonResponse({
+                'status': True,
+                'pk':activity.pk,
+                'creationDate':activity.creationDate,
+                'startDate':activity.startDate,
+                'finishDate':activity.finishDate,
+                'name':activity.name,
+                'eventPlace':activity.eventPlace,
+                'year':activity.year,
+                'compType':activity.compType,
+                'type':activity.type.name,
+
+            })
+    else:
+        response = JsonResponse({
+            'message': 'none'
+        })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
 def api_musabaka(request):
     response = JsonResponse({
         'status': 'Success',
@@ -460,3 +488,69 @@ def return_competition_athlete(request):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "*"
     return response
+
+
+
+def search_activity(request):
+
+
+    name = request.POST.get('name')
+    startDate = request.POST.get('startDate')
+    compType = request.POST.get('compType')
+    finishDate = request.POST.get('finishDate')
+
+
+    if startDate:
+        startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
+
+    if finishDate:
+        finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
+
+    activity=None
+
+    if name or startDate or compType or finishDate:
+        query = Q()
+        if name:
+            query &= Q(name__icontains=name)
+        if startDate:
+            query &= Q(startDate__gte=startDate)
+        if compType:
+            query &= Q(compType=compType)
+        if finishDate:
+            query &= Q(finishDate__lte=finishDate)
+        activitys = Activity.objects.filter(query).distinct()
+    else:
+        activitys = Activity.objects.all()
+
+    list=[]
+    if activitys:
+        for activity in activitys:
+            beka={
+                'status': True,
+                'pk':activity.pk,
+                'creationDate':activity.creationDate,
+                'startDate':activity.startDate,
+                'finishDate':activity.finishDate,
+                'name':activity.name,
+                'eventPlace':activity.eventPlace,
+                'year':activity.year,
+                'compType':activity.compType,
+                'type':activity.type.name,
+
+            }
+            list.append(beka)
+    response = JsonResponse({'status': 'Success',
+                             'results':list,
+                             })
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+
+
+
+
+

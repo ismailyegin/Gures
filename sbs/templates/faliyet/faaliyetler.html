@@ -154,18 +154,14 @@
                                         {{ query.name }}
                                     </div>
                                 </div>
-                                {#                                <div class="col-md-3">#}
-                                {#                                    <div class="form-group">#}
-                                {#                                        <label> {{ query.compType.label }}</label>#}
-                                {#                                        {{ query.compType }}#}
-                                {#                                    </div>#}
-                                {#                                </div>#}
-                                {#                                <div class="col-md-3">#}
-                                {#                                    <div class="form-group">#}
-                                {#                                        <label> {{ query.compGeneralType.label }}</label>#}
-                                {#                                        {{ query.compGeneralType }}#}
-                                {#                                    </div>#}
-                                {#                                </div>#}
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label> {{ query.compType.label }}</label>
+                                        {{ query.compType }}
+                                    </div>
+                                </div>
+
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ query.startDate.label }}</label>
@@ -174,13 +170,18 @@
                                 </div>
 
 
-                            </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label> {{ query.finishDate.label }}</label>
+                                        {{ query.finishDate }}
+                                    </div>
+                                </div>
 
-                            <!-- /.box-body -->
+                                <!-- /.box-body -->
 
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary pull-right">Ara</button>
-                            </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-right">Ara</button>
+                                </div>
                         </form>
 
 
@@ -203,37 +204,37 @@
                         <div class="box-header with-border">
                             <h3 class="box-title center-block">Faaliyetler</h3>
                         </div>
-                       {% if aktif == 'Admin' or aktif == 'Yonetim' %}
-                        <div class="box-header with-border">
+                        {% if aktif == 'Admin' or aktif == 'Yonetim' %}
+                            <div class="box-header with-border">
 
-                            <div class="btn-group">
+                                <div class="btn-group">
 
                                     <a href="{% url "sbs:faaliyet-ekle" %}"
                                        type="button" class="btn btn-success"><i
                                             class="fa fa-edit"></i> Yeni Faaliyet Ekle
                                     </a>
 
-                            </div>
+                                </div>
 
-                            {#                            <div class="btn-group">#}
-                            {##}
-                            {#                                    <ul class="nav nav-tabs nav-justified nav-inverse ">#}
-                            {##}
-                            {#            <li class=""><a href="#tab_2012" data-toggle="tab" aria-expanded="false"><strong>2012</strong></a></li>#}
-                            {#            <li class=""><a href="#tab_2013" data-toggle="tab" aria-expanded="false"><strong>2013</strong></a></li>#}
-                            {#			<li class=""><a href="#tab_2014" data-toggle="tab" aria-expanded="false"><strong>2014</strong></a></li>#}
-                            {#			<li class=""><a href="#tab_2015" data-toggle="tab" aria-expanded="false"><strong>2015</strong></a></li>#}
-                            {#			<li class=""><a href="#tab_2016" data-toggle="tab" aria-expanded="false"><strong>2016</strong></a></li>#}
-                            {#			<li class=""><a href="#tab_2017" data-toggle="tab" aria-expanded="false"><strong>2017</strong></a></li>#}
-                            {#			<li class="active"><a href="#tab_2017" data-toggle="tab" aria-expanded="true"><strong>2018</strong></a></li>#}
-                            {#			<li class=""><a href="#tab_2019" data-toggle="tab" aria-expanded="false"><strong>2019</strong></a></li>#}
-                            {#			<li class=""><a href="#tab_2020" data-toggle="tab" aria-expanded="false"><strong>2020</strong></a></li>#}
-                            {#          </ul>#}
-                            {##}
-                            {##}
-                            {#                            </div>#}
-                        </div>
-                      {% endif %}
+                                {#                            <div class="btn-group">#}
+                                {##}
+                                {#                                    <ul class="nav nav-tabs nav-justified nav-inverse ">#}
+                                {##}
+                                {#            <li class=""><a href="#tab_2012" data-toggle="tab" aria-expanded="false"><strong>2012</strong></a></li>#}
+                                {#            <li class=""><a href="#tab_2013" data-toggle="tab" aria-expanded="false"><strong>2013</strong></a></li>#}
+                                {#			<li class=""><a href="#tab_2014" data-toggle="tab" aria-expanded="false"><strong>2014</strong></a></li>#}
+                                {#			<li class=""><a href="#tab_2015" data-toggle="tab" aria-expanded="false"><strong>2015</strong></a></li>#}
+                                {#			<li class=""><a href="#tab_2016" data-toggle="tab" aria-expanded="false"><strong>2016</strong></a></li>#}
+                                {#			<li class=""><a href="#tab_2017" data-toggle="tab" aria-expanded="false"><strong>2017</strong></a></li>#}
+                                {#			<li class="active"><a href="#tab_2017" data-toggle="tab" aria-expanded="true"><strong>2018</strong></a></li>#}
+                                {#			<li class=""><a href="#tab_2019" data-toggle="tab" aria-expanded="false"><strong>2019</strong></a></li>#}
+                                {#			<li class=""><a href="#tab_2020" data-toggle="tab" aria-expanded="false"><strong>2020</strong></a></li>#}
+                                {#          </ul>#}
+                                {##}
+                                {##}
+                                {#                            </div>#}
+                            </div>
+                        {% endif %}
                         <div class="box-body">
                             <table id="musabakalar" class="table table-bordered table-hover">
                                 <thead>

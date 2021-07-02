@@ -526,6 +526,9 @@ urlpatterns = [
     #api
 
     url(r'api/faliyet$', ApiView.api_faliyet, name='api-faaliyet'),
+    url(r'api/faliyet/detay$', ApiView.detail_activity, name='api-faaliyet-detay'),
+    url(r'api/faliyet/arama$', ApiView.search_activity, name='api-faaliyet-arama'),
+
 
     url(r'api/musabaka$', ApiView.api_musabaka, name='api-musabaka'),
     url(r'api/musabaka/detail$', ApiView.competitionsDetail, name='api-musabaka'),

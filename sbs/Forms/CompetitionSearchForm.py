@@ -11,15 +11,19 @@ class CompetitionSearchForm(ModelForm):
         fields = (
             'name', 'startDate', 'finishDate','compType','compGeneralType')
 
-        labels = {'name': 'İsim', 'startDate': 'Başlangıç Yılı', 'finishDate': 'Yılı ',
+        labels = {'name': 'İsim', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Yılı ',
                   'compGeneralType': 'Genel Tür ',
                   'compType': 'Türü',
+                  'finishDate':'Bitiş Tarihi'
                   }
 
         widgets = {
 
             'startDate': forms.DateInput(
-                attrs={'class': 'form-control  pull-right ', 'id': 'datepicker5', 'autocomplete': 'on',
+                attrs={'class': 'form-control  pull-right ', 'id': 'datepicker3', 'autocomplete': 'on',
+                       }),
+            'finishDate': forms.DateInput(
+                attrs={'class': 'form-control  pull-right ', 'id': 'datepicker4', 'autocomplete': 'on',
                        }),
 
             'name': forms.TextInput(attrs={'class': 'form-control', "style": "text-transform:uppercase"}),

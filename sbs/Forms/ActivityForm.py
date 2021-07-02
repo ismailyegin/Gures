@@ -9,10 +9,10 @@ class ActivityForm(ModelForm):
         model = Activity
 
         fields = (
-            'name', 'startDate', 'finishDate', 'eventPlace', 'type', 'year')
+            'name', 'startDate', 'finishDate', 'eventPlace', 'type', 'year','compType',)
 
         labels = {'name': 'Tanımı', 'startDate': 'Başlangıç Tarihi', 'finishDate': 'Bitiş Tarihi',
-                  'eventPlace': 'Etkinlik Yeri', 'type': 'Faaliyet Türü ', 'year': 'Yılı ', }
+                  'eventPlace': 'Etkinlik Yeri', 'type': 'Faaliyet Türü ', 'year': 'Yılı ','compType':'Türü'}
 
         widgets = {
 
@@ -34,6 +34,8 @@ class ActivityForm(ModelForm):
                 attrs={'class': 'form-control', 'required': 'required', "style": "text-transform:uppercase"}),
 
             'type': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                        'style': 'width: 100%; '}),
+            'compType': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                         'style': 'width: 100%; '}),
 
         }
