@@ -492,13 +492,12 @@ def return_competition_athlete(request):
 
 
 def search_activity(request):
-
-
-    name = request.POST.get('name')
-    startDate = request.POST.get('startDate')
-    compType = request.POST.get('compType')
-    finishDate = request.POST.get('finishDate')
-
+    name = request.GET.get('name')
+    startDate = request.GET.get('startDate')
+    compType = request.GET.get('compType')
+    finishDate = request.GET.get('finishDate')
+    a_type = request.GET.get('type')
+    activitys=None
 
     if startDate:
         startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
@@ -506,9 +505,7 @@ def search_activity(request):
     if finishDate:
         finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
 
-    activity=None
-
-    if name or startDate or compType or finishDate:
+    if name or startDate or compType or finishDate or a_type:
         query = Q()
         if name:
             query &= Q(name__icontains=name)
@@ -518,6 +515,8 @@ def search_activity(request):
             query &= Q(compType=compType)
         if finishDate:
             query &= Q(finishDate__lte=finishDate)
+        if a_type:
+            query &= Q(type__id=a_type)
         activitys = Activity.objects.filter(query).distinct()
     else:
         activitys = Activity.objects.all()
