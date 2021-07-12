@@ -498,20 +498,28 @@ def search_activity(request):
     finishDate = request.GET.get('finishDate')
     year=request.GET.get('year')
     a_type = request.GET.get('type')
+    if startDate == '0':
+        startDate=None
+    if compType == '0':
+        compType=None
+    if finishDate == '0':
+        finishDate =None
+    if a_type == '0':
+        a_type=None
+
+
 
     if startDate:
         startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
-
     if finishDate:
         finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
-
     if name or startDate or compType or finishDate or a_type or year:
         query = Q()
         if name:
             query &= Q(name__icontains=name)
-        if startDate:
+        if startDate and startDate !='0':
             query &= Q(startDate__gte=startDate)
-        if compType:
+        if compType :
             query &= Q(compType=compType)
         if finishDate:
             query &= Q(finishDate__lte=finishDate)
@@ -538,7 +546,6 @@ def search_activity(request):
                 'year':activity.year,
                 'compType':activity.compType,
                 'type':activity.type.name,
-
             }
             list.append(beka)
     response = JsonResponse({'status': 'Success',
