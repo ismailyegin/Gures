@@ -527,11 +527,12 @@ def search_activity(request):
     if activitys:
         for activity in activitys:
             beka={
+
                 'status': True,
                 'pk':activity.pk,
                 'creationDate':activity.creationDate,
-                'startDate':activity.startDate,
-                'finishDate':activity.finishDate,
+                'startDate':activity.startDate.strftime("%d-%B-%Y") if activity.startDate else None,
+                'finishDate':activity.finishDate.strftime("%d-%B-%Y") if activity.finishDate else None,
                 'name':activity.name,
                 'eventPlace':activity.eventPlace,
                 'year':activity.year,
