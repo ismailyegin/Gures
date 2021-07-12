@@ -496,8 +496,8 @@ def search_activity(request):
     startDate = request.GET.get('startDate')
     compType = request.GET.get('compType')
     finishDate = request.GET.get('finishDate')
+    year=request.GET.get('year')
     a_type = request.GET.get('type')
-    activitys=None
 
     if startDate:
         startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
@@ -505,7 +505,7 @@ def search_activity(request):
     if finishDate:
         finishDate = datetime.strptime(finishDate, "%d/%m/%Y").date()
 
-    if name or startDate or compType or finishDate or a_type:
+    if name or startDate or compType or finishDate or a_type or year:
         query = Q()
         if name:
             query &= Q(name__icontains=name)
@@ -517,6 +517,8 @@ def search_activity(request):
             query &= Q(finishDate__lte=finishDate)
         if a_type:
             query &= Q(type__id=a_type)
+        if year:
+            query &= Q(year=year)
         activitys = Activity.objects.filter(query).distinct()
     else:
         activitys = Activity.objects.all()
