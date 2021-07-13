@@ -49,11 +49,11 @@
 
     <section class="content-header">
         <h1>
-            Faaliyet Güncelle
+            Faaliyet Türü Ekle
 
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Faaliyet Güncelle</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>Faaliyet Türü  Ekle</a></li>
 
         </ol>
     </section>
@@ -63,10 +63,10 @@
             {% csrf_token %}
             <div class="row">
 
-                <div class="col-lg-3">
-                    <div class="box box-primary">
+                <div class="col-lg-6">
+                    <div class="box box-solid box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Genel Bilgiler</h3>
+                            <h3 class="box-title">Faaliyet Türü </h3>
                         </div>
                         <div class="box-body">
                             <div class="row">
@@ -78,37 +78,6 @@
                                     </div>
 
 
-                                    <div class="form-group">
-                                        <label> {{ competition_form.eventPlace.label }}</label>
-                                        {{ competition_form.eventPlace }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ competition_form.year.label }}</label>
-                                        {{ competition_form.year }}
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label> {{ competition_form.startDate.label }}</label>
-                                        {{ competition_form.startDate }}
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label> {{ competition_form.finishDate.label }}</label>
-                                        {{ competition_form.finishDate }}
-                                    </div>
-
-                                      <div class="form-group">
-                                        <label> {{ competition_form.compType.label }}</label>
-                                        {{ competition_form.compType }}
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label> {{ competition_form.type.label }}</label>
-                                        {{ competition_form.type }}
-                                    </div>
-
-
 
 
                                 </div>
@@ -117,7 +86,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button class="btn btn-primary" type="submit">Güncelle</button>
+                            <button class="btn btn-primary" type="submit">Kaydet</button>
                         </div>
 
 

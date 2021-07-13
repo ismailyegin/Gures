@@ -381,6 +381,13 @@ urlpatterns = [
     url(r'faliyet/faaliyet-ekle/$', ActivityView.faliyet_ekle, name='faaliyet-ekle'),
     url(r'faliyet/faaliyet-sil(?P<pk>\d+)$', ActivityView.faaliyet_sil, name='faliyet-sil'),
     url(r'faliyet/faaliyet-duzenle/(?P<pk>\d+)$', ActivityView.faliyet_duzenle, name='faliyet-duzenle'),
+    # Activity type
+    url(r'faliyet/faaliyet/Turu/$', ActivityView.view_activitytype, name='view_activitytype'),
+    url(r'faliyet/faaliyet/Turu-ekle/$', ActivityView.add_activitytype, name='add_activtytype'),
+    url(r'faliyet/faaliyet/Turu-sil$', ActivityView.delete_activitytype, name='delete_activtytype'),
+    url(r'faliyet/faaliyet/Turu-duzenle/(?P<pk>\d+)$', ActivityView.change_activtytype, name='change_activtytype'),
+
+
 
     # Test
     url(r'sonuclar$', CompetitionViews.return_competition, name='sonuclar'),
