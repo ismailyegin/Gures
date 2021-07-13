@@ -506,9 +506,6 @@ def search_activity(request):
         finishDate =None
     if a_type == '0':
         a_type=None
-
-
-
     if startDate:
         startDate = datetime.strptime(startDate, '%d/%m/%Y').date()
     if finishDate:
